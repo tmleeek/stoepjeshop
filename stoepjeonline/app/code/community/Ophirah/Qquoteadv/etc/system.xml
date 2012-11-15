@@ -1,0 +1,351 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+        <qquoteadv translate="label" module="qquoteadv">
+            <label>Cart2Quote</label>
+            <sort_order>310</sort_order>
+        </qquoteadv>
+    </tabs>
+    <sections>
+        <qquoteadv>
+            <label>Request for Quote</label>
+            <tab>qquoteadv</tab>
+            <sort_order>800</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label comment" module="qquoteadv">
+                    <label>General</label>
+                    <comment><![CDATA[
+<div class="box"> 
+<p class="grand-total"><b>Cart2Quote (version 2.0.2) provided by <a href="http://www.ophirah.nl">Ophirah | e-commerce projects</a></b></p>
+For documentation and support visit <a href="http://www.cart2quote.com">www.cart2quote.com</a>  or contact: <a href="mailto:support@cart2quote.com">support@cart2quote.com</a>
+</div>
+]]>
+                    </comment>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Enable / disable advanced quote extension]]></comment>
+                        </enabled>
+                        <licence_key translate="label">
+                            <label>Licence key</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[For a few licence keys use semicolon: key1;key2
+                            <br />To upgrade or to buy a licence visit <a href="http://www.cart2quote.com">cart2quote.com</a>]]></comment>
+                        </licence_key>
+                        <expirtime_request translate="label">
+                            <label>Expiration time for quote request</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[in days]]></comment>
+                        </expirtime_request>
+                        <expirtime_proposal translate="label">
+                            <label>Expiration time for quote proposal</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[in days]]></comment>
+                        </expirtime_proposal>
+                        <qquoteadv_remark translate="label">
+                            <label>Set standard (fixed) remark with proposal</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Add remark that appears in new proposal email and in the quote proposal PDF]]></comment>
+                        </qquoteadv_remark>
+                        <checkout_url translate="label">
+                            <label>Checkout onepage url</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Use checkout url after confirmation quote proposal]]></comment>
+                        </checkout_url>
+						<layout_update_detailpage_activated>
+							<label>Detail page activation</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>400</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Enable / disable frontend layout update]]></comment>
+						</layout_update_detailpage_activated>
+						<layout_update_listgrid_activated>
+							<label>List/Grid page activation</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>400</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Enable / disable frontend layout update]]></comment>
+						</layout_update_listgrid_activated>
+                    </fields>
+                </general>
+
+                <number_format translate="label comment" module="qquoteadv">
+                    <label>Quote number format</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <prefix translate="label">
+                            <label>Default Quote Prefix</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </prefix>
+                        <startnumber translate="label">
+                            <label>Current numeral value</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </startnumber>
+                        <increment translate="label">
+                            <label>Default Increment</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </increment>
+                        <pad_length translate="label">
+                            <label>Pad Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Desired number length without the prefix. Set to 0 to not add leading zeros to doc number.]]></comment>
+                        </pad_length>
+                     </fields>
+                </number_format>
+                <emails translate="label comment" module="qquoteadv">
+                    <label>Emails for quotes</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                         <sender translate="label">
+                            <label>Email sender</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[]]></comment>
+                         </sender>
+
+                         <new_account translate="label">
+                            <label>New account Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Select email to be send]]></comment>
+                         </new_account>
+                         <request translate="label">
+                            <label>New request Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Select email to be send]]></comment>
+                         </request>
+                         <proposal translate="label">
+                            <label>New proposal Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Select email to be send]]></comment>
+                         </proposal>
+                         <proposal_cancel translate="label">
+                            <label>Request cancelled Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Select email to be send]]></comment>
+                         </proposal_cancel>
+                         <proposal_reject translate="label">
+                            <label>Request reject Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Select email to be send]]></comment>
+                         </proposal_reject>
+
+                         <bcc translate="label">
+                            <label>Send Quote email copy to</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Separate by ";"]]></comment>
+                         </bcc>
+                         <user_password translate="label">
+                            <label>Default password for new user account</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Password for new account created during quote request]]></comment>
+                         </user_password>
+                    </fields>
+                </emails>
+                <attach translate="attach" module="qquoteadv">
+                    <label>Attachments</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>35</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                         <pdf translate="label">
+                            <label>Enable PDF proposal</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[]]></comment>
+                         </pdf>
+                         <doc translate="label">
+                            <label>Enable standard document</label>
+                            <config_path>qquoteadv/attach/doc</config_path>
+                            <frontend_type>file</frontend_type>
+                            <backend_model>qquoteadv/system_config_backend_file</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">quoteadv</upload_dir>
+                                                   
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Upload any file as default attachment to the proposal email (i.e. Terms and Conditions) 
+										Note some providers limit the size of emails.]]></comment>
+                         </doc>
+                         <short_desc translate="label">
+                            <label>Add product short description text to PDF</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[]]></comment>
+                         </short_desc>                         
+                      
+                    </fields>
+               </attach>
+                <debug translate="debug" module="qquoteadv">
+                    <label>Debug</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                      <active_c2q_tmpl translate="label">
+	                    <label>Use Cart2Quote template files</label>
+	                    <frontend_type>select</frontend_type>
+	                    <source_model>adminhtml/system_config_source_yesno</source_model>
+	                    <sort_order>1</sort_order>
+	                    <show_in_default>1</show_in_default>
+	                    <show_in_website>1</show_in_website>
+	                    <show_in_store>1</show_in_store>
+                        <comment><![CDATA[If set to No, you have to manually copy the Cart2Quote template information to you own template files to enable front-end functionality.]]></comment>
+                      </active_c2q_tmpl>
+                    </fields>
+                 </debug>
+            </groups>
+        </qquoteadv>
+	    <carriers>
+	      <groups>
+	        <qquoteshiprate translate="label">
+	            <label>Cart2Quote</label>
+	            <frontend_type>text</frontend_type>
+	            <sort_order>20</sort_order>
+	            <show_in_default>1</show_in_default>
+	            <show_in_website>1</show_in_website>
+	            <show_in_store>1</show_in_store>
+	            <fields>
+	                <active translate="label">
+	                    <label>Enabled</label>
+	                    <frontend_type>select</frontend_type>
+	                    <source_model>adminhtml/system_config_source_yesno</source_model>
+	                    <sort_order>1</sort_order>
+	                    <show_in_default>1</show_in_default>
+	                    <show_in_website>1</show_in_website>
+	                    <show_in_store>1</show_in_store>
+	                </active>
+	                <title translate="label">
+	                    <label>Title</label>
+	                    <frontend_type>text</frontend_type>
+	                    <sort_order>2</sort_order>
+	                    <show_in_default>1</show_in_default>
+	                    <show_in_website>1</show_in_website>
+	                    <show_in_store>1</show_in_store>
+	                </title>
+	                <name translate="label">
+	                    <label>Method name</label>
+	                    <sort_order>3</sort_order>
+	                    <show_in_default>1</show_in_default>
+	                    <show_in_website>1</show_in_website>
+	                    <show_in_store>1</show_in_store>
+	                </name>
+	            </fields>
+	        </qquoteshiprate>
+	      </groups>
+	    </carriers>
+    </sections>
+</config>

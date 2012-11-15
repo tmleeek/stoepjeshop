@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+* J!Code WebDevelopment
+*
+* @title 		Magento payment module for iDeal Advanced
+* @category 	J!Code
+* @package 		Jcode_Community
+* @author 		Jeroen Bleijenberg / J!Code WebDevelopment <support@jcode.nl>
+* @license  	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+ -->
+  <config>
+ 	<sections>
+ 		<payment>
+ 			<groups>
+ 				<idealadvanced translate="label" module="paygate">
+ 					<label>iDeal Advanced</label>
+ 					<sort_order>670</sort_order>
+ 					<show_in_default>1</show_in_default>
+ 					<show_in_website>1</show_in_website>
+ 					<show_in_store>0</show_in_store>
+ 					<fields> 
+ 						<active translate="label">
+ 							<label>Enabled</label>
+ 							<frontend_type>select</frontend_type>
+ 							<source_model>adminhtml/system_config_source_yesno</source_model>
+ 							<sort_order>1</sort_order>
+		 					<show_in_default>1</show_in_default>
+		 					<show_in_website>1</show_in_website>
+		 					<show_in_store>0</show_in_store> 							
+ 						</active> 	
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </title>
+ 						<bank_name translate="label">
+ 							<label>Bank</label>
+ 							<frontend_type>select</frontend_type>
+ 							<source_model>idealadvanced/config_bank</source_model>
+ 							<sort_order>3</sort_order>
+		 					<show_in_default>1</show_in_default>
+		 					<show_in_website>1</show_in_website>
+		 					<show_in_store>0</show_in_store>  							
+ 						</bank_name>                        
+                        <merchant_id translate="label">
+                            <label>Merchant ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </merchant_id>    
+                        <private_certificate translate="label">
+                            <label>Private Certificate</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>Absolute path to your private certificate file</comment>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </private_certificate>
+                        <private_key translate="label">
+                            <label>Private Key</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>Absolute path to your private key file</comment>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </private_key>                        
+                        <private_key_password translate="label">
+                        	<label>Private Key Password</label>
+                        	<frontend_Type>text</frontend_Type>
+                        	<sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </private_key_password>
+                        <ideal_certificate translate="label">
+                            <label>Public Ideal Certificate</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>Absolute path to your public iDeal certificate</comment>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </ideal_certificate>                        
+                        <run_mode>
+ 							<label>Testmode</label>
+ 							<frontend_type>select</frontend_type>
+ 							<source_model>adminhtml/system_config_source_yesno</source_model>
+ 							<sort_order>8</sort_order>
+		 					<show_in_default>1</show_in_default>
+		 					<show_in_website>1</show_in_website>
+		 					<show_in_store>0</show_in_store>                         
+                        </run_mode>
+                        <description>
+ 							<label>Transaction Description</label>
+ 							<frontend_type>text</frontend_type>
+ 							<comment>If leftempty, store name will be used.</comment>
+ 							<sort_order>9</sort_order>
+		 					<show_in_default>1</show_in_default>
+		 					<show_in_website>1</show_in_website>
+		 					<show_in_store>0</show_in_store>                         
+                        </description>
+                        <expiration>
+ 							<label>Transaction Expiration Period</label>
+ 							<frontend_type>text</frontend_type>
+ 							<comment>In minutes. Minimum is 1 minute and maximum is 60.</comment>
+ 							<sort_order>10</sort_order>
+		 					<show_in_default>1</show_in_default>
+		 					<show_in_website>1</show_in_website>
+		 					<show_in_store>0</show_in_store>                         
+                        </expiration>
+                        <check_begin>
+ 							<label>Check Begin</label>
+ 							<frontend_type>text</frontend_type>
+ 							<comment>Begin to check transaction status if order was made {N} hours ago.</comment>
+ 							<sort_order>11</sort_order>
+		 					<show_in_default>1</show_in_default>
+		 					<show_in_website>1</show_in_website>
+		 					<show_in_store>0</show_in_store>                         
+                        </check_begin>    
+                        <check_end>
+ 							<label>Check End</label>
+ 							<frontend_type>text</frontend_type>
+ 							<comment>Don't check transaction status if order older than {N} days.</comment>
+ 							<sort_order>12</sort_order>
+		 					<show_in_default>1</show_in_default>
+		 					<show_in_website>1</show_in_website>
+		 					<show_in_store>0</show_in_store>                         
+                        </check_end> 
+						<order_status translate="label">
+ 							<label>New order status</label>
+ 							<frontend_type>select</frontend_type>
+ 							<source_model>adminhtml/system_config_source_order_status</source_model>
+ 							<sort_order>13</sort_order>
+		 					<show_in_default>1</show_in_default>
+		 					<show_in_website>1</show_in_website>
+		 					<show_in_store>0</show_in_store> 							
+ 						</order_status>
+ 						<allowspecific translate="label">
+ 							<label>Payment from allowed countries</label>
+ 							<frontend_type>allowspecific</frontend_type>
+ 							<sort_order>50</sort_order>
+ 							<source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+		 					<show_in_default>1</show_in_default>
+		 					<show_in_website>1</show_in_website>
+		 					<show_in_store>0</show_in_store> 							
+ 						</allowspecific>
+ 						<specificcountry translate="label">
+ 							<label>Payment from specific countries</label>
+ 							<frontend_type>multiselect</frontend_type>
+ 							<sort_order>51</sort_order>
+ 							<source_model>adminhtml/system_config_source_country</source_model>
+		 					<show_in_default>1</show_in_default>
+		 					<show_in_website>1</show_in_website>
+		 					<show_in_store>0</show_in_store> 							
+ 						</specificcountry>                        
+ 					</fields>				
+ 				</idealadvanced>
+ 			</groups>
+ 		</payment>
+ 	</sections>
+ </config>

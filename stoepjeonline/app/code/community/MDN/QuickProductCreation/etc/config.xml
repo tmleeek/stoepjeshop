@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <MDN_QuickProductCreation>
+            <version>1.1</version>
+        </MDN_QuickProductCreation>
+    </modules>
+    <global>
+        <helpers>
+            <QuickProductCreation>
+                <class>MDN_QuickProductCreation_Helper</class>
+            </QuickProductCreation>
+        </helpers>
+        <blocks>
+            <QuickProductCreation>
+                <class>MDN_QuickProductCreation_Block</class>
+            </QuickProductCreation>
+        </blocks>
+        <models>
+            <QuickProductCreation>
+                <class>MDN_QuickProductCreation_Model</class>
+            </QuickProductCreation>
+        </models>
+    </global>
+    <frontend>
+        <routers>
+            <QuickProductCreation>
+                <use>standard</use>
+                <args>
+                    <module>MDN_QuickProductCreation</module>
+                    <frontName>QuickProductCreation</frontName>
+                </args>
+            </QuickProductCreation>
+        </routers>
+    </frontend>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <MDN_QuickProductCreation>
+                    <files>
+                        <default>MDN_QuickProductCreation.csv</default>
+                    </files>
+                </MDN_QuickProductCreation>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <QuickProductCreation>
+                    <file>QuickProductCreation.xml</file>
+                </QuickProductCreation>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <quickproductcreation>
+        <required_edit_attributes>
+            <sku />
+            <name />
+        </required_edit_attributes>
+        <excluded_attributes>
+            <image />
+            <small_image />
+            <gallery />
+            <media_gallery />
+            <image_label />
+            <price_view />
+            <thumbnail />
+        </excluded_attributes>
+    </quickproductcreation>
+        
+</config>

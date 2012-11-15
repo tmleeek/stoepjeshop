@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <shipping>
+            <groups>
+                <ship2pay translate="label">
+                	<label>Ship2Pay</label>
+					<frontend_type>text</frontend_type>
+                    <sort_order>3</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                    	<active translate="label">
+                            <label>Enable Ship2Pay module</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <ship2pay translate="label,comment">
+                        	<label>Ship to Pay</label>
+                        	<frontend_model>ship2pay/adminhtml_ship2pay</frontend_model>
+                        	<backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                        	<sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        	<comment>Add shipping and payment combinations.</comment>
+                        </ship2pay>
+                    </fields>
+                </ship2pay>
+			</groups>
+		</shipping>
+	</sections>
+</config>

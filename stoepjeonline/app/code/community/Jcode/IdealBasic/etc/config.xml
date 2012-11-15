@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+* J!Code WebDevelopment
+*
+* @title 		Magento payment module for iDeal Basic
+* @category 	J!Code
+* @package 		Jcode_Community
+* @author 		Jeroen Bleijenberg / J!Code WebDevelopment <support@jcode.nl>
+* @license  	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+ -->
+ <config>
+ 	<modules>
+		<Jcode_IdealBasic>
+			<version>1.0.2</version>
+		</Jcode_IdealBasic>
+	</modules>
+ 	<global>
+		<models>
+			<idealbasic>
+				<class>Jcode_IdealBasic_Model</class>
+				<resourceModel>idealbasic_mysql4</resourceModel>
+			</idealbasic>
+			<idealbasic_mysql4>
+				<class>Jcode_IdealBasic_Model_Mysql4</class>
+			</idealbasic_mysql4>
+		</models>
+ 		<resources>
+ 			<idealbasic_setup>
+ 				<setup>
+ 					<module>Jcode_IdealBasic</module>
+ 				</setup>
+ 				<connection>
+ 					<use>core_setup</use>
+ 				</connection>
+ 			</idealbasic_setup>
+ 			<idealbasic_write>
+ 				<use>core_write</use>
+ 			</idealbasic_write>
+ 			<idealbasic_read>
+ 				<use>core_read</use>
+ 			</idealbasic_read>
+ 		</resources>
+		<blocks>
+			<idealbasic>
+				<class>Jcode_IdealBasic_Block</class>
+			</idealbasic>
+		</blocks>
+		<helpers>
+			<idealbasic>
+				<class>Jcode_IdealBasic_Helper</class>
+			</idealbasic>
+		</helpers>
+ 	</global>
+    <frontend>
+    	<secure_url>
+    		<idealbasic>/ideal/order</idealbasic>
+    	</secure_url>
+        <routers>
+            <idealbasic>
+                <use>standard</use>
+                <args>
+                    <module>Jcode_IdealBasic</module>
+                    <frontName>ideal</frontName>
+                </args>
+            </idealbasic>
+        </routers>
+        <events>
+            <sales_convert_quote_payment_to_order_payment>
+                <observers>
+                    <jcode_idealbasic_observer>
+                        <type>singleton</type>
+                        <class>jcode/idealbasic_observer</class>
+                        <method>convertPayment</method>
+                    </jcode_idealbasic_observer>
+                </observers>
+            </sales_convert_quote_payment_to_order_payment>
+        </events>  
+        <translate>
+            <modules>
+                <Jcode_IdealBasic>
+                    <files>
+                        <default>Jcode_IdealBasic.csv</default>
+                    </files>
+                </Jcode_IdealBasic>
+            </modules>
+        </translate>              
+     </frontend> 	
+    <default>
+        <payment>
+            <idealbasic>
+                  <model>idealbasic/basic</model>
+                  <title>iDeal Basic</title>
+                  <allowspecific>0</allowspecific>
+            </idealbasic>
+         </payment>
+     </default>	 	
+ </config>

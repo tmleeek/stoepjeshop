@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <quickproductcreation translate="label" module="QuickProductCreation">
+            <label>Quick Product Creation</label>
+            <tab>catalog</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>500</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>0</show_in_website>
+            <show_in_store>0</show_in_store>
+            <groups>
+                <attributes>
+                    <label>Attributes</label>
+                    <frontend_type>text</frontend_type>
+                    <frontend_model>QuickProductCreation/System_Config_Form_Fieldset_Attributes</frontend_model>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                </attributes>
+                <miscellaneous>
+                    <label>Miscelaneous</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <fields>
+                        <websites>
+                            <label>Associate products to websites</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>QuickProductCreation/System_Config_Source_Websites</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </websites>
+                        <default_attribute_set>
+                            <label>Default attribute set</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>QuickProductCreation/System_Config_Source_AttributeSets</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </default_attribute_set>
+                    </fields>
+                </miscellaneous>
+                <stock>
+                    <label>Stock</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <fields>
+                        <manage_stock translate="label">
+                            <label>Manage stock</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </manage_stock>
+                        <display_stock_level_input translate="label">
+                            <label>Display stock level input</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </display_stock_level_input>
+                        <display_notify_qty_input translate="label">
+                            <label>Display notify qty input</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </display_notify_qty_input>
+                        <display_backorders_input translate="label">
+                            <label>Display back orders input</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </display_backorders_input>
+                    </fields>
+                </stock>
+            </groups>
+        </quickproductcreation>
+    </sections>
+</config>

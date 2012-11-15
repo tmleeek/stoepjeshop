@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <catalog>
+            <children>
+                <quickproductcreation translate="title" module="QuickProductCreation">
+                    <title>Quick product creation</title>
+                    <action>QuickProductCreation/Admin/Form</action>
+                    <sort_order>0</sort_order>
+                </quickproductcreation>
+            </children>
+        </catalog>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <catalog>
+                        <children>
+                            <quickproductcreation translate="title">
+                                <title>Quick product creation</title>
+                            </quickproductcreation>
+                        </children>
+                    </catalog>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <quickproductcreation module="QuickProductCreation">
+                                        <title>Quick Product Creation</title>
+                                    </quickproductcreation>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
