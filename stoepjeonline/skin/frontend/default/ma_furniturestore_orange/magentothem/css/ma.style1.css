@@ -1,0 +1,81 @@
+.ma-banner1-container {
+    position:relative;
+}
+#slideshowWrapper {
+    position:relative;
+    margin:auto;
+    background: url(../images/bg-slide-b.jpg) no-repeat 50% 100% scroll #fff;
+    padding: 0 15px 5px;
+}
+#bnPrev, #bnNext {
+    position:absolute;
+    top:50%;
+    width:45px;
+    height:95px;
+    margin-top:-45px;
+    background:url(../images/arrows.png) no-repeat 0 0;
+    text-indent:-999999px;
+}
+#bnPrev {    
+    left:-23px;
+    background-position:0 100%;
+}
+#bnPrev:hover {
+    background-position:0 0;
+}
+#bnNext {
+    right:-23px;
+    background-position:100% 100%;
+}
+#bnNext:hover {
+    background-position:100% 0;
+}
+#bnPlayPause {
+    position:absolute;
+    top:435px;
+    right:20px;
+    padding:4px 0 5px 0;
+    width:60px;
+    text-align:center;
+    display:block;
+    color:#333;
+    text-decoration:none;
+}
+ul#slideshow {
+    list-style:none;
+    overflow:hidden;
+}
+ul#slideshow li {
+    left: 0;
+}
+ul#slideshow li a {
+    display:block;
+}
+#bnList {
+    list-style:none;
+    bottom:10px;
+    left:410px;
+    position:absolute;
+}
+#bnList li {
+    display:inline;
+    padding-right:3px;
+    float: left;
+}
+#bnList li a {
+    color:#999;
+    text-decoration:none;
+    background: url(../images/bg-slide-nav.png) no-repeat;
+    padding:4px;
+    width: 10px;
+    height: 10px;
+    display:block;
+    float: left;
+    text-indent: -99999px;
+    color:#fff;
+    font-weight:bold;
+}
+#bnList li.bnActive a, #bnList li a:hover {
+    font-weight:bold;
+    background:url(../images/bg-slide-nav-act.png) no-repeat;;
+}

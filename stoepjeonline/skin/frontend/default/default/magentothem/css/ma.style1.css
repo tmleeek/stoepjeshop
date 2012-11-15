@@ -1,0 +1,70 @@
+.ma-banner1-container {
+    position:relative;
+}
+#slideshowWrapper {
+    position:relative;
+    margin:auto;
+}
+#bnPrev, #bnNext {
+    position:absolute;
+    top:50%;
+    width:45px;
+    height:95px;
+    margin-top:-45px;
+    background:url(../images/arrows.png) no-repeat 0 0;
+    text-indent:-999999px;
+}
+#bnPrev {    
+    left:-23px;
+    background-position:0 100%;
+}
+#bnPrev:hover {
+    background-position:0 0;
+}
+#bnNext {
+    right:-23px;
+    background-position:100% 100%;
+}
+#bnNext:hover {
+    background-position:100% 0;
+}
+#bnPlayPause {
+    position:absolute;
+    top:435px;
+    right:20px;
+    padding:4px 0 5px 0;
+    width:60px;
+    text-align:center;
+    display:block;
+    color:#333;
+    text-decoration:none;
+}
+ul#slideshow {
+    list-style:none;
+    overflow:hidden;
+}
+ul#slideshow li a {
+    display:block;
+}
+#bnList {
+    list-style:none;
+    bottom:10px;
+    right:20px;
+    position:absolute;
+}
+#bnList li {
+    display:inline;
+    padding-right:3px;
+}
+#bnList li a {
+    color:#999;
+    text-decoration:none;
+    background:#cdcdcd;
+    padding:3px 7px;
+    color:#fff;
+    font-weight:bold;
+}
+#bnList li.bnActive a {
+    font-weight:bold;
+    background:#464646;
+}

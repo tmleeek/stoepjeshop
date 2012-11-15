@@ -1,0 +1,55 @@
+/**
+ * Raptor Commerce
+ *
+ * @category   Raptor
+ * @package    Raptor_Supermenu
+ * @copyright  Copyright (c) 2009 Raptor Commerce (http://www.raptorcommerce.com)
+ */
+ 
+/* #anav { float:left; font-size:1.1em; margin-left:15px; margin-top:15px; } */
+#anav {	background:url("../images/bkg_nav.gif") no-repeat scroll 0 0 #DEDEDE; min-height:28px; padding:0 4px; text-align:left; width:932px;	}
+#anav li.level1 span { background:none; padding: 0; float:none; display:block; cursor:pointer; white-space:nowrap; }
+#anav span { background:url("../images/bkg_nav-item-border.gif") no-repeat scroll 100% 0 transparent; float:left; padding:0 19px 0 0; white-space:nowrap; }
+#anav li ul span {white-space:normal; }
+#anav li { float:left; height:28px; position:relative;}
+#anav li.level1 { padding: 0 0 0 17px }
+#anav li.level1 a { color:#444444; font-size:12px; line-height:1.2; text-decoration:none !important; font-weight: bold; }
+#anav li.nav-brands li.level1 a { font-weight: normal }
+#anav li.level2 a { font-weight:normal }
+#anav li.over { z-index:999; }
+#anav li.active a { color:#d96708; }
+#anav a {background:url("../images/bkg_nav-item-border.gif") no-repeat scroll 100% 0 transparent; border-top:1px solid #C0C0C0; color:#333333; float:left; font-size:13px; font-weight:bold; height:28px; line-height:28px; padding:0 0 0 17px; text-decoration:none !important; }
+
+#anav ul li,
+#anav ul li.active {height: auto; padding-bottom:1px; float:left; margin:1px 8px 11px 1px; padding:3px 8px; position:relative; text-align:left; }
+#anav ul li.last { padding-bottom:0; }
+#anav ul a,
+#anav ul a:hover { float:none; padding:0; background:none; }
+#anav ul { background:#FCFCFC none repeat scroll 0 0; border-color:#BBBBBB #BBBBBB #999999; border-style:solid; border-width:1px 1px 2px 1px; font-size:11px; left:-10000px; padding:4px 0px; position:absolute; top:29px; width:20em; margin-left: -1px }
+#anav li.over > ul { left:0; }
+#anav li.over > ul li.over > ul { left:100px; }
+#anav ul li a { font-weight:bold; }
+#anav ul li a:hover { color: #D02600 !important; }
+#anav ul span, #anav ul li.last li span { padding:3px 15px 4px 15px;}
+#anav li.columns { padding:0px; margin: 0px; width: 9.95em;}
+#anav li.columns ul { width: auto; }
+#anav li li li li span { padding:0 0 0 12px; }
+#anav ul ul { border: 0px; left:0; position: relative; top:0; background: none; }
+#anav ul ul li { float: none; width:auto; text-transform: none; margin: 0px; padding: 0px }
+#anav ul ul ul { margin-left: 10px; }
+#anav ul ul ul li a { font-weight: normal; color: #444444 !important }
+
+/** ie6 hack */
+#anav li.over ul.shown-sub { left:0; }
+#anav li.over li li ul.shown-sub { left:100px; }
+
+/************ Logo *****************/
+img.logo { margin:10px;border:1px solid #415966 }
+
+/************ Brands ***************/
+div.brand-block { float:left;width:33%;margin-bottom:10px;}
+div.brand-block dt a { text-decoration:none; font-weight:bold; color: black }
+div.brand-header { margin-bottom:15px }
+span.brand-summary-header { color:#E26703; font:bold 12px/16px Arial,Helvetica,sans-serif; text-transform:uppercase; }
+span.brand-summary {padding: 0 2px 0 2px}
+.clear {float: none; clear:both }

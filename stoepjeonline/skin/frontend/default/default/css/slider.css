@@ -1,0 +1,111 @@
+/**
+* Interakting Slider
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Open Software License (OSL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/osl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@magentocommerce.com and you will be sent a copy immediately.
+*
+* @category   BusinessDecision
+* @package    BusinessDecision_Interaktingslider
+* @author     Business & Decision Picardie - contactmagento-fr@interakting.com
+* @copyright  Copyright (c) 2010 Business & Decision (http://www.businessdecision.com)
+* @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/  
+
+#frame {
+    text-align: left;
+    position: relative;
+    width:100%;
+    height: 350px;
+}
+
+
+
+#middle-center {
+    margin-top: 0px;
+    margin-left: 0px;
+    height: 350px;
+    width: 100%;
+    overflow: hidden;
+}
+
+#top-center{
+	position:absolute;
+	z-index:2;
+	width: 100%;
+}
+
+.slide {
+    position: absolute;
+    text-align: left;
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px;
+    color: #2f2f2f;
+    font: 12px / 1.55em arial, helvetica, sans-serif;
+}
+
+#bottom-center {
+    margin-bottom: 5px;
+    margin-left: 0px;
+    width: 0px;
+    height: 0px;
+}
+
+#slide-content {
+    z-index: 1;
+}
+
+#slide-commands {
+    position: absolute;
+    padding : 13px 15px;
+    left: 0;
+	bottom : 0;
+    text-align: left;
+    width: 100%;
+    z-index: 1000;
+}
+
+#slide-commands a {
+    height: 28px;
+    width: 28px;
+    display: inline-block;
+    margin-right: 10px;
+    background: url(../images/button_off.png) no-repeat;
+    color: #666;
+}
+#slide-commands a span {
+    height: 28px;
+    width: 28px;
+    display: block;
+    font-size: 20px;
+    text-align: center;
+    padding-top: 3px;
+}
+#slide-commands a.active {
+    background: url(../images/button_on.png) no-repeat;
+    color: #efefef;
+}
+#slide-commands a:hover {
+    background: url(../images/button_on.png) no-repeat;
+    color: #efefef;
+}
+#slide-commands a:hover {
+	text-decoration: none;
+}
+#prev.normal {
+    display: none;
+}
+#next.normal {
+    height: 28px;
+    width: 28px;
+    display: none;
+}

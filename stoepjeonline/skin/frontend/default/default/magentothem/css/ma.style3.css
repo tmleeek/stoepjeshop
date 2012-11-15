@@ -1,0 +1,42 @@
+.ma-banner1 {
+    position:relative;
+}
+.ft-prev, .ft-next {
+    display:inline-block;
+    width:45px;
+    height:95px;
+    text-indent:-9999px;
+    margin-top:-45px;
+    background:url("../images/arrows.png") no-repeat;
+}
+.ft-prev {
+    background-position:0 100%;
+    left:-23px !important;
+}
+.ft-prev:hover {
+    background-position:0 0;    
+}
+.ft-next {
+    right:-23px !important;
+    background-position:100% 100%;
+}
+.ft-next:hover {
+    background-position:100% 0;    
+}
+#ft-buttons-slideshowHolder {
+    position:absolute;
+    bottom:10px;
+    right:20px;
+    width:50% !important;
+}
+.ft-button-slideshowHolder {
+    background:#cdcdcd;
+    text-decoration:none;
+    color:#fff;
+    font-weight:bold;
+    padding:3px 7px !important;
+    margin-left:3px;
+}
+.ft-button-slideshowHolder-active {
+    background:#464646;
+}

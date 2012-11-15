@@ -1,0 +1,22 @@
+/**
+ *
+ * NOTICE OF LICENSE
+ *
+ * This file is subject to the license
+ * that is bundled with this package in the file LICENSE_Temgra.txt.
+ * If you did not receive a copy of the license, please send an email
+ * to info@temgra.com so we can send you a copy immediately.
+ *
+ * @copyright Copyright (c) 2009-2011 by Tania Alekova, temgra.com - Templates and Graphics Online Store (http://www.temgra.com) - All rights reserved.
+ * @license   http://www.temgra.com/license
+ * 
+ */
+/* Color Custom Options */
+.thumbnails-container {height: 30px; margin-top: 0; width: 290px;}
+.thumbnails-tooltip {height: 18px; margin: 0; padding-left: 5px; font-weight: bold;}
+.thumbnails-container img {padding: 1px; border: 1px solid #fefefe; margin: 2px; width: 20px; height: 20px;}
+.thumbnails-container img.selected {border: 1px solid silver;}
+#shoecolor {left: 0px; top: 0px; z-index: 3;}
+#heelcolor {left: 0; top: 0; z-index: 4;}
+#backgroundcolor {left: 0px; top: 0px; z-index: 1;}
+#backgroundtexture {left: 0px; top: 0px; z-index: 2;}

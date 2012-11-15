@@ -1,0 +1,55 @@
+/**
+ * Raptor Commerce
+ *
+ * @category   Raptor
+ * @package    Raptor_Supermenu
+ * @copyright  Copyright (c) 2009 Raptor Commerce (http://www.raptorcommerce.com)
+ */
+ 
+#anav { float:left; font-size:1.1em; margin-left:15px; margin-top:15px; }
+#anav a:hover { display:block; text-decoration:none; }
+#anav span { display:block; cursor:pointer; white-space:nowrap; }
+#anav li ul span {white-space:normal; }
+
+#anav li { float:left; text-transform: uppercase; margin:1px 8px 11px 1px; padding:3px 8px; position:relative; text-align:left; }
+#anav li.over { z-index:999; border: 1px solid #BBBBBB; margin: 0 7px 10px 0 }
+#anav li.active a { color:#d96708; }
+#anav a { background: url("../images/bkg_nav_top.gif") no-repeat scroll 100% 50% transparent; color:#444444; float:left; font-weight:bold; padding-right:11px; }
+
+#anav ul li,
+#anav ul li.active { float:left; padding-bottom:1px; }
+#anav ul li.last { padding-bottom:0; }
+
+#anav ul a,
+#anav ul a:hover { float:none; padding:0; background:none; }
+
+#anav ul { background:#FCFCFC none repeat scroll 0 0; border-color:#BBBBBB #BBBBBB #999999; border-style:solid; border-width:1px 1px 2px; font-size:11px; left:-10000px; padding:3px 0px; position:absolute; top:22px; width:20em; margin-left: -1px }
+
+#anav li.over > ul { left:0; }
+#anav li.over > ul li.over > ul { left:100px; }
+#anav ul li a { font-weight:bold; }
+#anav ul li a:hover { color: #5A7F00 !important; }
+#anav ul span, #anav ul li.last li span { padding:3px 15px 4px 15px;}
+#anav li.columns { padding:0px; margin: 0px; width: 9.95em;}
+#anav li.columns ul { width: auto; }
+#anav li li li li span { padding:0 0 0 12px; }
+
+#anav ul ul { border: 0px; left:0; position: relative; top:0; background: none; }
+#anav ul ul li { float: none; width:auto; text-transform: none; margin: 0px; padding: 0px }
+#anav ul ul ul { margin-left: 10px; }
+#anav ul ul ul li a { font-weight: normal; color: #444444 !important }
+
+/** ie6 hack */
+#anav li.over ul.shown-sub { left:0; }
+#anav li.over li li ul.shown-sub { left:100px; }
+
+/************ Logo *****************/
+img.logo { margin:10px;border:1px solid #415966 }
+
+/************ Brands ***************/
+div.brand-block { float:left;width:33%;margin-bottom:10px;}
+div.brand-block dt a { text-decoration:none; font-weight:bold; color: black }
+div.brand-header { margin-bottom:15px }
+span.brand-summary-header { color:#E26703; font:bold 12px/16px Arial,Helvetica,sans-serif; text-transform:uppercase; }
+span.brand-summary {padding: 0 2px 0 2px}
+.clear {float: none; clear:both }

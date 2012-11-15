@@ -1,0 +1,128 @@
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@mageworx.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ * or send an email to sales@mageworx.com
+ *
+ * @category   skin_default
+ * @package    MageWorx_MultiFees
+ * @copyright  Copyright (c) 2009 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Multi Fees extension
+ *
+ * @category   skin_default
+ * @package    MageWorx_MultiFees
+ * @author     MageWorx Dev Team <dev@mageworx.com>
+ */
+
+.multifees-cart-fee {
+    background: #FAFAEC none repeat scroll 0 0;
+    border: 1px solid #CEC3B6;
+    padding: 12px 15px;
+}
+.multifees-cart-fee h4 {
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    color: #E26703;
+    min-height: 16px;
+    padding: 1px 0 1px 0px;
+    text-transform: uppercase;
+}
+.multifees-cart-fee .fee-items {
+	padding-top: 3px;
+	height: auto;
+}
+.multifees-cart-fee .clear {
+    clear: both;
+}
+.multifees-cart-fee .required {
+    color: #EB340A;
+    font-size: 11px;
+}
+.multifees-cart-fee .fee-items .options {
+	margin-left: 10px;
+	margin-bottom: 5px;
+}
+.multifees-cart-fee .fee-items .options td {
+	vertical-align: middle;
+	padding: 2px;
+}
+.multifees-cart-fee .fee-title {
+	color: #666666;
+	font-weight: bold;
+	padding-top: 3px;
+}
+.multifees-cart-fee .fee-options {
+	width: 49%;
+	float: left;
+}
+.multifees-cart-fee .right-block {
+	float: left;
+	width: 50%;
+	padding: 0;
+}
+.multifees-cart-fee .customer-massage label {
+	font-weight: normal;
+}
+.multifees-cart-fee .customer-massage textarea {
+	height: 60px;
+	width: 275px;
+	border: 1px solid #B6B6B6;
+	font-size: 12px;
+	padding: 2px;
+}
+.multifees-clear-button {
+	margin-left: 3px !important;
+}
+.multifees-details {
+	font-size: 0.92em;
+	color: #5F5F5F;
+}
+.multifees-details .message {
+	color: #9F9F9F;
+}
+.multifees-details .option {
+	font-style: italic;
+	color: #7F7F7F;
+}
+.multifees-total { cursor:pointer; }
+.multifees-total td { line-height:13px; padding-top:5px !important; padding-bottom:5px !important; border-top:0 !important; }
+.multifees-total .multifees-collapse { float:right; padding-left:20px; background:url(../images/multifees/bg_collapse.gif) 0 2px no-repeat; text-align:right; cursor:pointer; }
+.show-details .multifees-collapse { background-position:0 -55px; }
+.multifees-details-view td { background-color:#dae1e4; border-top:1px solid #d2d8db; border-bottom:1px solid #d2d8db !important; }
+
+.multifees-cart-date {
+	padding-bottom: 5px;
+}
+.multifees-cart-date label {
+	font-weight: normal;
+}
+.multifees-cart-date input {
+	width: 60px;
+}
+
+.cart .cart-collaterals {
+    width: 605px;
+    float: left;
+}
+.cart .totals {
+    margin-top: 25px;
+}
