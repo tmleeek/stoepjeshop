@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="MarketFoodGroup/Magento/Webshop_tStoepje" default="help" basedir="../../">
+
+	<target name="help">
+		<echo>
+	Welcome to the Drecomm build system!
+	---------------------------------
+	This build system is designed to be run from the Build/Phing
+	folder of your project.
+
+	You may use the following command format to perform a task:
+		phing -f Master.xml &lt;task&gt;
+
+	Flags and properties can be given to Phing like this
+		phing -f Master.xml -Dsomeflag
+		phing -f Master.xml -Dname=value
+
+	The available tasks can be listed with
+		phing -f Build/Phing/Master.xml -l
+		</echo>
+	</target>
+
+	<property file="${project.basedir}/Build/Phing/Phing.properties" />
+	<taskdef file="${project.basedir}/Build/Phing/Tasks.properties"/>
+
+	<import file="${project.basedir}/Build/Phing/Buildfiles/FileSets.xml"/>
+	<import file="${project.basedir}/Build/Phing/Buildfiles/Build.xml"/>
+	<import file="${project.basedir}/Build/Phing/Buildfiles/Tests.xml"/>
+
+</project>

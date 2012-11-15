@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="FileSets">
+
+	<fileset dir="${project.basedir}" id="files-php">
+		<include name="app/code/local/Drecomm/**/*.php"/>
+		<include name="app/code/local/Drecommbv/**/*.php"/>
+		<include name="app/design/**/*.php"/>
+		<include name="app/design/**/*.phtml"/>
+		<include name="shell/**/*.php"/>
+	</fileset>
+
+	<fileset dir="${project.basedir}" id="files-xml">
+		<include name="app/code/local/**/*.xml"/>
+		<include name="app/code/community/**/*.xml"/>
+		<include name="app/design/frontend/default/**/*.xml"/>
+		<include name="app/etc/modules/**/*.xml"/>
+	</fileset>
+
+	<fileset dir="${project.basedir}" id="files-temporary">
+		<include name="Build/Logs"/>
+		<include name="Build/Reports"/>
+	</fileset>
+
+</project>

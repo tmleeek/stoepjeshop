@@ -1,0 +1,18 @@
+a:14:{s:7:"attribs";a:2:{s:5:"xmlns";s:36:"http://pear.php.net/dtd/rest.release";s:18:"xsi:schemaLocation";s:81:"http://pear.php.net/dtd/rest.release     http://pear.php.net/dtd/rest.release.xsd";}s:1:"p";a:2:{s:7:"attribs";a:1:{s:10:"xlink:href";s:53:"/Chiara_PEAR_Server_REST/p/fooman_googleanalyticsplus";}s:8:"_content";s:26:"Fooman_GoogleAnalyticsPlus";}s:1:"c";s:37:"connect.magentocommerce.com/community";s:1:"v";s:6:"0.10.3";s:2:"st";s:4:"beta";s:1:"l";s:8:"OSL v3.0";s:1:"m";s:12:"magentoadmin";s:1:"s";s:59:"Additional features for the default GoogleAnalytics module.";s:1:"d";s:643:"<p>Additional features for the default GoogleAnalytics module.<p>
+
+<p>Current improvements:<p>
+
+<ul>
+<li>Track every individual page - including sections retrieved via AJAX during one-page-checkout</li>
+<li>Support for specifying DomainName to use</li>
+<li>Track to a secondary profile</li>
+<li>Track the actual typed in keywords by your customers when bidding on keywords
+</li>
+<li>Optionally track Adwords conversions for purchases
+</li>
+<li>First Touch tracking
+</li>
+</ul>
+
+<p>Credit for the Keyword Method goes to  Michael Harrison from ROI Revolution (http://www.roirevolution.com/blog/2008/02/exact_keyword_tracking_with_gajs.html)
+</p>";s:2:"da";s:19:"2011-03-09 18:48:38";s:1:"n";s:59:"fix _anonymizeIp object, new set a custom var for customers";s:1:"f";s:4:"9160";s:1:"g";s:82:"http://connect.magentocommerce.com/community/get/Fooman_GoogleAnalyticsPlus-0.10.3";s:1:"x";a:1:{s:7:"attribs";a:1:{s:10:"xlink:href";s:18:"package.0.10.3.xml";}}}

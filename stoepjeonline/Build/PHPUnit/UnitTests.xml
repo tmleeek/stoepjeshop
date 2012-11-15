@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         strict="true"
+         verbose="true"
+         colors="false"
+         bootstrap="UnitTestBootstrap.php">
+
+	<testsuites>
+		<testsuite name="Drecomm">
+			<directory suffix="Test.php">../../app/code/local/path/to/tests/directory/</directory>
+		</testsuite>
+	</testsuites>
+
+	<logging>
+		<log type="coverage-html"
+		     target="../../Build/Reports/Coverage"
+			 title="Drecomm"
+			 charset="UTF-8"
+			 yui="true"
+			 highlight="true"
+			 lowUpperBound="35"
+			 highLowerBound="70"/>
+		<log type="coverage-clover" target="../../Build/Logs/clover.xml"/>
+		<log type="junit" target="../../Build/Logs/junit.xml" logIncompleteSkipped="false"/>
+	</logging>
+
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../../app/code/local/path/to/testfiles/directory/</directory>
+		</whitelist>
+	</filter>
+</phpunit>

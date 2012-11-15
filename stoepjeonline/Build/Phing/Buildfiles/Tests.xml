@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Tests">
+
+	<target name="commitmessage" description="Check if the commit message is properly formatted">
+		<commitmessage commit="${GERRIT_PATCHSET_REVISION}" />
+	</target>
+
+	<target name="phplint" description="Check for PHP syntax errros">
+		<drecommphplint haltonfailure="true">
+			<fileset refid="files-php"/>
+		</drecommphplint>
+	</target>
+
+	<target name="xmllint" description="Check for XML syntax errros">
+		<drecommxmllint haltonfailure="false">
+			<fileset refid="files-xml"/>
+		</drecommxmllint>
+	</target>
+
+	<target name="phpcs" depends="clean, phplint" description="Find coding standard violations using PHP_CodeSniffer">
+		<phpcodesniffer standard="Magento" verbosity="0">
+			<fileset refid="files-php"/>
+			<formatter type="summary" usefile="false" />
+			<formatter type="checkstyle" outfile="${project.basedir}/Build/Logs/checkstyle.xml" />
+		</phpcodesniffer>
+	</target>
+
+	<target name="phpcpd" depends="clean, phplint" description="Find duplicate code using PHPCPD">
+		<phpcpd>
+			<fileset refid="files-php"/>
+			<formatter type="pmd" outfile="${project.basedir}/Build/Logs/pmd-cpd.xml"/>
+		</phpcpd>
+	</target>
+
+	<target name="phpunit" depends="clean, phplint" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
+		<exec command="phpunit --configuration ${project.basedir}/Build/PHPUnit/UnitTests.xml" logoutput="true" />
+	</target>
+
+</project>

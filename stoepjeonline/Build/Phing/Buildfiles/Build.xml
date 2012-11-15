@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Build">
+
+	<target name="clean">
+		<delete dir="${project.basedir}/Build/Logs"/>
+		<delete dir="${project.basedir}/Build/Reports"/>
+		<mkdir dir="${project.basedir}/Build/Logs"/>
+		<mkdir dir="${project.basedir}/Build/Reports"/>
+	</target>
+
+	<target name="build-all" depends="clean, commitmessage, phplint, xmllint, phpcs, phpcpd">
+		<echo message="Starting build of all targets..." />
+	</target>
+
+</project>
