@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+<!-- 
+  Copyright (c) 2009 Raptor Commerce (http://www.raptorcommerce.com)
+-->
+<config>
+    <tabs>
+        <supermenu translate="label" module="supermenu">
+            <label>Menu</label>
+            <sort_order>301</sort_order>
+        </supermenu>
+    </tabs>
+   <sections>
+      <supermenu translate="label" module="supermenu">
+         <label>Supermenu</label>
+         <tab>supermenu</tab>
+         <sort_order>130</sort_order>
+         <show_in_default>1</show_in_default>
+         <show_in_website>1</show_in_website>
+         <show_in_store>1</show_in_store>
+         <groups>
+			<general translate="label">
+            <label>General</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>1</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            	<fields>
+                	<chunk_type translate="label">
+                     <label>Layout style</label>
+                     <frontend_type>select</frontend_type>
+                     <source_model>
+                        supermenu/chunktype
+                     </source_model>
+                     <sort_order>1</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                  </chunk_type>
+               </fields>
+            </general>         
+			<homelink translate="label">
+            <label>Home link</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>2</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            	<fields>
+                	<enabled translate="label">
+                     <label>Generate home link</label>
+                     <frontend_type>select</frontend_type>
+                     <source_model>
+                        adminhtml/system_config_source_yesno
+                     </source_model>
+                     <sort_order>1</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                  </enabled>
+               </fields>
+            </homelink>
+			<debug translate="label">
+            <label>Debug</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>3</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            	<fields>
+                	<enabled translate="label">
+                     <label>Log transient xml</label>
+                     <frontend_type>select</frontend_type>
+                     <source_model>
+                        adminhtml/system_config_source_yesno
+                     </source_model>
+                     <sort_order>1</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                  </enabled>
+               </fields>
+            </debug>            
+            <!--
+            <menu_style translate="label">
+               <label>Menu style</label>
+               <frontend_type>text</frontend_type>
+               <sort_order>2</sort_order>
+               <show_in_default>1</show_in_default>
+               <show_in_website>1</show_in_website>
+               <show_in_store>1</show_in_store>
+               <fields>
+                  <use_exploded translate="label">
+                     <label>Menu style</label>
+                     <frontend_type>select</frontend_type>
+                     <source_model>
+                        supermenu/config_menustyles
+                     </source_model>
+                     <sort_order>2</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                  </use_exploded>
+               </fields>
+            </menu_style>
+            -->
+            <categories translate="label">
+               <label>Product categories</label>
+               <frontend_type>text</frontend_type>
+               <sort_order>4</sort_order>
+               <show_in_default>1</show_in_default>
+               <show_in_website>1</show_in_website>
+               <show_in_store>1</show_in_store>
+               <fields>
+				  <show_categories translate="label">
+                     <label>Enable menu</label>
+                     <frontend_type>select</frontend_type>
+                     <source_model>
+                        adminhtml/system_config_source_yesno
+                     </source_model>
+                     <sort_order>1</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                     <comment>
+                        Set this to no if you dont want to render the product category menus
+                     </comment>
+                  </show_categories>
+                  <show_third_level translate="label">
+                     <label>Display 3rd+ level catagories</label>
+                     <frontend_type>select</frontend_type>
+                     <source_model>
+                        adminhtml/system_config_source_yesno
+                     </source_model>
+                     <sort_order>2</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                  </show_third_level>                  
+				  <shop_categories translate="label">
+                     <label><![CDATA[Display "Shop by category"]]></label>
+                     <frontend_type>select</frontend_type>
+                     <source_model>
+                        adminhtml/system_config_source_yesno
+                     </source_model>
+                     <sort_order>3</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                     <comment>
+                     	<![CDATA[Will render "Shop by category" at the top of the dropdown, similar to "Shop by brand"]]>
+                     </comment>
+                  </shop_categories>                  
+                  <columns translate="label comment">
+                     <label>Dropdown columns</label>
+                     <frontend_type>text</frontend_type>
+                     <sort_order>4</sort_order>
+                     <show_in_default>3</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                     <comment>
+                        Preferred number of columns (default 2)
+                     </comment>
+                  </columns>
+                  <column_width translate="label comment">
+                     <label>Column width</label>
+                     <frontend_type>text</frontend_type>
+                     <sort_order>5</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                     <comment>
+                        Integer - dont specify units here
+                     </comment>
+                  </column_width>
+                  <enable_brands translate="label">
+                     <label>Show brands</label>
+                     <frontend_type>select</frontend_type>
+                     <source_model>
+                        adminhtml/system_config_source_yesno
+                     </source_model>
+                     <sort_order>6</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                  </enable_brands>                  
+                  <brand_columns translate="label comment">
+                     <label>Number of "Shop by brand" columns</label>
+                     <frontend_type>text</frontend_type>
+                     <sort_order>7</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                     <comment>
+                        Within the category menus
+                     </comment>
+                  </brand_columns>                  
+                  <variable_column_widths translate="label comment">
+                     <label>CSS column widths</label>
+                     <frontend_type>select</frontend_type>
+                     <source_model>
+                        adminhtml/system_config_source_yesno
+                     </source_model>
+                     <sort_order>8</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+					 <comment>
+                      <![CDATA[ADVANCED - If this is enabled you will need to make css changes - see support <a target="_new" href="http://support.raptorcommerce.com/forums/53989/entries/46001#variableWidth">documentation</a>]]>
+                     </comment>
+                  </variable_column_widths>				  
+               </fields>
+            </categories>
+			<brands translate="label">
+               <label>Brands</label>
+               <frontend_type>text</frontend_type>
+               <sort_order>5</sort_order>
+               <show_in_default>1</show_in_default>
+               <show_in_website>1</show_in_website>
+               <show_in_store>1</show_in_store>
+               <fields>
+				  <enabled translate="label">
+                     <label>Enable brands menu</label>
+                     <frontend_type>select</frontend_type>
+                     <source_model>
+                        adminhtml/system_config_source_yesno
+                     </source_model>
+                     <sort_order>1</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                  </enabled>
+                  <columns translate="label comment">
+                     <label>Dropdown columns</label>
+                     <frontend_type>text</frontend_type>
+                     <sort_order>2</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                     <comment>
+                        Preferred number of columns (default 2)
+                     </comment>
+                  </columns>
+                  <column_width translate="label comment">
+                     <label>Column width</label>
+                     <frontend_type>text</frontend_type>
+                     <sort_order>3</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                     <comment>
+                     	Integer - don't specify units here
+                     </comment>                  
+                  </column_width>
+                  <attribute_code translate="label comment">
+                     <label>"Brand" attribute code</label>
+                     <frontend_type>text</frontend_type>
+                     <sort_order>4</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                     <comment>
+                        Name of the product attribute code used to specify brand e.g. 'manufacturer' or 'brand'
+                     </comment>
+                  </attribute_code>
+               </fields>
+            </brands>            
+            <!--
+            <brand translate="label">
+               <label>Brand dropdown</label>
+               <frontend_type>text</frontend_type>
+               <sort_order>3</sort_order>
+               <show_in_default>1</show_in_default>
+               <show_in_website>1</show_in_website>
+               <show_in_store>1</show_in_store>
+               <fields>
+                  <enabled translate="label">
+                     <label>Enable brand menu</label>
+                     <frontend_type>select</frontend_type>
+                     <source_model>
+                        adminhtml/system_config_source_yesno
+                     </source_model>
+                     <sort_order>1</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                  </enabled>
+                  <attribute_name translate="label">
+                     <label>Brand attribute name</label>
+                     <frontend_type>text</frontend_type>
+                     <sort_order>2</sort_order>
+                     <show_in_default>1</show_in_default>
+                     <show_in_website>1</show_in_website>
+                     <show_in_store>1</show_in_store>
+                     <comment>The attribute name used to specify brands</comment>
+                  </attribute_name>                  
+               </fields>
+            </brand>
+            -->
+         </groups>
+      </supermenu>
+   </sections>
+</config>
+
+

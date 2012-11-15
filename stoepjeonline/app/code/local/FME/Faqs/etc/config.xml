@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   FME
+ * @package    FME_Faqs
+ * @author     ModuleCreator
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <FME_Faqs>
+            <version>0.1.0</version>
+        </FME_Faqs>
+    </modules>
+    <frontend>
+        <routers>
+            <faqs>
+                <use>standard</use>
+                <args>
+                    <module>FME_Faqs</module>
+                    <frontName>faqs</frontName>
+                </args>
+            </faqs>
+        </routers>
+        <layout>
+            <updates>
+                <faqs>
+                    <file>faqs.xml</file>
+                </faqs>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+			<faqsadmin>
+				<use>admin</use>
+				<args>
+					<module>FME_Faqs</module>
+					<frontName>faqsadmin</frontName>
+				</args>
+			</faqsadmin>
+        </routers>
+    </admin>
+    <adminhtml>
+		<menu>
+			<faqs module="faqs">
+				<title>Faqs</title>
+				<sort_order>71</sort_order>               
+				<children>
+					<topic module="faqs">
+						<title>Manage Faq Topics</title>
+						<sort_order>0</sort_order>
+						<action>faqsadmin/adminhtml_topic</action>
+					</topic>
+					<items module="faqs">
+						<title>Manage Faqs</title>
+						<sort_order>1</sort_order>
+						<action>faqsadmin/adminhtml_faqs</action>
+					</items>
+					<config translate="title">
+						<title>Configuration</title>
+						<sort_order>2</sort_order>
+						<action>adminhtml/system_config/edit/section/faqs</action>
+					</config>
+				</children>
+			</faqs>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+                <admin>
+                    <children>
+						<faqs>
+							<title>Faqs Module</title>
+							<children>
+								<topic translate="title" module="faqs">
+									<title>Manage Faq Topics</title>
+									<sort_order>8</sort_order>
+								</topic>
+								<items translate="title" module="faqs">
+									<title>Manage Faqs</title>
+									<sort_order>8</sort_order>
+								</items>
+								<config translate="title">
+									<title>Configuration</title>
+								</config>
+							</children>
+							<sort_order>8</sort_order>
+						</faqs>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <faqs translate="title" module="faqs">
+                                            <title>Faqs Module</title>
+                                            <sort_order>50</sort_order>
+                                        </faqs>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<faqs>
+					<file>faqs.xml</file>
+				</faqs>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <faqs>
+                <class>FME_Faqs_Model</class>
+                <resourceModel>faqs_mysql4</resourceModel>
+            </faqs>
+            <faqs_mysql4>
+                <class>FME_Faqs_Model_Mysql4</class>
+                <entities>
+                    <faqs>
+                        <table>faqs</table>
+                    </faqs>
+		    		<topic>
+                        <table>faqs_topics</table>
+                    </topic>
+					<faqs_store>
+		                <table>faqs_store</table>
+		            </faqs_store>
+                </entities>
+            </faqs_mysql4>
+        </models>
+        <resources>
+            <faqs_setup>
+                <setup>
+                    <module>FME_Faqs</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </faqs_setup>
+            <faqs_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </faqs_write>
+            <faqs_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </faqs_read>
+        </resources>
+        <blocks>
+            <faqs>
+                <class>FME_Faqs_Block</class>
+            </faqs>
+        </blocks>
+        <helpers>
+            <faqs>
+                <class>FME_Faqs_Helper</class>
+            </faqs>
+        </helpers>
+		
+		<events>
+            <controller_front_init_routers>
+                <observers>
+                    <faqs>
+                        <type>singleton</type>
+                        <class>FME_Faqs_Controller_Router</class>
+                        <method>initControllerRouters</method>
+                    </faqs>
+                </observers>
+            </controller_front_init_routers>
+        </events>
+		
+    </global>
+</config>

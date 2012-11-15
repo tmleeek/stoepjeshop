@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+       <PayNL_Poverboeking>
+          <version>0.0.1</version>
+       </PayNL_Poverboeking>
+    </modules>
+ 
+    <global>
+        <helpers>
+            <poverboeking>
+                <class>PayNL_Poverboeking_Helper</class>
+            </poverboeking>
+        </helpers>
+        <models>
+            <poverboeking>
+                <class>PayNL_Poverboeking_Model</class>
+                <resourceModel>poverboeking_mysql4</resourceModel>
+            </poverboeking>
+            <poverboeking_mysql4>
+                <class>PayNL_Poverboeking_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>poverboeking_api_debug</table></api_debug>
+                </entities>
+            </poverboeking_mysql4>
+        </models>
+ 
+        <resources>
+            <poverboeking_setup>
+                <setup>
+                    <module>PayNL_Poverboeking</module>
+                    <class>PayNL_Poverboeking_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </poverboeking_setup>
+            <poverboeking_write>
+                <connection>
+                  <use>core_write</use>
+                </connection>
+            </poverboeking_write>
+            <poverboeking_read>
+               <connection>
+                <use>core_read</use>
+              </connection>
+            </poverboeking_read>
+        </resources>
+        <blocks>
+            <poverboeking><class>PayNL_Poverboeking_Block</class></poverboeking>
+        </blocks>
+        <sales>
+            <order>
+                <statuses>
+                    <refund translate="label"><label>Refund</label></refund>
+                    <pending_poverboeking translate="label"><label>Pending Overboeking</label></pending_poverboeking>
+                    <pending translate="label"><label>Pending</label></pending>
+                    <processing translate="label"><label>Processing</label></processing>
+                    <holded translate="label"><label>On Hold</label></holded>
+                    <complete translate="label"><label>Complete</label></complete>
+                    <closed translate="label"><label>Closed</label></closed>
+                    <canceled translate="label"><label>Canceled</label></canceled>
+                    <fraud translate="label"><label>Suspected Fraud</label></fraud>
+                </statuses>
+                <states>
+                    <pending_payment>
+                        <statuses>
+                            <pending_poverboeking/>
+                        </statuses>
+                    </pending_payment>
+                    <new translate="label">
+                        <label>New</label>
+                        <statuses>
+                            <pending default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </new>
+                    <processing translate="label">
+                        <label>Processing</label>
+                        <statuses>
+                            <processing default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </processing>
+                    <complete translate="label">
+                        <label>Complete</label>
+                        <statuses>
+                            <complete default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </complete>
+                    <closed translate="label">
+                        <label>Closed</label>
+                        <statuses>
+                            <closed default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </closed>
+                    <canceled translate="label">
+                        <label>Canceled</label>
+                        <statuses>
+                            <canceled default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </canceled>
+                    <holded translate="label">
+                        <label>On Hold</label>
+                        <statuses>
+                            <holded default="1"/>
+                            <fraud/>
+                        </statuses>
+                        <visible_on_front/>
+                    </holded>
+                </states>
+            </order>
+        </sales>
+    </global>
+    <frontend>
+        <secure_url>
+            <poverboeking_poverboeking>/paynl/poverboeking</poverboeking_poverboeking>
+        </secure_url>
+        <routers>
+            <poverboeking>
+                <use>standard</use>
+                <args>
+                    <module>PayNL_Poverboeking</module>
+                    <frontName>poverboeking</frontName>
+                </args>
+            </poverboeking>
+        </routers>
+        <translate>
+            <modules>
+                <PayNL_Poverboeking>
+                    <files>
+                        <default>PayNL_Poverboeking.csv</default>
+                    </files>
+                </PayNL_Poverboeking>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <poverboeking>
+                    <file>poverboeking.xml</file>
+                </poverboeking>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <PayNL_Poverboeking>
+                    <files>
+                        <default>PayNL_Poverboeking.csv</default>
+                    </files>
+                </PayNL_Poverboeking>
+            </modules>
+        </translate>
+    </adminhtml>
+ 
+    <default>
+        <payment>
+            <poverboeking_poverboeking>
+                <model>poverboeking/poverboeking</model>
+                <title>Pay.nl Overboeking</title>
+                <description>Standaard overboeking</description>
+                <order_status>pending_poverboeking</order_status>
+                <allowspecific>0</allowspecific>
+            </poverboeking_poverboeking>
+         </payment>
+    </default>
+</config>
+      

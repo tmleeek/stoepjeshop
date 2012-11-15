@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+       <PayNL_Cashticket>
+          <version>0.0.1</version>
+       </PayNL_Cashticket>
+    </modules>
+ 
+    <global>
+        <helpers>
+            <cashticket>
+                <class>PayNL_Cashticket_Helper</class>
+            </cashticket>
+        </helpers>
+        <models>
+            <cashticket>
+                <class>PayNL_Cashticket_Model</class>
+                <resourceModel>cashticket_mysql4</resourceModel>
+            </cashticket>
+            <cashticket_mysql4>
+                <class>PayNL_Cashticket_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>cashticket_api_debug</table></api_debug>
+                </entities>
+            </cashticket_mysql4>
+        </models>
+ 
+        <resources>
+            <cashticket_setup>
+                <setup>
+                    <module>PayNL_Cashticket</module>
+                    <class>PayNL_Cashticket_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </cashticket_setup>
+            <cashticket_write>
+                <connection>
+                  <use>core_write</use>
+                </connection>
+            </cashticket_write>
+            <cashticket_read>
+               <connection>
+                <use>core_read</use>
+              </connection>
+            </cashticket_read>
+        </resources>
+        <blocks>
+            <cashticket><class>PayNL_Cashticket_Block</class></cashticket>
+        </blocks>
+        <sales>
+            <order>
+                <statuses>
+                    <refund translate="label"><label>Refund</label></refund>
+                    <pending_cashticket translate="label"><label>Pending Cashticket</label></pending_cashticket>
+                    <pending translate="label"><label>Pending</label></pending>
+                    <processing translate="label"><label>Processing</label></processing>
+                    <holded translate="label"><label>On Hold</label></holded>
+                    <complete translate="label"><label>Complete</label></complete>
+                    <closed translate="label"><label>Closed</label></closed>
+                    <canceled translate="label"><label>Canceled</label></canceled>
+                    <fraud translate="label"><label>Suspected Fraud</label></fraud>
+                </statuses>
+                <states>
+                    <pending_payment>
+                        <statuses>
+                            <pending_cashticket/>
+                        </statuses>
+                    </pending_payment>
+                    <new translate="label">
+                        <label>New</label>
+                        <statuses>
+                            <pending default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </new>
+                    <processing translate="label">
+                        <label>Processing</label>
+                        <statuses>
+                            <processing default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </processing>
+                    <complete translate="label">
+                        <label>Complete</label>
+                        <statuses>
+                            <complete default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </complete>
+                    <closed translate="label">
+                        <label>Closed</label>
+                        <statuses>
+                            <closed default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </closed>
+                    <canceled translate="label">
+                        <label>Canceled</label>
+                        <statuses>
+                            <canceled default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </canceled>
+                    <holded translate="label">
+                        <label>On Hold</label>
+                        <statuses>
+                            <holded default="1"/>
+                            <fraud/>
+                        </statuses>
+                        <visible_on_front/>
+                    </holded>
+                </states>
+            </order>
+        </sales>
+    </global>
+    <frontend>
+        <secure_url>
+            <cashticket_cashticket>/paynl/cashticket</cashticket_cashticket>
+        </secure_url>
+        <routers>
+            <cashticket>
+                <use>standard</use>
+                <args>
+                    <module>PayNL_Cashticket</module>
+                    <frontName>cashticket</frontName>
+                </args>
+            </cashticket>
+        </routers>
+        <translate>
+            <modules>
+                <PayNL_Cashticket>
+                    <files>
+                        <default>PayNL_Cashticket.csv</default>
+                    </files>
+                </PayNL_Cashticket>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <cashticket>
+                    <file>cashticket.xml</file>
+                </cashticket>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <PayNL_Cashticket>
+                    <files>
+                        <default>PayNL_Cashticket.csv</default>
+                    </files>
+                </PayNL_Cashticket>
+            </modules>
+        </translate>
+    </adminhtml>
+ 
+    <default>
+        <payment>
+            <cashticket_cashticket>
+                <model>cashticket/cashticket</model>
+                <title>Pay.nl Cashticket</title>
+                <description>Cashticket payment</description>
+                <order_status>pending_cashticket</order_status>
+                <allowspecific>0</allowspecific>
+            </cashticket_cashticket>
+         </payment>
+    </default>
+</config>
+      

@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+       <PayNL_Afterpay>
+          <version>0.0.2</version>
+       </PayNL_Afterpay>
+    </modules>
+ 
+    <global>
+        <helpers>
+            <afterpay>
+                <class>PayNL_Afterpay_Helper</class>
+            </afterpay>
+        </helpers>
+        <models>
+            <afterpay>
+                <class>PayNL_Afterpay_Model</class>
+                <resourceModel>afterpay_mysql4</resourceModel>
+            </afterpay>
+            <afterpay_mysql4>
+                <class>PayNL_Afterpay_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>afterpay_api_debug</table></api_debug>
+                </entities>
+            </afterpay_mysql4>
+        </models>
+ 
+        <resources>
+            <afterpay_setup>
+                <setup>
+                    <module>PayNL_Afterpay</module>
+                    <class>PayNL_Afterpay_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </afterpay_setup>
+            <afterpay_write>
+                <connection>
+                  <use>core_write</use>
+                </connection>
+            </afterpay_write>
+            <afterpay_read>
+               <connection>
+                <use>core_read</use>
+              </connection>
+            </afterpay_read>
+        </resources>
+        <blocks>
+            <afterpay><class>PayNL_Afterpay_Block</class></afterpay>
+        </blocks>
+
+
+   
+
+
+
+<sales>
+  
+	<quote>
+		<totals>
+			<afterpay>
+				<class>afterpay/sales_subtotal</class>
+				<after>subtotal,discount,shipping,tax</after>
+				<before>grand_total</before>
+				<renderer>afterpay/checkout_fee</renderer>
+				<admin_renderer>afterpay/adminhtml_sales_order_create_totals_fee</admin_renderer>
+			</afterpay>
+		</totals>
+	</quote>
+<order_invoice>
+	<totals>
+		<afterpay>
+			<class>afterpay/invoice_total</class>				
+		</afterpay>
+	</totals>
+</order_invoice>
+<order_creditmemo>
+	<totals>
+		<afterpay>
+			<class>afterpay/creditmemo_total</class>			
+		</afterpay>
+	</totals>
+</order_creditmemo>
+</sales>
+
+ <events>
+        <sales_quote_collect_totals_after>
+            <observers>
+                <afterpay>
+                    <type>singleton</type>
+                    <class>afterpay/observer</class>
+                    <method>sales_quote_collect_totals_after</method>
+                </afterpay>
+            </observers>
+        </sales_quote_collect_totals_after>
+        <sales_order_payment_place_end>
+            <observers>
+                <afterpay>
+                    <type>singleton</type>
+                    <class>afterpay/observer</class>
+                    <method>sales_order_payment_place_end</method>
+                </afterpay>
+            </observers>
+        </sales_order_payment_place_end>
+    </events>
+
+
+        <sales>
+            <order>
+                <statuses>
+                    <refund translate="label"><label>Refund</label></refund>
+                    <pending_afterpay translate="label"><label>Pending Afterpay</label></pending_afterpay>
+                    <pending translate="label"><label>Pending</label></pending>
+                    <processing translate="label"><label>Processing</label></processing>
+                    <holded translate="label"><label>On Hold</label></holded>
+                    <complete translate="label"><label>Complete</label></complete>
+                    <closed translate="label"><label>Closed</label></closed>
+                    <canceled translate="label"><label>Canceled</label></canceled>
+                    <fraud translate="label"><label>Suspected Fraud</label></fraud>
+                </statuses>
+                <states>
+                    <pending_payment>
+                        <statuses>
+                            <pending_afterpay/>
+                        </statuses>
+                    </pending_payment>
+                    <new translate="label">
+                        <label>New</label>
+                        <statuses>
+                            <pending default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </new>
+                    <processing translate="label">
+                        <label>Processing</label>
+                        <statuses>
+                            <processing default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </processing>
+                    <complete translate="label">
+                        <label>Complete</label>
+                        <statuses>
+                            <complete default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </complete>
+                    <closed translate="label">
+                        <label>Closed</label>
+                        <statuses>
+                            <closed default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </closed>
+                    <canceled translate="label">
+                        <label>Canceled</label>
+                        <statuses>
+                            <canceled default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </canceled>
+                    <holded translate="label">
+                        <label>On Hold</label>
+                        <statuses>
+                            <holded default="1"/>
+                            <fraud/>
+                        </statuses>
+                        <visible_on_front/>
+                    </holded>
+                </states>
+            </order>
+        </sales>
+    </global>
+    <frontend>
+        <secure_url>
+            <afterpay_afterpay>/paynl/afterpay</afterpay_afterpay>
+        </secure_url>
+        <routers>
+            <afterpay>
+                <use>standard</use>
+                <args>
+                    <module>PayNL_Afterpay</module>
+                    <frontName>afterpay</frontName>
+                </args>
+            </afterpay>
+        </routers>
+        <translate>
+            <modules>
+                <PayNL_Afterpay>
+                    <files>
+                        <default>PayNL_Afterpay.csv</default>
+                    </files>
+                </PayNL_Afterpay>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <afterpay>
+                    <file>paynl.xml</file>
+                </afterpay>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <PayNL_Afterpay>
+                    <files>
+                        <default>PayNL_Afterpay.csv</default>
+                    </files>
+                </PayNL_Afterpay>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <afterpay>
+                    <file>paynl.xml</file>
+                </afterpay>
+            </updates>
+        </layout>
+    </adminhtml>
+ 
+    <default>
+        <payment>
+            <afterpay_afterpay>
+                <model>afterpay/afterpay</model>
+                <title>Pay.nl AfterPay</title>
+                <description>Standaard afterpay</description>
+                <order_status>pending_afterpay</order_status>
+                <allowspecific>0</allowspecific>
+                <fee>0</fee>
+            </afterpay_afterpay>
+         </payment>
+    </default>
+</config>
+      

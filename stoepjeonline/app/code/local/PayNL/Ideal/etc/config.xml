@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+       <PayNL_Ideal>
+          <version>0.0.1</version>
+       </PayNL_Ideal>
+    </modules>
+ 
+    <global>
+        <helpers>
+            <ideal>
+                <class>PayNL_Ideal_Helper</class>
+            </ideal>
+        </helpers>
+        <models>
+            <ideal>
+                <class>PayNL_Ideal_Model</class>
+                <resourceModel>ideal_mysql4</resourceModel>
+            </ideal>
+            <ideal_mysql4>
+                <class>PayNL_Ideal_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>ideal_api_debug</table></api_debug>
+                </entities>
+            </ideal_mysql4>
+        </models>
+ 
+        <resources>
+            <ideal_setup>
+                <setup>
+                    <module>PayNL_Ideal</module>
+                    <class>PayNL_Ideal_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </ideal_setup>
+            <ideal_write>
+                <connection>
+                  <use>core_write</use>
+                </connection>
+            </ideal_write>
+            <ideal_read>
+               <connection>
+                <use>core_read</use>
+              </connection>
+            </ideal_read>
+        </resources>
+        <blocks>
+            <ideal><class>PayNL_Ideal_Block</class></ideal>
+        </blocks>
+        <sales>
+            <order>
+                <statuses>
+                    <refund translate="label"><label>Refund</label></refund>
+                    <pending_ideal translate="label"><label>Pending Ideal</label></pending_ideal>
+                    <pending translate="label"><label>Pending</label></pending>
+                    <processing translate="label"><label>Processing</label></processing>
+                    <holded translate="label"><label>On Hold</label></holded>
+                    <complete translate="label"><label>Complete</label></complete>
+                    <closed translate="label"><label>Closed</label></closed>
+                    <canceled translate="label"><label>Canceled</label></canceled>
+                    <fraud translate="label"><label>Suspected Fraud</label></fraud>
+                </statuses>
+                <states>
+                    <pending_payment>
+                        <statuses>
+                            <pending_ideal/>
+                        </statuses>
+                    </pending_payment>
+                    <new translate="label">
+                        <label>New</label>
+                        <statuses>
+                            <pending default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </new>
+                    <processing translate="label">
+                        <label>Processing</label>
+                        <statuses>
+                            <processing default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </processing>
+                    <complete translate="label">
+                        <label>Complete</label>
+                        <statuses>
+                            <complete default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </complete>
+                    <closed translate="label">
+                        <label>Closed</label>
+                        <statuses>
+                            <closed default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </closed>
+                    <canceled translate="label">
+                        <label>Canceled</label>
+                        <statuses>
+                            <canceled default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </canceled>
+                    <holded translate="label">
+                        <label>On Hold</label>
+                        <statuses>
+                            <holded default="1"/>
+                            <fraud/>
+                        </statuses>
+                        <visible_on_front/>
+                    </holded>
+                </states>
+            </order>
+        </sales>
+    </global>
+    <frontend>
+        <secure_url>
+            <ideal_ideal>/paynl/ideal</ideal_ideal>
+        </secure_url>
+        <routers>
+            <ideal>
+                <use>standard</use>
+                <args>
+                    <module>PayNL_Ideal</module>
+                    <frontName>ideal</frontName>
+                </args>
+            </ideal>
+        </routers>
+        <translate>
+            <modules>
+                <PayNL_Ideal>
+                    <files>
+                        <default>PayNL_Ideal.csv</default>
+                    </files>
+                </PayNL_Ideal>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <ideal>
+                    <file>ideal.xml</file>
+                </ideal>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <PayNL_Ideal>
+                    <files>
+                        <default>PayNL_Ideal.csv</default>
+                    </files>
+                </PayNL_Ideal>
+            </modules>
+        </translate>
+    </adminhtml>
+ 
+    <default>
+        <payment>
+            <ideal_ideal>
+                <model>ideal/ideal</model>
+                <title>Pay.nl iDEAL</title>
+                <description>Ideal payment</description>
+                <order_status>pending_ideal</order_status>
+                <allowspecific>0</allowspecific>
+            </ideal_ideal>
+         </payment>
+    </default>
+</config>
+      

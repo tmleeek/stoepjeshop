@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+ 
+<config>
+    <tabs>
+        <faqs translate="label" module="faqs">
+            <label>FAQS</label>
+            <sort_order>310</sort_order>
+        </faqs>
+    </tabs>
+    <sections>
+        <faqs translate="label" module="faqs">
+            <label>Faqs</label>
+            <tab>faqs</tab>
+            <sort_order>140</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+				<general translate="label" module="faqs">
+					<label>General Settings</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>0</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<faq_maxtopic translate="label">
+							<label>Maximum No of topics displayed in block </label>
+							<frontend_type>text</frontend_type>
+							<sort_order>0</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</faq_maxtopic>    		
+					</fields>
+				</general>
+				<list translate="label comment" module="faqs">
+                    <label>Faqs Page Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>15</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <page_title translate="label">
+                        	<label>Page Title</label>
+                        	<frontend_type>text</frontend_type>
+                        	<sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment></comment>
+                        </page_title>
+                        <identifier translate="label">
+                        	<label>SEF URL Identifier</label>
+                        	<frontend_type>text</frontend_type>
+                        	<sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>(eg: domain.com/identifier)</comment>
+                        </identifier>
+                        <meta_keywords translate="label">
+                        	<label>META Keywords</label>
+                        	<frontend_type>textarea</frontend_type>
+                        	<sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment></comment>
+                        </meta_keywords>
+                        <meta_description translate="label">
+                        	<label>META Description</label>
+                        	<frontend_type>textarea</frontend_type>
+                        	<sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment></comment>
+                        </meta_description>
+                    </fields>
+                </list>
+				<seo translate="label comment" module="faqs">
+                    <label>Search Engine Optimizations</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>25</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <url_suffix translate="label">
+                        	<label>URL Suffix</label>
+                        	<frontend_type>text</frontend_type>
+                        	<sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>(eg: .html)</comment>
+                        </url_suffix>
+                    </fields>
+                </seo>         
+				
+				
+            </groups>                        
+        </faqs>
+    </sections>
+</config>

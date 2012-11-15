@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+       <PayNL_Mrcash>
+          <version>0.0.1</version>
+       </PayNL_Mrcash>
+    </modules>
+ 
+    <global>
+        <helpers>
+            <mrcash>
+                <class>PayNL_Mrcash_Helper</class>
+            </mrcash>
+        </helpers>
+        <models>
+            <mrcash>
+                <class>PayNL_Mrcash_Model</class>
+                <resourceModel>mrcash_mysql4</resourceModel>
+            </mrcash>
+            <mrcash_mysql4>
+                <class>PayNL_Mrcash_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>mrcash_api_debug</table></api_debug>
+                </entities>
+            </mrcash_mysql4>
+        </models>
+ 
+        <resources>
+            <mrcash_setup>
+                <setup>
+                    <module>PayNL_Mrcash</module>
+                    <class>PayNL_Mrcash_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </mrcash_setup>
+            <mrcash_write>
+                <connection>
+                  <use>core_write</use>
+                </connection>
+            </mrcash_write>
+            <mrcash_read>
+               <connection>
+                <use>core_read</use>
+              </connection>
+            </mrcash_read>
+        </resources>
+        <blocks>
+            <mrcash><class>PayNL_Mrcash_Block</class></mrcash>
+        </blocks>
+        <sales>
+            <order>
+                <statuses>
+                    <refund translate="label"><label>Refund</label></refund>
+                    <pending_mrcash translate="label"><label>Pending Mrcash</label></pending_mrcash>
+                    <pending translate="label"><label>Pending</label></pending>
+                    <processing translate="label"><label>Processing</label></processing>
+                    <holded translate="label"><label>On Hold</label></holded>
+                    <complete translate="label"><label>Complete</label></complete>
+                    <closed translate="label"><label>Closed</label></closed>
+                    <canceled translate="label"><label>Canceled</label></canceled>
+                    <fraud translate="label"><label>Suspected Fraud</label></fraud>
+                </statuses>
+                <states>
+                    <pending_payment>
+                        <statuses>
+                            <pending_mrcash/>
+                        </statuses>
+                    </pending_payment>
+                    <new translate="label">
+                        <label>New</label>
+                        <statuses>
+                            <pending default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </new>
+                    <processing translate="label">
+                        <label>Processing</label>
+                        <statuses>
+                            <processing default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </processing>
+                    <complete translate="label">
+                        <label>Complete</label>
+                        <statuses>
+                            <complete default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </complete>
+                    <closed translate="label">
+                        <label>Closed</label>
+                        <statuses>
+                            <closed default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </closed>
+                    <canceled translate="label">
+                        <label>Canceled</label>
+                        <statuses>
+                            <canceled default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </canceled>
+                    <holded translate="label">
+                        <label>On Hold</label>
+                        <statuses>
+                            <holded default="1"/>
+                            <fraud/>
+                        </statuses>
+                        <visible_on_front/>
+                    </holded>
+                </states>
+            </order>
+        </sales>
+    </global>
+    <frontend>
+        <secure_url>
+            <mrcash_mrcash>/paynl/mrcash</mrcash_mrcash>
+        </secure_url>
+        <routers>
+            <mrcash>
+                <use>standard</use>
+                <args>
+                    <module>PayNL_Mrcash</module>
+                    <frontName>mrcash</frontName>
+                </args>
+            </mrcash>
+        </routers>
+        <translate>
+            <modules>
+                <PayNL_Mrcash>
+                    <files>
+                        <default>PayNL_Mrcash.csv</default>
+                    </files>
+                </PayNL_Mrcash>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <mrcash>
+                    <file>mrcash.xml</file>
+                </mrcash>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <PayNL_Mrcash>
+                    <files>
+                        <default>PayNL_Mrcash.csv</default>
+                    </files>
+                </PayNL_Mrcash>
+            </modules>
+        </translate>
+    </adminhtml>
+ 
+    <default>
+        <payment>
+            <mrcash_mrcash>
+                <model>mrcash/mrcash</model>
+                <title>Pay.nl Mister Cash</title>
+                <description>Mister Cash payment</description>
+                <order_status>pending_mrcash</order_status>
+                <allowspecific>0</allowspecific>
+            </mrcash_mrcash>
+         </payment>
+    </default>
+</config>
+      

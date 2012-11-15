@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Aitoc_Aitdownloadablefiles>
+            <version>2.1.1</version>
+        </Aitoc_Aitdownloadablefiles>
+    </modules>
+    
+    <admin>
+        <routers>
+            <aitdownloadablefiles>
+                <use>admin</use>
+                <args>
+                    <module>Aitoc_Aitdownloadablefiles</module>
+                    <frontName>aitdownloadablefiles</frontName>
+                </args>
+            </aitdownloadablefiles>
+        </routers>
+    </admin>
+    
+    <adminhtml>
+        <layout>
+            <updates>
+                <aitdownloadablefiles>
+                    <file>aitdownloadablefiles.xml</file>
+                </aitdownloadablefiles>
+            </updates>
+        </layout>
+    </adminhtml>
+    
+    <global>
+        <models>
+            <aitdownloadablefiles>
+                <class>Aitoc_Aitdownloadablefiles_Model</class>
+                <resourceModel>aitdownloadablefiles_mysql4</resourceModel>
+            </aitdownloadablefiles>
+            
+            <aitdownloadablefiles_mysql4>
+                <class>Aitoc_Aitdownloadablefiles_Model_Mysql4</class>
+                <entities>
+                    <aitfile>
+                        <table>aitoc_downloadable_file</table>
+                    </aitfile>
+                    <aitfile_title>
+                        <table>aitoc_downloadable_file_title</table>
+                    </aitfile_title>
+                </entities>
+            </aitdownloadablefiles_mysql4>
+            
+            <catalog>
+                <rewrite>
+                    <product>Aitoc_Aitdownloadablefiles_Model_Rewrite_FrontCatalogProduct</product>
+                </rewrite>
+            </catalog>
+        </models>
+        
+        <resources>
+            <aitdownloadablefiles_setup>
+                <setup>
+                    <module>Aitoc_Aitdownloadablefiles</module>
+                    <class>Aitoc_Aitdownloadablefiles_Model_Resource_Eav_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </aitdownloadablefiles_setup>
+        
+            <aitdownloadablefiles_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </aitdownloadablefiles_write>
+            
+            <aitdownloadablefiles_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </aitdownloadablefiles_read>
+        </resources>        
+        
+        <blocks>
+            <aitdownloadablefiles>
+                <class>Aitoc_Aitdownloadablefiles_Block</class>
+            </aitdownloadablefiles>
+            
+            <downloadable>
+                <rewrite>
+                    <catalog_product_view_type>Aitoc_Aitdownloadablefiles_Block_Rewrite_FrontDownloadableCatalogProductViewType</catalog_product_view_type>
+                </rewrite>
+            </downloadable>
+            
+            <bundle>
+                <rewrite>
+                    <catalog_product_view_type_bundle>Aitoc_Aitdownloadablefiles_Block_Rewrite_FrontBundleCatalogProductViewTypeBundle</catalog_product_view_type_bundle>
+                </rewrite>
+            </bundle>
+            
+            <catalog>
+                <rewrite>
+                    <product_view>Aitoc_Aitdownloadablefiles_Block_Rewrite_FrontCatalogProductView</product_view>
+                    <product_view_type_simple>Aitoc_Aitdownloadablefiles_Block_Rewrite_FrontCatalogProductViewTypeSimple</product_view_type_simple>
+                    <product_view_type_grouped>Aitoc_Aitdownloadablefiles_Block_Rewrite_FrontCatalogProductViewTypeGrouped</product_view_type_grouped>
+                    <product_view_type_virtual>Aitoc_Aitdownloadablefiles_Block_Rewrite_FrontCatalogProductViewTypeVirtual</product_view_type_virtual>
+                    <product_view_type_configurable>Aitoc_Aitdownloadablefiles_Block_Rewrite_FrontCatalogProductViewTypeConfigurable</product_view_type_configurable>
+                </rewrite>
+            </catalog>
+        </blocks>
+        
+        <helpers>
+            <aitdownloadablefiles>
+                <class>Aitoc_Aitdownloadablefiles_Helper</class>
+            </aitdownloadablefiles>
+        </helpers>
+        
+        <events>
+            <model_save_after>
+                <observers>
+                    <aitoc_aitdownloadablefiles_model_observer>
+                        <type>singleton</type>
+                        <class>Aitoc_Aitdownloadablefiles_Model_Observer</class>
+                        <method>onModelSaveAfter</method>
+                    </aitoc_aitdownloadablefiles_model_observer>
+                </observers>
+            </model_save_after>   
+        </events>
+    </global>
+
+    <default>
+        <catalog>
+            <aitdownloadablefiles>
+                <aitfiles_title>Useful Downloads</aitfiles_title>
+                <aitfiles_target_new_window>1</aitfiles_target_new_window>
+                <custom_links_render>0</custom_links_render>
+            </aitdownloadablefiles>
+        </catalog>
+    </default>
+    
+</config>
+<!--
+/**
+ * Product:     1.4.0.x-1.5.0.x
+ * Package:     Aitoc_Aitdownloadablefiles_2.1.1_44829
+ * Purchase ID: EUuGgWCe9R8lNix4kkddD7KpG37GhZF23A92LkTSFp
+ * Generated:   2011-02-18 14:24:10
+ * File path:   app/code/local/Aitoc/Aitdownloadablefiles/etc/config.data.xml
+ * Copyright:   (c) 2011 AITOC, Inc.
+ */
+-->

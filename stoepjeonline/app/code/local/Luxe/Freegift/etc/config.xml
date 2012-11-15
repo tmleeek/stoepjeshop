@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Luxe 
+ *
+ * @category   Luxe 
+ * @package    Luxe_Freegift
+ * @copyright  Copyright (c) 2009 Luxe Soft
+ */
+ --> 
+<config>
+    <modules>
+        <Luxe_Freegift>
+            <version>1.0.0</version>
+        </Luxe_Freegift>
+    </modules>
+    <global>
+        <models>
+            <freegift>
+                <class>Luxe_Freegift_Model</class>
+            </freegift>
+        </models>
+        <events>
+            <sales_quote_save_after>
+                <observers>
+                    <freegift_observer>
+                        <type>singleton</type>
+                        <class>freegift/observer</class>
+                        <method>sales_quote_save_after</method>
+                    </freegift_observer>
+                </observers>
+            </sales_quote_save_after>
+        </events>
+        <helpers>
+            <freegift>
+                <class>Luxe_Freegift_Helper</class>
+            </freegift>
+        </helpers>
+    </global>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <freegift>
+                                            <title>Buy X get Y for FREE</title>
+                                        </freegift>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>    
+    <default>
+        <freegift>
+            <freegift>
+                <discount_percent>100</discount_percent>
+            </freegift>
+        </freegift>
+    </default>
+</config>

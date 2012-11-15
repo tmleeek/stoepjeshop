@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<config>
+    <sections>
+	<booking translate="label" module="booking">
+	    <label>Booking module</label>
+	    <tab>awall</tab>
+	    <frontend_type>text</frontend_type>
+	    <sort_order>100</sort_order>
+	    <show_in_default>1</show_in_default>
+	    <show_in_website>1</show_in_website>
+	    <show_in_store>1</show_in_store>
+	    <groups>
+		<appearance translate="label">
+		    <label>Appearance</label>
+		    <sort_order>10</sort_order>
+		    <show_in_default>1</show_in_default>
+		    <show_in_website>1</show_in_website>
+		    <show_in_store>1</show_in_store>
+		    <fields>
+			<calendar_pages translate="label">
+			    <label>Number of calendar pages to show</label>
+			    <comment></comment>
+			    <frontend_type>text</frontend_type>
+			    <sort_order>100</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+			    <can_be_empty>0</can_be_empty>
+			</calendar_pages>
+		    </fields>
+		</appearance>
+		<advanced translate="label">
+		    <label>Advanced</label>
+		    <sort_order>20</sort_order>
+		    <show_in_default>1</show_in_default>
+		    <show_in_website>1</show_in_website>
+		    <show_in_store>1</show_in_store>
+		    <fields>
+			<store_quotes_days translate="label">
+			    <label>Store reserved products, days</label>
+			    <comment></comment>
+			    <frontend_type>text</frontend_type>
+			    <sort_order>100</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+			    <can_be_empty>0</can_be_empty>
+			</store_quotes_days>
+		    </fields>
+		</advanced>
+	    </groups>
+	</booking>
+    </sections>
+</config>

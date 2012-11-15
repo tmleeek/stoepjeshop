@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+       <PayNL_Walliecard>
+          <version>0.0.1</version>
+       </PayNL_Walliecard>
+    </modules>
+ 
+    <global>
+        <helpers>
+            <walliecard>
+                <class>PayNL_Walliecard_Helper</class>
+            </walliecard>
+        </helpers>
+        <models>
+            <walliecard>
+                <class>PayNL_Walliecard_Model</class>
+                <resourceModel>walliecard_mysql4</resourceModel>
+            </walliecard>
+            <walliecard_mysql4>
+                <class>PayNL_Walliecard_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>walliecard_api_debug</table></api_debug>
+                </entities>
+            </walliecard_mysql4>
+        </models>
+ 
+        <resources>
+            <walliecard_setup>
+                <setup>
+                    <module>PayNL_Walliecard</module>
+                    <class>PayNL_Walliecard_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </walliecard_setup>
+            <walliecard_write>
+                <connection>
+                  <use>core_write</use>
+                </connection>
+            </walliecard_write>
+            <walliecard_read>
+               <connection>
+                <use>core_read</use>
+              </connection>
+            </walliecard_read>
+        </resources>
+        <blocks>
+            <walliecard><class>PayNL_Walliecard_Block</class></walliecard>
+        </blocks>
+        <sales>
+            <order>
+                <statuses>
+                    <refund translate="label"><label>Refund</label></refund>
+                    <pending_walliecard translate="label"><label>Pending Walliecard</label></pending_walliecard>
+                    <pending translate="label"><label>Pending</label></pending>
+                    <processing translate="label"><label>Processing</label></processing>
+                    <holded translate="label"><label>On Hold</label></holded>
+                    <complete translate="label"><label>Complete</label></complete>
+                    <closed translate="label"><label>Closed</label></closed>
+                    <canceled translate="label"><label>Canceled</label></canceled>
+                    <fraud translate="label"><label>Suspected Fraud</label></fraud>
+                </statuses>
+                <states>
+                    <pending_payment>
+                        <statuses>
+                            <pending_walliecard/>
+                        </statuses>
+                    </pending_payment>
+                    <new translate="label">
+                        <label>New</label>
+                        <statuses>
+                            <pending default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </new>
+                    <processing translate="label">
+                        <label>Processing</label>
+                        <statuses>
+                            <processing default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </processing>
+                    <complete translate="label">
+                        <label>Complete</label>
+                        <statuses>
+                            <complete default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </complete>
+                    <closed translate="label">
+                        <label>Closed</label>
+                        <statuses>
+                            <closed default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </closed>
+                    <canceled translate="label">
+                        <label>Canceled</label>
+                        <statuses>
+                            <canceled default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </canceled>
+                    <holded translate="label">
+                        <label>On Hold</label>
+                        <statuses>
+                            <holded default="1"/>
+                            <fraud/>
+                        </statuses>
+                        <visible_on_front/>
+                    </holded>
+                </states>
+            </order>
+        </sales>
+    </global>
+    <frontend>
+        <secure_url>
+            <walliecard_walliecard>/paynl/walliecard</walliecard_walliecard>
+        </secure_url>
+        <routers>
+            <walliecard>
+                <use>standard</use>
+                <args>
+                    <module>PayNL_Walliecard</module>
+                    <frontName>walliecard</frontName>
+                </args>
+            </walliecard>
+        </routers>
+        <translate>
+            <modules>
+                <PayNL_Walliecard>
+                    <files>
+                        <default>PayNL_Walliecard.csv</default>
+                    </files>
+                </PayNL_Walliecard>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <walliecard>
+                    <file>walliecard.xml</file>
+                </walliecard>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <PayNL_Walliecard>
+                    <files>
+                        <default>PayNL_Walliecard.csv</default>
+                    </files>
+                </PayNL_Walliecard>
+            </modules>
+        </translate>
+    </adminhtml>
+ 
+    <default>
+        <payment>
+            <walliecard_walliecard>
+                <model>walliecard/walliecard</model>
+                <title>Pay.nl Walliecard</title>
+                <description>Walliecard payment</description>
+                <order_status>pending_walliecard</order_status>
+                <allowspecific>0</allowspecific>
+            </walliecard_walliecard>
+         </payment>
+    </default>
+</config>
+      

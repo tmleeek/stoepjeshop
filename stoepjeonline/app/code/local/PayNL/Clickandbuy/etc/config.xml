@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+       <PayNL_Clickandbuy>
+          <version>0.0.1</version>
+       </PayNL_Clickandbuy>
+    </modules>
+ 
+    <global>
+        <helpers>
+            <clickandbuy>
+                <class>PayNL_Clickandbuy_Helper</class>
+            </clickandbuy>
+        </helpers>
+        <models>
+            <clickandbuy>
+                <class>PayNL_Clickandbuy_Model</class>
+                <resourceModel>clickandbuy_mysql4</resourceModel>
+            </clickandbuy>
+            <clickandbuy_mysql4>
+                <class>PayNL_Clickandbuy_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>clickandbuy_api_debug</table></api_debug>
+                </entities>
+            </clickandbuy_mysql4>
+        </models>
+ 
+        <resources>
+            <clickandbuy_setup>
+                <setup>
+                    <module>PayNL_Clickandbuy</module>
+                    <class>PayNL_Clickandbuy_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </clickandbuy_setup>
+            <clickandbuy_write>
+                <connection>
+                  <use>core_write</use>
+                </connection>
+            </clickandbuy_write>
+            <clickandbuy_read>
+               <connection>
+                <use>core_read</use>
+              </connection>
+            </clickandbuy_read>
+        </resources>
+        <blocks>
+            <clickandbuy><class>PayNL_Clickandbuy_Block</class></clickandbuy>
+        </blocks>
+        <sales>
+            <order>
+                <statuses>
+                    <refund translate="label"><label>Refund</label></refund>
+                    <pending_clickandbuy translate="label"><label>Pending Clickandbuy</label></pending_clickandbuy>
+                    <pending translate="label"><label>Pending</label></pending>
+                    <processing translate="label"><label>Processing</label></processing>
+                    <holded translate="label"><label>On Hold</label></holded>
+                    <complete translate="label"><label>Complete</label></complete>
+                    <closed translate="label"><label>Closed</label></closed>
+                    <canceled translate="label"><label>Canceled</label></canceled>
+                    <fraud translate="label"><label>Suspected Fraud</label></fraud>
+                </statuses>
+                <states>
+                    <pending_payment>
+                        <statuses>
+                            <pending_clickandbuy/>
+                        </statuses>
+                    </pending_payment>
+                    <new translate="label">
+                        <label>New</label>
+                        <statuses>
+                            <pending default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </new>
+                    <processing translate="label">
+                        <label>Processing</label>
+                        <statuses>
+                            <processing default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </processing>
+                    <complete translate="label">
+                        <label>Complete</label>
+                        <statuses>
+                            <complete default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </complete>
+                    <closed translate="label">
+                        <label>Closed</label>
+                        <statuses>
+                            <closed default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </closed>
+                    <canceled translate="label">
+                        <label>Canceled</label>
+                        <statuses>
+                            <canceled default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </canceled>
+                    <holded translate="label">
+                        <label>On Hold</label>
+                        <statuses>
+                            <holded default="1"/>
+                            <fraud/>
+                        </statuses>
+                        <visible_on_front/>
+                    </holded>
+                </states>
+            </order>
+        </sales>
+    </global>
+    <frontend>
+        <secure_url>
+            <clickandbuy_clickandbuy>/paynl/clickandbuy</clickandbuy_clickandbuy>
+        </secure_url>
+        <routers>
+            <clickandbuy>
+                <use>standard</use>
+                <args>
+                    <module>PayNL_Clickandbuy</module>
+                    <frontName>clickandbuy</frontName>
+                </args>
+            </clickandbuy>
+        </routers>
+        <translate>
+            <modules>
+                <PayNL_Clickandbuy>
+                    <files>
+                        <default>PayNL_Clickandbuy.csv</default>
+                    </files>
+                </PayNL_Clickandbuy>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <clickandbuy>
+                    <file>clickandbuy.xml</file>
+                </clickandbuy>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <PayNL_Clickandbuy>
+                    <files>
+                        <default>PayNL_Clickandbuy.csv</default>
+                    </files>
+                </PayNL_Clickandbuy>
+            </modules>
+        </translate>
+    </adminhtml>
+ 
+    <default>
+        <payment>
+            <clickandbuy_clickandbuy>
+                <model>clickandbuy/clickandbuy</model>
+                <title>Pay.nl Clickandbuy</title>
+                <description>Clickandbuy payment</description>
+                <order_status>pending_clickandbuy</order_status>
+                <allowspecific>0</allowspecific>
+            </clickandbuy_clickandbuy>
+         </payment>
+    </default>
+</config>
+      

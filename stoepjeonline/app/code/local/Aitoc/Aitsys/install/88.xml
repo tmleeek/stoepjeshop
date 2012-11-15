@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<install><product id="88" key="Aitoc_Aitdownloadablefiles" version="2.1.1" license_id="3100" link_id="44829"><![CDATA[Useful Downloads]]></product><serial>EUuGgWCe9R8lNix4kkddD7KpG37GhZF23A92LkTSFp</serial><store_url><![CDATA[http://www.aitoc.com/en/]]></store_url><service><![CDATA[https://www.aitoc.com/api/xmlrpc/]]></service><constraint><product label="Number of products"></product></constraint></install>

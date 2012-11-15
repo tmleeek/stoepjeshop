@@ -1,0 +1,451 @@
+<?php
+/**
+ * Pay.nl iDEAL Api Model
+ *
+ * @category    PayNL
+ * @package     PayNL_Afterpay
+ * @author      Sebastian Berm
+ * @copyright   Copyright (c) 2009-2010 TinTel
+ */
+
+// The first plugin that gets loaded, may load this...
+// I am evil and so on
+require_once(Mage::getBaseDir().DIRECTORY_SEPARATOR."app".DIRECTORY_SEPARATOR.
+    "code".DIRECTORY_SEPARATOR."local".DIRECTORY_SEPARATOR."PayNL"
+    .DIRECTORY_SEPARATOR."IXR_Library.inc.php");
+
+class PayNL_Afterpay_Model_Api_Afterpay extends Varien_Object
+{
+    const     MIN_TRANS_AMOUNT = 10;   // 0.10 euro
+    const     MAX_TRANS_AMOUNT = 1000000; // 10000.00 euro
+    const     PAY_PAYMENT_PROFILE_ID = 739; // 739 = afterpay
+    const     API_URL = "https://api.pay.nl:443/xmlrpc.php"; // xmlrpc service
+
+    // Pay.nl variables (admin settable)
+    protected $program_id      = null;
+    protected $website_id      = null;
+    protected $location_id     = null;
+
+    // Transaction variables
+    protected $country_id      = null;
+    protected $consumer_ip     = null;
+    protected $bank_id         = null;
+    protected $amount          = 0;
+    protected $description     = null;
+    protected $testmode        = false;
+    protected $transaction_id  = null;
+    protected $paid_status     = false;
+    protected $consumer_info   = array();
+
+    protected $final           = false; 
+
+    // URL locations
+    protected $bank_url        = null;
+    protected $return_url      = null;
+
+
+    public function __construct ()
+    {
+        // TODO: for next version, do API calls to pay.nl to figure out
+        // all the values...
+        $this->program_id = $this->getConfigData('program_id');
+        $this->website_id = $this->getConfigData('website_id');
+        $this->location_id = $this->getConfigData('location_id');
+
+        if ($this->getConfigData('test_flag') == 1) $this->testmode = true;
+
+        if ($this->getConfigData('description'))
+        {
+            $this->description = $this->getConfigData('description');
+        }
+        else
+        {
+            $this->description = Mage::app()->getStore()->getName().' payment';
+        }
+    }
+    
+    /**
+     * Getting config parametrs
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getConfigData($key, $default=false)
+    {
+        if (!$this->hasData($key)) {
+             $value = Mage::getStoreConfig('payment/afterpay_afterpay/'.$key);
+             if (is_null($value) || false===$value) {
+                 $value = $default;
+             }
+            $this->setData($key, $value);
+        }
+        return $this->getData($key);
+    }
+
+    public function createPayment ($amount, $return_url, $report_url, $emailAddress, $orderData)
+    {
+        // Generate all the needed stuff
+        // We have no way to determine the country, so the id is NL
+        $this->country_id = "NL";
+        if (isset($_SERVER["REMOTE_ADDR"]))
+        {
+            $this->consumer_ip = $_SERVER["REMOTE_ADDR"];
+        }
+        else
+        {
+            $this->consumer_ip = ""; // Might be true for really bad webservers
+        }
+
+        if (  !$this->setAmount($amount))
+        {
+            // TODO: Show some kind of error notice
+            echo $amount, $bank_id, $return_url, $report_url;
+            return false;
+        }
+
+        $arguments = array();
+        $arguments['programId'] = $this->getProgramId();
+        $arguments['websiteId'] = $this->getWebsiteId();
+        $arguments['locationId'] = $this->getLocationId();
+        $arguments['orderAmount'] = $this->getAmount();
+        $arguments['orderDesc'] = "Order ".$orderData['order']['increment_id'];
+        $arguments['orderReturnUrl'] = $return_url;
+        $arguments['orderExchangeUrl'] = $report_url;
+        $arguments['consumerIp'] = $this->consumer_ip;
+        $arguments['profileId'] = self::PAY_PAYMENT_PROFILE_ID;
+        $arguments['orderData'] = $this->buildOrderDataArray($orderData);
+        $arguments['extra1'] = $orderData['order']['increment_id'];
+                
+        if ($this->testmode == true)
+        {
+          $arguments['testMode'] = true;
+        }
+        $result = $this->_doApiCall('transaction.submit',$arguments);
+
+        if ($result != false && isset($result['result']) &&
+          $result['result'] != "FALSE")
+        {
+            $this->session_id = $result['sessionId'];
+            $this->transaction_id = $result['orderId'];
+            $this->bank_url = $result['issuerUrl'];
+        }
+        return $this;
+    }
+
+    private function buildOrderDataArray($orderData)
+    {
+      $arrOrderData = array();
+
+      $arrOrderData["orderNumber"] = $orderData['order']['increment_id'];
+      $arrOrderData["amountWithVat"] = intval("0".$orderData['order']['base_grand_total'] * 100);
+      $arrOrderData["amountWithoutVat"] = intval("0".$orderData['order']['base_grand_total'] * 100) - intval("0".$orderData['order']['base_tax_amount'] * 100);
+      $arrOrderData["vatAmountHigh"] = intval("0".$orderData['order']['base_tax_amount'] * 100);
+      $arrOrderData["vatAmountLow"] = 0;
+      
+      $arrOrderData["deliveryDate"] = date("c",time());
+      $arrOrderData["amountWithoutVatHigh"] = $arrOrderData["amountWithoutVat"];
+      $arrOrderData["amountWithoutVatLow"] = 0;
+      $arrOrderData["amountWithoutVatZero"] = 0;
+      $arrOrderData["amountWithoutVatNone"] = intval("0".($orderData['order']['base_discount_amount'] + $orderData['order']['base_shipping_amount'])*100);
+      $arrOrderData["ipAddress"] = $orderData['order']['remote_ip'];
+      
+      $highestVatAmount = 0;
+
+      $i = 1;
+      foreach($orderData['orderItems'] as $item)
+      {
+        $arrOrderData["orderLines"][$i]['articleId'] = $item['item_id'];
+        $arrOrderData["orderLines"][$i]['articleDescription'] = $item['name'];
+        $arrOrderData["orderLines"][$i]['number'] = intval($item['qty_ordered']);
+        $arrOrderData["orderLines"][$i]['unitPriceWithVat'] = intval("0".$item['base_price_incl_tax']*100);
+        $arrOrderData["orderLines"][$i]['unitPriceWithoutVat'] = intval("0".$item['base_original_price']*100);
+        $arrOrderData["orderLines"][$i]['priceWithVat'] = intval("0".$item['base_row_total_incl_tax']*100);
+        $arrOrderData["orderLines"][$i]['priceWithoutVat'] = intval("0".$item['base_row_total']*100);
+        $arrOrderData["orderLines"][$i]['vatAmount'] = intval("0".$item['tax_amount']*100);
+        $arrOrderData["orderLines"][$i]['vatCategory'] = 1;
+        if (intval($item['tax_percent']) > $highestVatAmount)
+        {
+          $highestVatAmount = intval($item['tax_percent']);
+        }
+
+        $i++;
+      }
+      $arrOrderData["vatAmount"] = $arrOrderData["vatAmountHigh"]+$arrOrderData["vatAmountLow"];
+   
+      // Bestel
+      $arrOrderData["orderLines"][$i]['articleId'] = "1";
+      $arrOrderData["orderLines"][$i]['articleDescription'] = 'Verzendkosten';
+      $arrOrderData["orderLines"][$i]['number'] = 1;
+      $arrOrderData["orderLines"][$i]['unitPriceWithVat'] = intval("0".($orderData['order']['base_shipping_tax_amount'] + $orderData['order']['base_shipping_amount'])*100);
+      $arrOrderData["orderLines"][$i]['unitPriceWithoutVat'] = intval("0".($orderData['order']['base_shipping_amount'])*100);
+      $arrOrderData["orderLines"][$i]['priceWithVat'] = intval("0".($orderData['order']['base_shipping_tax_amount'] + $orderData['order']['base_shipping_amount'])*100);
+      $arrOrderData["orderLines"][$i]['priceWithoutVat'] = intval("0".($orderData['order']['base_shipping_amount'])*100);
+      $arrOrderData["orderLines"][$i]['vatAmount'] = intval("0".($orderData['order']['base_shipping_tax_amount'])*100);
+      $arrOrderData["orderLines"][$i]['vatCategory'] = 1;
+
+      $afterPayFee = intval("0".$this->getConfigData('fee', 0)*100);
+      if(intval($afterPayFee) > 0)
+      {        
+          $i++;
+          $arrOrderData["orderLines"][$i]['articleId'] = "2";
+          $arrOrderData["orderLines"][$i]['articleDescription'] = 'AfterPay kosten';
+          $arrOrderData["orderLines"][$i]['number'] = 1;
+          $arrOrderData["orderLines"][$i]['unitPriceWithVat'] = $afterPayFee;
+          $arrOrderData["orderLines"][$i]['unitPriceWithoutVat'] =  $afterPayFee;
+          $arrOrderData["orderLines"][$i]['priceWithVat'] = $afterPayFee;
+          $arrOrderData["orderLines"][$i]['priceWithoutVat'] =  $afterPayFee;
+          $arrOrderData["orderLines"][$i]['vatAmount'] = 0;
+          $arrOrderData["orderLines"][$i]['vatCategory'] = 4;
+      }
+
+      // Korting en overige kosten
+      if(isset($orderData['order']['base_discount_amount']))
+      {
+        $baseDiscountAmount = substr($orderData['order']['base_discount_amount'], 1);
+        $baseDiscountAmount = intval("0".$baseDiscountAmount * 100);
+
+        if($baseDiscountAmount > 0)
+        {
+          $i++;
+          $baseDiscountAmount = 0 - $baseDiscountAmount;
+
+          $arrOrderData["orderLines"][$i]['articleId'] = "3";
+          $arrOrderData["orderLines"][$i]['articleDescription'] = 'Korting en overige kosten';
+          $arrOrderData["orderLines"][$i]['number'] = 1;
+          $arrOrderData["orderLines"][$i]['unitPriceWithVat'] = $baseDiscountAmount;
+          $arrOrderData["orderLines"][$i]['unitPriceWithoutVat'] =  $baseDiscountAmount;
+          $arrOrderData["orderLines"][$i]['priceWithVat'] = $baseDiscountAmount;
+          $arrOrderData["orderLines"][$i]['priceWithoutVat'] =  $baseDiscountAmount;
+          $arrOrderData["orderLines"][$i]['vatAmount'] = 0;
+          $arrOrderData["orderLines"][$i]['vatCategory'] = 4;
+        }
+      }
+
+      // Optional
+      $arrOrderData["email"] = $orderData['order']['customer_email'];
+      $arrOrderData["phone"] = $orderData['billingAddress']['telephone'];
+     
+      $street = explode(" ",$orderData['billingAddress']['street']);
+      $arrOrderData["invoiceAddress"]["initials"] = $orderData['billingAddress']['firstname'];
+      $arrOrderData["invoiceAddress"]["name"] = $orderData['billingAddress']['lastname'];
+      $arrOrderData["invoiceAddress"]["sex"] = "";
+      $arrOrderData["invoiceAddress"]["houseNumber"] = array_pop($street);
+      $arrOrderData["invoiceAddress"]["address"] = implode(' ',$street);
+      $arrOrderData["invoiceAddress"]["zipcode"] = str_replace(" ","",$orderData['billingAddress']['postcode']);
+      $arrOrderData["invoiceAddress"]["city"] = $orderData['billingAddress']['city'];
+
+      $street = explode(" ",$orderData['shippingAddress']['street']);
+      $arrOrderData["deliverAddress"]["initials"] = $orderData['shippingAddress']['firstname'];
+      $arrOrderData["deliverAddress"]["name"] = $orderData['shippingAddress']['lastname'];
+      $arrOrderData["deliverAddress"]["sex"] = "";
+      $arrOrderData["deliverAddress"]["houseNumber"] = array_pop($street);
+      $arrOrderData["deliverAddress"]["address"] = implode(' ',$street);
+      $arrOrderData["deliverAddress"]["zipcode"] = str_replace(" ","",$orderData['shippingAddress']['postcode']);
+      $arrOrderData["deliverAddress"]["city"] = $orderData['shippingAddress']['city'];
+
+      return $arrOrderData;
+    }
+
+    public function checkPayment ($transaction_id)
+    {
+        if (!$this->setTransactionId($transaction_id))
+        {
+            return false;
+        }
+        // Transaction_id == pay.nl orderId
+        $arguments = array();
+        $arguments['orderId'] = $transaction_id;
+        $result = $this->_doApiCall('transaction.paymentStatus', $arguments);
+        if ($result != false && isset($result['result']))
+        {
+                switch ($result['statusAction'])
+                {
+                        case 'PAID': $this->paid_status = true; $this->amount=$result['orderAmount']; $this->final = true; break;
+                        case 'CANCEL': $this->paid_status = false; $this->amount=0; $this->final=true;  break;
+                        case 'PENDING': $this->paid_status = false; $this->amount=0; break;
+                        case 'PAID_CHECKAMOUNT': $this->paid_status = true; $this->amount=$result['orderAmount']; $this->final=true; break;
+                        case 'NOACTION':
+                        default:
+                                break;
+                }
+
+        }
+        return $this;
+    }
+
+/*
+  PROTECTED FUNCTIONS
+*/
+
+    protected function _doApiCall ($apicall, $arguments)
+    {
+        if (!isset($this->ixr))
+        {
+            $this->ixr = new IXR_clientSSL(self::API_URL);
+        }
+
+        try
+        {
+            if (!$this->ixr->query($apicall,$arguments))
+            {
+                throw new Exception('API error');
+            }
+
+            return $this->ixr->getResponse();
+        }
+        catch(Exception $ex)
+        {
+            return false;
+        }
+    }
+
+/*
+  SET AND GET FUNCTIONS
+*/
+
+    public function setProgramId ($id)
+    {
+        if (!is_numeric($id)) {
+            return false;
+        }
+
+        return ($this->program_id = $id);
+    }
+    public function getProgramId()
+    {
+        return $this->program_id;
+    }
+    public function setWebsiteId ($id)
+    {
+        if (!is_numeric($id)) {
+            return false;
+        }
+
+        return ($this->website_id = $id);
+    }
+    public function getWebsiteId()
+    {
+        return $this->website_id;
+    }
+    public function setLocationId ($id)
+    {
+        if (!is_numeric($id)) {
+            return false;
+        }
+
+        return ($this->location_id = $id);
+    }
+    public function getLocationId()
+    {
+        return $this->location_id;
+    }
+
+    public function setTestmode()
+    {
+        return ($this->testmode = true);
+    }
+
+    public function setBankId($bank_id)
+    {
+        if (!is_numeric($bank_id)) {
+            return false;
+        }
+        return ($this->bank_id = $bank_id);
+    }
+
+    public function getBankId()
+    {
+        return $this->bank_id;
+    }
+
+    public function setAmount($amount)
+    {
+	// TODO: fix this
+        /*if (!preg_match('^[0-9]{0,}$', $amount))
+        {
+            return false;
+        }*/
+        if (self::MIN_TRANS_AMOUNT > $amount)
+        {
+            return false;
+        }
+        if (self::MAX_TRANS_AMOUNT < $amount)
+        {
+            return false;
+        }
+
+        return ($this->amount = $amount);
+    }
+
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    public function setDescription($description)
+    {
+        $description = substr($description, 0, 29);
+
+        return ($this->description = $description);
+    }
+
+    public function getDescription()
+    {
+      return $this->description;
+    }
+
+    public function setReturnURL ($return_url) {
+      if (!preg_match('|(\w+)://([^/:]+)(:\d+)?/(.*)|', $return_url)) {
+        return false;
+      }
+
+      return ($this->return_url = $return_url);
+    }
+
+    public function getReturnURL () {
+      return $this->return_url;
+    }
+
+    public function setReportURL ($report_url) {
+      if (!preg_match('|(\w+)://([^/:]+)(:\d+)?/(.*)|', $report_url)) {
+        return false;
+      }
+
+      return ($this->report_url = $report_url);
+    }
+
+    public function getReportURL () {
+      return $this->report_url;
+    }
+
+    public function setTransactionId ($transaction_id) {
+      if (empty($transaction_id)) {
+        return false;
+      }
+
+      return ($this->transaction_id = $transaction_id);
+    }
+
+    public function getTransactionId () {
+      return $this->transaction_id;
+    }
+
+    public function getBankURL () {
+      return $this->bank_url;
+    }
+
+    public function getPaidStatus () {
+      return $this->paid_status;
+    }
+
+    public function getConsumerInfo () {
+      return $this->consumer_info;
+    }
+
+    public function getFinal()
+    {
+        return $this->final;
+    }
+}
+?>

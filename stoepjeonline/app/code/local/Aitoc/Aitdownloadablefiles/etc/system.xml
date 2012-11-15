@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <catalog>
+            <groups>
+                <aitdownloadablefiles translate="label">
+                    <label>Useful Downloads Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>650</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <aitfiles_title translate="label">
+                            <label>Default Useful Downloads Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </aitfiles_title>
+                        <aitfiles_target_new_window translate="label">
+                            <label>Open Downloads in New Window</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </aitfiles_target_new_window>
+                        <custom_links_render translate="label comment">
+                            <label>Use custom placement for links block</label>
+                            <comment>See User Guide for explanation.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </custom_links_render>
+                    </fields>
+                </aitdownloadablefiles>
+            </groups>
+        </catalog>
+    </sections>
+</config>
+<!--
+/**
+ * Product:     1.4.0.x-1.5.0.x
+ * Package:     Aitoc_Aitdownloadablefiles_2.1.1_44829
+ * Purchase ID: EUuGgWCe9R8lNix4kkddD7KpG37GhZF23A92LkTSFp
+ * Generated:   2011-02-18 14:24:10
+ * File path:   app/code/local/Aitoc/Aitdownloadablefiles/etc/system.xml
+ * Copyright:   (c) 2011 AITOC, Inc.
+ */
+-->

@@ -1,0 +1,431 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@mageworx.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ * or send an email to sales@mageworx.com
+ *
+ * @category   MageWorx
+ * @package    MageWorx_MultiFees
+ * @copyright  Copyright (c) 2009 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Multi Fees extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_MultiFees
+ * @author     MageWorx Dev Team <dev@mageworx.com>
+ */
+-->
+<config>
+    <modules>
+        <MageWorx_MultiFees>
+            <version>1.1.6</version>
+        </MageWorx_MultiFees>
+    </modules>
+    
+    <frontend>
+        <translate>
+            <modules>
+                <MageWorx_MultiFees>
+                    <files>
+                        <default>MageWorx_MultiFees.csv</default>
+                    </files>
+                </MageWorx_MultiFees>
+            </modules>
+        </translate>
+        <routers>
+            <multifees>
+                <use>standard</use>
+                <args>
+                    <module>MageWorx_MultiFees</module>
+                    <frontName>multifees</frontName>
+                </args>
+            </multifees>
+        </routers>
+        <layout>
+            <updates>
+                <multifees>
+                    <file>multifees.xml</file>
+                </multifees>
+            </updates>
+        </layout>
+        <events>
+            <checkout_cart_update_items_after>
+                <observers>
+                    <multifees>
+                        <type>singleton</type>
+                        <class>MageWorx_MultiFees_Model_Observer</class>
+                        <method>unsetCustomerMultifees</method>
+                    </multifees>
+                </observers>
+            </checkout_cart_update_items_after>
+            <sales_quote_remove_item>
+                <observers>
+                    <multifees>
+                        <type>singleton</type>
+                        <class>MageWorx_MultiFees_Model_Observer</class>
+                        <method>unsetCustomerMultifees</method>
+                    </multifees>
+                </observers>
+            </sales_quote_remove_item>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <multifees>
+                        <type>singleton</type>
+                        <class>MageWorx_MultiFees_Model_Observer</class>
+                        <method>unsetCustomerMultifees</method>
+                    </multifees>
+                </observers>
+            </checkout_onepage_controller_success_action>
+
+            <controller_action_predispatch_checkout_cart_index>
+                <observers>
+                    <multifees>
+                        <type>singleton</type>
+                        <class>MageWorx_MultiFees_Model_Observer</class>
+                        <method>autoaddMultifees</method>
+                    </multifees>
+                </observers>
+            </controller_action_predispatch_checkout_cart_index>
+            <controller_action_predispatch_checkout_onepage_index>
+                <observers>
+                    <multifees>
+                        <type>singleton</type>
+                        <class>MageWorx_MultiFees_Model_Observer</class>
+                        <method>autoaddMultifees</method>
+                    </multifees>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_index>
+            <controller_action_predispatch_checkout_multishipping_addresses>
+                <observers>
+                    <multifees>
+                        <type>singleton</type>
+                        <class>MageWorx_MultiFees_Model_Observer</class>
+                        <method>autoaddMultifees</method>
+                    </multifees>
+                </observers>
+            </controller_action_predispatch_checkout_multishipping_addresses>
+            
+            <checkout_controller_onepage_save_shipping_method>
+                <observers>
+                    <multifees>
+                        <type>singleton</type>
+                        <class>MageWorx_MultiFees_Model_Observer</class>
+                        <method>getCheckoutShippingMethod</method>
+                    </multifees>
+                </observers>
+            </checkout_controller_onepage_save_shipping_method>
+            <checkout_controller_multishipping_shipping_post>
+                <observers>
+                    <multifees>
+                        <type>singleton</type>
+                        <class>MageWorx_MultiFees_Model_Observer</class>
+                        <method>getCheckoutShippingMethod</method>
+                    </multifees>
+                </observers>
+            </checkout_controller_multishipping_shipping_post>
+            <controller_action_predispatch_checkout_onepage_savePayment>
+                <observers>
+                    <multifees>
+                        <type>singleton</type>
+                        <class>MageWorx_MultiFees_Model_Observer</class>
+                        <method>getCheckoutPaymentMethod</method>
+                    </multifees>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_savePayment>
+
+            <controller_action_predispatch_onestepcheckout_ajax_set_methods_separate>
+                <observers>
+                    <multifees>
+                        <type>singleton</type>
+                        <class>MageWorx_MultiFees_Model_Observer</class>
+                        <method>getCheckoutPaymentMethod</method>
+                    </multifees>
+                </observers>
+            </controller_action_predispatch_onestepcheckout_ajax_set_methods_separate>
+
+
+            <controller_action_predispatch_checkout_multishipping_overview>
+                <observers>
+                    <multifees>
+                        <type>singleton</type>
+                        <class>MageWorx_MultiFees_Model_Observer</class>
+                        <method>getCheckoutPaymentMethod</method>
+                    </multifees>
+                </observers>
+            </controller_action_predispatch_checkout_multishipping_overview>
+        </events>
+    </frontend>
+    
+    <global>
+        <models>
+            <multifees>
+                <class>MageWorx_MultiFees_Model</class>
+                <resourceModel>multifees_mysql4</resourceModel>
+            </multifees>
+            <multifees_mysql4>
+                <class>MageWorx_MultiFees_Model_Mysql4</class>
+                <entities>
+                    <fee>
+                        <table>multifees_fee</table>
+                    </fee>
+                    <store>
+                        <table>multifees_fee_store</table>
+                    </store>
+                    <language_fee>
+                        <table>multifees_fee_language</table>
+                    </language_fee>
+                    <option>
+                        <table>multifees_fee_option</table>
+                    </option>
+                    <language_option>
+                        <table>multifees_fee_option_language</table>
+                    </language_option>
+                </entities>
+            </multifees_mysql4>
+            <reports_mysql4>
+                <rewrite>
+                    <order_collection>MageWorx_MultiFees_Model_Mysql4_Reports_Order_Collection</order_collection>
+                </rewrite>
+            </reports_mysql4>
+            <sales_mysql4>
+                <rewrite>
+                    <order>MageWorx_MultiFees_Model_Mysql4_Sales_Order</order>
+                    <report_order>MageWorx_MultiFees_Model_Mysql4_Sales_Report_Order</report_order>
+                    <report_order_collection>MageWorx_MultiFees_Model_Mysql4_Sales_Report_Order_Collection</report_order_collection>
+                    <report_order_updatedat_collection>MageWorx_MultiFees_Model_Mysql4_Sales_Report_Order_Updatedat_Collection</report_order_updatedat_collection>
+                </rewrite>
+            </sales_mysql4>
+            <sales>
+                <rewrite>
+                    <order_invoice_total_tax>MageWorx_MultiFees_Model_Sales_Order_Invoice_Total_Tax</order_invoice_total_tax>
+                </rewrite>
+            </sales>
+	    <paypal>
+		<rewrite>
+			<standard>MageWorx_MultiFees_Model_Paypal_Standard</standard>
+		</rewrite>
+	    </paypal>
+        </models>
+        <resources>
+            <multifees_setup>
+                <setup>
+                    <module>MageWorx_MultiFees</module>
+                    <class>MageWorx_MultiFees_Model_Resource_Eav_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </multifees_setup>
+            <multifees_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </multifees_write>
+            <multifees_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </multifees_read>
+        </resources>
+        <blocks>
+            <multifees>
+                <class>MageWorx_MultiFees_Block</class>
+            </multifees>
+            <adminhtml>
+                <rewrite>
+                    <report_sales_sales_grid>MageWorx_Adminhtml_Block_Multifees_Report_Sales_Sales_Grid</report_sales_sales_grid>
+                    <sales_order_totals>MageWorx_Adminhtml_Block_Multifees_Sales_Order_Totals</sales_order_totals>
+                    <sales_order_invoice_totals>MageWorx_Adminhtml_Block_Multifees_Sales_Order_Invoice_Totals</sales_order_invoice_totals>
+                    <sales_order_creditmemo_totals>MageWorx_Adminhtml_Block_Multifees_Sales_Order_Creditmemo_Totals</sales_order_creditmemo_totals>
+                </rewrite>
+            </adminhtml>
+            <checkout>
+                <rewrite>
+                    <cart>MageWorx_MultiFees_Block_Checkout_Cart</cart>
+                    <total_default>MageWorx_MultiFees_Block_Checkout_Total_Default</total_default>
+                </rewrite>
+            </checkout>
+            <sales>
+                <rewrite>
+                    <order_totals>MageWorx_MultiFees_Block_Sales_Order_Totals</order_totals>
+                    <order_items>MageWorx_MultiFees_Block_Sales_Order_Items</order_items>
+                    <order_print>MageWorx_MultiFees_Block_Sales_Order_Print</order_print>
+                    <order_print_invoice>MageWorx_MultiFees_Block_Sales_Order_Print_Invoice</order_print_invoice>
+                    <order_invoice_items>MageWorx_MultiFees_Block_Sales_Order_Invoice_Items</order_invoice_items>
+                    <order_invoice_totals>MageWorx_MultiFees_Block_Sales_Order_Invoice_Totals</order_invoice_totals>
+                    <order_creditmemo_items>MageWorx_MultiFees_Block_Sales_Order_Creditmemo_Items</order_creditmemo_items>
+                    <order_creditmemo_totals>MageWorx_MultiFees_Block_Sales_Order_Creditmemo_Totals</order_creditmemo_totals>
+                    <order_print_creditmemo>MageWorx_MultiFees_Block_Sales_Order_Print_Creditmemo</order_print_creditmemo>
+                </rewrite>
+            </sales>
+        </blocks>
+        <helpers>
+            <multifees>
+                <class>MageWorx_MultiFees_Helper</class>
+            </multifees>
+            <paypal>
+                <rewrite>
+                    <data>MageWorx_MultiFees_Helper_Paypal_Data</data>
+                </rewrite>
+            </paypal>
+        </helpers>
+        <sales>
+            <quote>
+                <totals>
+                    <multifees>
+                        <class>multifees/sales_quote_address_total_fee</class>
+                        <after>subtotal,discount,tax,shipping</after>
+                        <before>grand_total</before>
+                    </multifees>
+                </totals>
+            </quote>
+            <order_invoice>
+                <totals>
+                    <multifees>
+                        <class>multifees/sales_order_invoice_total_fee</class>
+                    </multifees>
+                </totals>
+            </order_invoice>
+            <order_creditmemo>
+                <totals>
+                    <multifees>
+                        <class>multifees/sales_order_creditmemo_total_fee</class>
+                    </multifees>
+                </totals>
+            </order_creditmemo>
+        </sales>
+        <pdf>
+            <totals>
+                <multifees translate="title" module="multifees">
+                    <title>Additional Fees</title>
+                    <source_field>multifees</source_field>
+                    <font_size>7</font_size>
+                    <display_zero>0</display_zero>
+                    <sort_order>550</sort_order>
+                </multifees>
+            </totals>
+        </pdf>
+        <fieldsets>
+            <sales_convert_quote_address>
+                <multifees>
+                    <to_order>*</to_order>
+                </multifees>
+                <base_multifees>
+                    <to_order>*</to_order>
+                </base_multifees>
+                <details_multifees>
+                    <to_order>*</to_order>
+                </details_multifees>
+            </sales_convert_quote_address>
+        </fieldsets>
+    </global>
+    
+    <adminhtml>
+        <events>
+            <checkout_submit_all_after>
+                <observers>
+                    <multifees>
+                        <type>singleton</type>
+                        <class>MageWorx_MultiFees_Model_Observer</class>
+                        <method>checkoutSubmitAllAfter</method>
+                    </multifees>
+                </observers>
+            </checkout_submit_all_after>
+        </events>
+        <menu>
+            <sales>
+                <children>
+                    <multifees translate="title" module="multifees">
+                        <title>Multi Fees</title>
+                        <sort_order>100</sort_order>
+                        <action>mageworx/multifees_fee/</action>
+                    </multifees>
+                </children>
+            </sales>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <sales>
+                            <children>
+                                <multifees translate="title" module="multifees">
+                                    <title>Multi Fees</title>
+                                </multifees>
+                            </children>
+                        </sales>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <mageworx_sales translate="title" module="mageworx">
+                                            <title>MageWorx &gt; Sales</title>
+                                            <sort_order>1</sort_order>
+                                            <children>
+                                                <multifees translate="title" module="multifees">
+                                                    <title>Multi Fees</title>
+                                                </multifees>
+                                            </children>
+                                        </mageworx_sales>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <multifees>
+                    <file>multifees.xml</file>
+                </multifees>
+            </updates>
+        </layout>
+    </adminhtml>
+    
+    <default>
+        <sales>
+            <totals_sort>
+                <multifees>60</multifees>
+            </totals_sort>
+        </sales>
+        <mageworx_sales>
+            <multifees>
+                <enabled>0</enabled>
+                <max_width></max_width>
+                <max_height></max_height>
+                <enable_customer_message>1</enable_customer_message>
+                <customer_message>Gift Message</customer_message>
+                <enable_date>1</enable_date>
+                <date_title>Date</date_title>
+                <autoadd_total>0</autoadd_total>
+                <enable_payment>0</enable_payment>
+                <enable_shipping>0</enable_shipping>
+            </multifees>
+        </mageworx_sales>
+    </default>
+</config>

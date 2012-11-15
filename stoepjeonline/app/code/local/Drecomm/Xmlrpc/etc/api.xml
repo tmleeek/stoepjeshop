@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <api>
+        <resources>
+			<catalog_product_attribute_tier_price>
+                <methods>
+                    <create translate="title" module="drecomm_xmlrpc">
+                        <method>create</method>
+                        <title>Create Tier Price</title>
+                        <acl>catalog/product/create_tier_price</acl>
+                    </create>
+                </methods>
+           </catalog_product_attribute_tier_price>
+            <catalog_product translate="title" module="catalog">
+                <methods>
+                    <addlink translate="title" module="catalog">
+                        <title>Add link for product</title>
+                        <acl>catalog/product/update</acl>
+                    </addlink>
+                </methods>
+            </catalog_product>
+           <sales_order translate="title" module="sales">
+                <model>sales/order_api</model>
+                <title>Order API</title>
+                <acl>sales/order</acl>
+                <methods>
+                    <change translate="title" module="sales">
+                        <title>Retrieve list of orders by filters</title>
+                        <method>change</method>
+                        <acl>sales/order/change</acl>
+                    </change>
+                </methods>
+            </sales_order>
+            <drecomm_xmlrpc_catalogrule translate="title" module="drecomm_xmlrpc">
+                <model>drecomm_xmlrpc/catalogrule_api</model>
+                <title>Drecomm CatalogRule Resource</title>
+                <acl>drecomm_xmlrpc/catalogrule</acl>
+                <methods>
+                    <create_for_product translate="title" module="drecomm_xmlrpc">
+                        <method>createProduct</method>
+                        <title>Create CatalogRule for product condition</title>
+                        <acl>drecomm_xmlrpc/catalogrule/create_for_product</acl>
+                    </create_for_product>
+                    <create_for_category translate="title" module="drecomm_xmlrpc">
+                        <method>createCategory</method>
+                        <title>Create CatalogRule for category condition</title>
+                        <acl>drecomm_xmlrpc/catalogrule/create_for_category</acl>
+                    </create_for_category>
+                    <delete translate="title" module="drecomm_xmlrpc">
+                        <title>Remove CatalogRule</title>
+                        <acl>drecomm_xmlrpc/catalogrule/delete</acl>
+					</delete>
+					<update_all_pricerules translate="title" module="drecomm_xmlrpc">
+						<title>Apply All CatalogRules</title>
+						<acl>drecomm_xmlrpc/catalogrule/update_all_pricerules</acl>
+					</update_all_pricerules>
+                </methods>
+                <faults module="drecomm_xmlrpc">
+                    <data_invalid>
+                        <code>103</code>
+                        <message>Invalid data given. Details in error message.</message>
+                    </data_invalid>
+                    <group_does_not_exist>
+                        <code>201</code>
+                        <message>Given group doesn't exist.</message>
+                    </group_does_not_exist>
+                    <category_not_exist>
+                        <code>202</code>
+                        <message>Given category doesn't exist</message>
+                    </category_not_exist>
+                </faults>
+            </drecomm_xmlrpc_catalogrule>
+
+	    <drecomm_xmlrpc_stores>
+		<model>drecomm_xmlrpc/stores_api</model>
+                <title>Drecomm Stores Resource</title>
+                <acl>drecomm_xmlrpc/stores</acl>
+                <methods>
+                    <create translate="title" module="drecomm_xmlrpc">
+                        <method>create</method>
+                        <title>Create Store</title>
+                        <acl>drecomm_xmlrpc/stores/create</acl>
+                    </create>
+                    <delete translate="title" module="drecomm_xmlrpc">
+                        <method>delete</method>
+                        <title>Delete Store</title>
+                        <acl>drecomm_xmlrpc/stores/delete</acl>
+                    </delete>
+                </methods>
+		<faults module="drecomm_xmlrpc">
+                    <data_invalid>
+                        <code>103</code>
+                        <message>Invalid data given. Details in error message.</message>
+                    </data_invalid>
+		</faults>
+           </drecomm_xmlrpc_stores>
+           <catalog_category translate="title" module="drecomm_xmlrpc">
+               <methods>
+                   <createfast translate="title" module="drecomm_xmlrpc">
+                       <title>Create categories</title>
+                   </createfast>
+               </methods>
+           </catalog_category>
+           <catalog_product translate="title" module="drecomm_xmlrpc">
+               <methods>
+                   <createfast translate="title" module="drecomm_xmlrpc">
+                       <title>Create product</title>
+                   </createfast>
+               </methods>
+           </catalog_product>
+        </resources>
+        <acl>
+            <resources>
+                <drecomm_xmlrpc translate="title"  module="drecomm_xmlrpc">
+                    <title>Drecomm CatalogRule Resource</title>
+                    <sort_order>99</sort_order>
+                    <catalogrule translate="title"  module="drecomm_xmlrpc">
+                        <title>Create Catalog Rule</title>
+	                    <create_for_product translate="title" module="drecomm_xmlrpc">
+	                        <title>Create for product</title>
+	                    </create_for_product>
+	                    <create_for_category translate="title" module="drecomm_xmlrpc">
+	                       <title>Create for category</title>
+	                    </create_for_category>
+	                    <delete translate="title" module="drecomm_xmlrpc">
+	                       <title>Delete</title>
+	                    </delete>
+                    </catalogrule>
+                </drecomm_xmlrpc>
+
+		<drecomm_xmlrpc translate="title"  module="drecomm_xmlrpc">
+                    <title>Drecomm Stores Resource</title>
+                    <sort_order>99</sort_order>
+                    <stores translate="title"  module="drecomm_xmlrpc">
+                        <title>Create Store Rule</title>
+			<create translate="title" module="drecomm_xmlrpc">
+			    <title>Create</title>
+			</create>
+			<delete translate="title" module="drecomm_xmlrpc">
+			    <title>Delete</title>
+			</delete>
+                    </stores>
+                </drecomm_xmlrpc>
+            </resources>
+        </acl>
+    </api>
+</config>

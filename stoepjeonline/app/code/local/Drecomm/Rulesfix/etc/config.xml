@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Drecomm_Rulesfix>
+            <version>0.1.0</version>
+        </Drecomm_Rulesfix>
+    </modules>
+    <global>
+        <blocks>
+            <adminhtml>
+                <rewrite>
+                    <promo_quote_edit_tab_actions>Drecomm_Rulesfix_Block_Promo_Quote_Edit_Tab_Actions</promo_quote_edit_tab_actions>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <models>
+            <rule>
+                <rewrite>
+                    <rule>Drecomm_Rulesfix_Model_Rule</rule>
+                </rewrite>
+            </rule>
+            <salesrule>
+                <rewrite>
+                    <validator>Drecomm_Rulesfix_Model_Validator</validator>
+                </rewrite>
+            </salesrule>
+        </models>
+    </global>
+</config>

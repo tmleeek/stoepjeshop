@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+       <PayNL_Visamastercard>
+          <version>0.0.1</version>
+       </PayNL_Visamastercard>
+    </modules>
+ 
+    <global>
+        <helpers>
+            <visamastercard>
+                <class>PayNL_Visamastercard_Helper</class>
+            </visamastercard>
+        </helpers>
+        <models>
+            <visamastercard>
+                <class>PayNL_Visamastercard_Model</class>
+                <resourceModel>visamastercard_mysql4</resourceModel>
+            </visamastercard>
+            <visamastercard_mysql4>
+                <class>PayNL_Visamastercard_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>visamastercard_api_debug</table></api_debug>
+                </entities>
+            </visamastercard_mysql4>
+        </models>
+ 
+        <resources>
+            <visamastercard_setup>
+                <setup>
+                    <module>PayNL_Visamastercard</module>
+                    <class>PayNL_Visamastercard_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </visamastercard_setup>
+            <visamastercard_write>
+                <connection>
+                  <use>core_write</use>
+                </connection>
+            </visamastercard_write>
+            <visamastercard_read>
+               <connection>
+                <use>core_read</use>
+              </connection>
+            </visamastercard_read>
+        </resources>
+        <blocks>
+            <visamastercard><class>PayNL_Visamastercard_Block</class></visamastercard>
+        </blocks>
+        <sales>
+            <order>
+                <statuses>
+                    <refund translate="label"><label>Refund</label></refund>
+                    <pending_visamastercard translate="label"><label>Pending Visamastercard</label></pending_visamastercard>
+                    <pending translate="label"><label>Pending</label></pending>
+                    <processing translate="label"><label>Processing</label></processing>
+                    <holded translate="label"><label>On Hold</label></holded>
+                    <complete translate="label"><label>Complete</label></complete>
+                    <closed translate="label"><label>Closed</label></closed>
+                    <canceled translate="label"><label>Canceled</label></canceled>
+                    <fraud translate="label"><label>Suspected Fraud</label></fraud>
+                </statuses>
+                <states>
+                    <pending_payment>
+                        <statuses>
+                            <pending_visamastercard/>
+                        </statuses>
+                    </pending_payment>
+                    <new translate="label">
+                        <label>New</label>
+                        <statuses>
+                            <pending default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </new>
+                    <processing translate="label">
+                        <label>Processing</label>
+                        <statuses>
+                            <processing default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </processing>
+                    <complete translate="label">
+                        <label>Complete</label>
+                        <statuses>
+                            <complete default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </complete>
+                    <closed translate="label">
+                        <label>Closed</label>
+                        <statuses>
+                            <closed default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </closed>
+                    <canceled translate="label">
+                        <label>Canceled</label>
+                        <statuses>
+                            <canceled default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                    </canceled>
+                    <holded translate="label">
+                        <label>On Hold</label>
+                        <statuses>
+                            <holded default="1"/>
+                            <fraud/>
+                        </statuses>
+                        <visible_on_front/>
+                    </holded>
+                </states>
+            </order>
+        </sales>
+    </global>
+    <frontend>
+        <secure_url>
+            <visamastercard_visamastercard>/paynl/visamastercard</visamastercard_visamastercard>
+        </secure_url>
+        <routers>
+            <visamastercard>
+                <use>standard</use>
+                <args>
+                    <module>PayNL_Visamastercard</module>
+                    <frontName>visamastercard</frontName>
+                </args>
+            </visamastercard>
+        </routers>
+        <translate>
+            <modules>
+                <PayNL_Visamastercard>
+                    <files>
+                        <default>PayNL_Visamastercard.csv</default>
+                    </files>
+                </PayNL_Visamastercard>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <visamastercard>
+                    <file>visamastercard.xml</file>
+                </visamastercard>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <PayNL_Visamastercard>
+                    <files>
+                        <default>PayNL_Visamastercard.csv</default>
+                    </files>
+                </PayNL_Visamastercard>
+            </modules>
+        </translate>
+    </adminhtml>
+ 
+    <default>
+        <payment>
+            <visamastercard_visamastercard>
+                <model>visamastercard/visamastercard</model>
+                <title>Pay.nl Visa / Mastercard</title>
+                <description>Visa / Mastercard payment</description>
+                <order_status>pending_visamastercard</order_status>
+                <allowspecific>0</allowspecific>
+            </visamastercard_visamastercard>
+         </payment>
+    </default>
+</config>
+      

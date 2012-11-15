@@ -1,0 +1,60 @@
+<config>
+    <modules>
+        <Drecomm_Xmlrpc>
+            <version>0.1.1</version>
+        </Drecomm_Xmlrpc>
+    </modules>
+    <global>
+        <models>
+            <drecomm_xmlrpc>
+                <class>Drecomm_Xmlrpc_Model</class>
+            </drecomm_xmlrpc>
+            <catalog>
+                <rewrite>
+                    <category>Drecomm_Xmlrpc_Model_Category_Category</category>
+                    <category_api>Drecomm_Xmlrpc_Model_Category_Api</category_api>
+                    <product_attribute_tierprice_api>Drecomm_Xmlrpc_Model_Product_Tierprice_Api</product_attribute_tierprice_api>
+                    <product_api>Drecomm_Xmlrpc_Model_Product_Api</product_api>
+                </rewrite>
+            </catalog>
+            <customer>
+                <rewrite>
+                    <customer_api>Drecomm_Xmlrpc_Model_Customer_Api</customer_api>
+                    <address_api>Drecomm_Xmlrpc_Model_Customer_Address_Api</address_api>
+                </rewrite>
+            </customer>
+            <sales>
+                <rewrite>
+                    <order_api>Drecomm_Xmlrpc_Model_Order_Api</order_api>
+                </rewrite>
+            </sales>
+        </models>
+        <resources>
+            <drecomm_xmlrpc_setup>
+                <setup>
+                    <module>Drecomm_Xmlrpc</module>
+                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+                </setup>
+            </drecomm_xmlrpc_setup>
+        </resources>
+        <sales>
+                <order>
+                    <statuses>
+                        <shipped translate="label"><label>Shipped</label></shipped>
+                    </statuses>
+                    <states>
+                      <shipped translate="label">
+                        <label>Shipped</label>
+                        <statuses>
+                            <Shipped default="1"/>
+                        </statuses>
+                        <visible_on_front/>
+                      </shipped>
+                    </states>
+                </order>
+        </sales>
+        <helpers>
+            <drecomm_xmlrpc><class>Drecomm_Xmlrpc_Helper</class></drecomm_xmlrpc>
+        </helpers>
+    </global>
+</config>
