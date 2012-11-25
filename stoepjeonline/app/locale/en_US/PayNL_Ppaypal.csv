@@ -1,0 +1,6 @@
+"Customer was redirected to ppaypal","Customer was redirected to Pay.nl"
+"Invoice #%s created","Invoice #%s created"
+"You will be redirected to your bank in a few seconds.","You will be redirected in a few seconds."
+"Pending ppaypal","Pending Pay.nl"
+"Order #%s refunded", "Order #%s refunded"
+"The order: #%s has been refunded.\nPay.nl information:\nOrder code: %s\nNo further notifications for this will be available.", "The order: #%s has been refunded.\nPay.nl information:\nOrder code: %s\nNo further notifications for this will be available."

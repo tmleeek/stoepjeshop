@@ -1,0 +1,48 @@
+<!--@subject {{var store.getFrontendName()}}: Leveringsnummer # {{var shipment.increment_id}} statusupdate @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"skin url=\"images/logo_email.gif\" _area='frontend'":"Email Logo Image",
+"htmlescape var=$order.getCustomerName()":"Customer Name",
+"var order.increment_id":"Order Id",
+"var order.getStatusLabel()":"Order Status",
+"store url=\"customer/account/\"":"Customer Account Url",
+"var comment":"Order Comment",
+"var store.getFrontendName()":"Store Name"}
+@-->
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+<table cellspacing="0" cellpadding="0" border="0" width="98%" style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+<tr>
+    <td align="center" valign="top">
+        <!-- [ header starts here] -->
+        <table cellspacing="0" cellpadding="0" border="0" width="650">
+        <tr>
+            <td valign="top"><a href="{{store url=""}}"><img src="{{skin url="images/logo_email.gif" _area='frontend'}}" alt="{{var store.getFrontendName()}}"  style="margin-bottom:10px;" border="0"/></a></td>
+        </tr>
+        </table>
+
+        <!-- [ middle starts here] -->
+        <table cellspacing="0" cellpadding="0" border="0" width="650">
+        <tr>
+            <td valign="top">
+                <p>
+                <strong>Geachte{{htmlescape var=$order.getCustomerName()}}</strong>,</p>
+                <p>                  Uw bestelling # {{var order.increment_id}} is                  <strong>{{var order.getStatusLabel()}}</strong>. </p>
+              <p>U kunt de status van uwbestelling bekijken door <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">in te loggen met uw account</a>.</p>
+                <p>{{var comment}}</p>
+                    <p>Indien u vragen heeft over uw bestelling,  neem dan contact met ons op door een e-mail te sturen naar <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> of bereik ons telefonisch op {{config path='general/store_information/phone'}}.</p>
+ 					<br/>
+                    <p>Met vriendelijke groet,</p>
+                    <br/>
+                    <p>{{var store.getFrontendName()}}</p>
+              <br/>
+            </td>
+        </tr>
+        </table>
+    </td>
+</tr>
+</table>
+</div>

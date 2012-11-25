@@ -1,0 +1,59 @@
+<!--@subject Welkom bij {{var store.getFrontendName()}}, {{var customer.name}}! @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"skin url=\"images/logo_email.gif\" _area='frontend'":"Email Logo Image",
+"htmlescape var=$customer.name":"Customer Name",
+"store url=\"customer/account/\"":"Customer Account Url",
+"var customer.email":"Customer Email",
+"htmlescape var=$customer.password":"Customer Password"}
+@-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+    <table cellspacing="0" cellpadding="0" border="0" width="98%" style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+        <tr>
+            <td align="center" valign="top">
+                <!-- [ header starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <a href="{{store url=""}}"><img src="{{skin url="images/logo_email.gif" _area='frontend'}}" alt="{{var store.getFrontendName()}}"  style="margin-bottom:10px;" border="0"/></a></td>
+                    </tr>
+                </table>
+
+                <!-- [ middle starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <p><strong>Geachte {{htmlescape var=$customer.name}}</strong>,</p>
+                            <p>                              Welkom bij {{var store.getFrontendName()}}. U heeft zojuist een account aangemaakt bij onze online winkel. U kunt nu op onze online winkel <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">inloggen</a> en <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">uw gegevens</a> beheren met de onderstaande gegevens.<br/>
+                            </p>
+              <p style="border:1px solid #BEBCB7; padding:13px 18px; background:#F8F7F5; ">
+                                Uw inloggegevens:<br/>
+                                E-mail: {{var customer.email}}<br />
+                                Wachtwoord: {{htmlescape var=$customer.password}}
+                            <p>U kunt dankzij uw account:
+<ul>
+                                <li>Sneller afrekenen wanneer u een aankoop doet;</li>
+                                <li>De status van uw bestellingen controleren;</li>
+                                <li>Bestelhistorie bekijken;</li>
+                                <li>Uw account informatie wijzigen;</li>
+                                <li>Uw wachtwoord wijzigen;</li>
+                                <li>Alternatieve adressen opslaan.</li>
+                          </ul>
+                            
+                            <p>Wanneer u vragen heeft over uw account, onze producten of winkel, neem dan contact met ons op door een e-mail te sturen naar <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> of bereik ons telefonisch op {{config path='general/store_information/phone'}}.</p>
+                        <p>Met vriendelijke groet,</p><br/>
+                            <p>{{var store.getFrontendName()}}</p><br/>
+
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</div>

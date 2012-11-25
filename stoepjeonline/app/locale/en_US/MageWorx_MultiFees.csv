@@ -1,0 +1,119 @@
+"-- Please Select --","-- Please Select --"
+Action,Action
+Active,Active
+Add Cart Fee,Add Cart Fee
+Add Checkout Fee,Add Checkout Fee
+Add Fee,Add Fee
+Add Fees to My Order Total,Add Fees to My Order Total
+Add Image,Add Image
+Add Option,Add Option
+Additional Fees With Tax,Additional Fees With Tax
+Additional Fees,Additional Fees
+Are you sure you want to do this?,Are you sure you want to do this?
+Automatically Add Required Fees To Order Total,Automatically Add Required Fees To Order Total
+Billing Address,Billing Address
+Canceled,Canceled
+Change status,Change status
+Checkbox,Checkbox
+Clear All,Clear All
+Continue Shopping,Continue Shopping
+Customer Message,Customer Message
+Date Field Title,Date Field Title
+Delete Checkout Fee,Delete Checkout Fee
+Delete Fee,Delete Fee
+Delete Image,Delete Image
+Delete,Delete
+Disabled,Disabled
+Discount :,Discount :
+Discount%s,Discount%s
+Discount,Discount
+Display Additional Fees,Display Additional Fees
+Drop-Down,Drop-Down
+Edit Cart Fee \'%s\',Edit Cart Fee \'%s\'
+Edit Fee \'%s\',Edit Fee \'%s\'
+Edit,Edit
+Enable Customer Message,Enable Customer Message
+Enable Date Field,Enable Date Field
+Enable Payment Fees,Enable Payment Fees
+Enable Shipping Fees,Enable Shipping Fees
+Enable,Enable
+Excl. Tax,Excl. Tax
+Excluding tax,Excluding tax
+Failed,Failed
+Fees Manager,Fees Manager
+Fixed,Fixed
+From,From
+From:,From:
+Gift Message for this Order,Gift Message for this Order
+Grand Total to be charged,Grand Total to be charged
+Grand Total,Grand Total
+Hide,Hide
+If you do not specify an option value for a specific store view then the default (Admin) value will be used.,If you do not specify an option value for a specific store view then the default (Admin) value will be used.
+Image,Image
+Incl. Tax,Incl. Tax
+Including tax,Including tax
+Incorrect fee amount entered.,Incorrect fee amount entered.
+Input Type,Input Type
+Invoice #%s,Invoice #%s
+Invoice #,Invoice #
+Invoices,Invoices
+Is Default,Is Default
+Is Required,Is Required
+Item,Item
+Items Invoiced,Items Invoiced
+Items Ordered,Items Ordered
+Max Fee image height.<br />Leave blank for no resize,Max Fee image height.<br />Leave blank for no resize
+Max Fee image width.<br />Leave blank for no resize,Max Fee image width.<br />Leave blank for no resize
+Max Height,Max Height
+Max Width,Max Width
+Message:,Message:
+Move to Wishlist,Move to Wishlist
+Multi Fees,Multi Fees
+No,No
+None,None
+of,of
+Options,Options
+Order #%s,Order #%s
+Order Date: %s,Order Date: %s
+Order Subtotal,Order Subtotal
+Ordered,Ordered
+Payment Fee,Payment Fee
+Payment Method,Payment Method
+Payment Methods,Payment Methods
+Percent,Percent
+Please add at least one option,Please add at least one option
+Position,Position
+Price Type,Price Type
+Price,Price
+Print All Invoices,Print All Invoices
+Print Invoice,Print Invoice
+Product Name,Product Name
+Qty Invoiced,Qty Invoiced
+Qty,Qty
+Radio Button,Radio Button
+Remove,Remove
+Required Fee,Required Fee
+Save And Continue Edit,Save And Continue Edit
+Save Checkout Fee,Save Checkout Fee
+Save Fee,Save Fee
+Shipped,Shipped
+Shipping & Handling,Shipping & Handling
+Shipping Address,Shipping Address
+Shipping Fee,Shipping Fee
+Shipping Method,Shipping Method
+Shipping Methods,Shipping Methods
+Shopping Cart,Shopping Cart
+Sku,Sku
+Sort Order,Sort Order
+Status,Status
+Store View,Store View
+Subtotal,Subtotal
+Tax,Tax
+There are no options,There are no options
+Title,Title
+To,To
+To:,To:
+Type,Type
+Unit Price,Unit Price
+Update Shopping Cart,Update Shopping Cart
+Yes,Yes

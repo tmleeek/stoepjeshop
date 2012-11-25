@@ -1,0 +1,22 @@
+{* Dit is een commentaar blok
+
+Beschikbare variabelen in deze template:
+  - name            Ontvanger naam
+  - email           Ontvanger Emailadres
+  - product_name    Product naam
+  - product_url     Url van product
+  - product_image   Url van product kleine afbeelding (75 px)
+  - message         Afzender aangepaste bericht
+  - sender_name     Afzender naam
+  - sender_email    Afzender email
+
+Use vars: {{var var_name}}
+*}<!--@subject Welkom, {{var name}} @-->
+<!--@vars
+{"htmlescape var=$name":"Recipient Name",
+"var product_url":"Url for Product",
+"var product_name":"Product Name",
+"var message":"Sender Message"}
+@-->
+
+Welkom, {{htmlescape var=$name}}<br /><br />Kijk op <a href="{{var product_url}}">{{var product_name}}</a><br /><br />Hier is bericht: <br />{{var message}}<br /><br />
