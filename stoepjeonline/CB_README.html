@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Commerce Bug Installation Guide</title>
+</head>
+<body>
+<h1>Commerce Bug Installation Guide</h1>
+
+<ol>
+<li><p>Copy/Upload the contents of the "app" folder to the corresponding "app" folder of your Magento system</p></li>
+<li><p>Copy/Upload the contents of the "skin" folder to the corresponding "skin" folder of your Magento system</p></li>
+<li><p>Ensure the uploaded files and folders have *nix permissions, ownership and groups identical to the rest of your Magento files and folder</p></li>
+<li><p>Clear the Magento Cache.  This may be done under System -&gt; Cache Management</p></li>
+<li><p>Log out of the Magento Admin Application and clear you sessions.  Also, if you're using compilation, you'll need to re-compile your classes.</p></li>
+<li><p>Configure Commerce Bug (update notifications, output, etc.) at System -&gt; Advanced -&gt; Commerce Bug</p></li>
+<li><p>If you've installed Magento in a sub-directory of your site, be sure to sure to set the <strong>Commerce Bug</strong> skin path in System -&gt; Advanced -&gt; Commerce Bug.  If you don't do this, you'll see the Debug menu, but clicking it won't do anything.</p></li>
+<li><p>In the Magento Admin, make sure [System -&gt; Configuration -&gt; Developer -&gt; Template Settings -&gt; Allow Symlinks] is set to <strong>Yes</strong></p></li>
+</ol>
+</body>
+</html>
+
