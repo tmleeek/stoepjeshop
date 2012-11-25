@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * NOTICE OF LICENSE
+ *
+ * This file is subject to the license
+ * that is bundled with this package in the file LICENSE_Temgra.txt.
+ * If you did not receive a copy of the license, please send an email
+ * to info@temgra.com so we can send you a copy immediately.
+ *
+ * @copyright Copyright (c) 2009-2011 by Tania Alekova, temgra.com - Templates and Graphics Online Store (http://www.temgra.com) - All rights reserved.
+ * @license http://www.temgra.com/license
+ * 
+ */
+-->
+<config><modules><Temgra_ColorCustomOptions><version>0.1.0</version></Temgra_ColorCustomOptions></modules><frontend><routers><Temgra_ColorCustomOptions><use>standard</use><args><module>Temgra_ColorCustomOptions</module><frontName>colorcustomoptions</frontName></args></Temgra_ColorCustomOptions></routers><layout><updates><colorcustomoptions><file>colorcustomoptions.xml</file></colorcustomoptions></updates></layout></frontend><global><helpers><colorcustomoptions><class>Temgra_ColorCustomOptions_Helper</class></colorcustomoptions></helpers></global><adminhtml><acl><resources><all><title>Allow Everything</title></all><admin><children><system><children><config><children><colorcustomoptions><title>Temgra</title></colorcustomoptions></children></config></children></system></children></admin></resources></acl></adminhtml><default><colorcustomoptions><control><enabled>1</enabled></control></colorcustomoptions></default></config>

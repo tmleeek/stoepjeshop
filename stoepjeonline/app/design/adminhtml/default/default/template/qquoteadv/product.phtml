@@ -1,0 +1,368 @@
+<style>
+div.lbaddr{
+	width: 100px;
+	float:left;
+
+}
+div.taddr{
+	float:left;
+	display:inline;
+}
+
+</style>
+
+<div style="" id="quotes_tabs_form_product_content"><div class="entry-edit profile-generator" id="profile-generator">
+<div id="__fieldmapping">
+
+
+<?php $quote = $this->getQuoteData(); ?>
+      
+            
+    <?php
+        $status = Mage::registry('qquote_data')->getData('status');        
+    
+        $url = $this->getUrl('*/*/convert/id/'.$quote['quote_id']);
+          
+        $btnEditProducts = $this->getLayout()->createBlock('adminhtml/widget_button');
+        $btnEditProducts->setLabel($this->__('Edit products'));
+        $btnEditProducts->setClass('add');
+        if(  
+           $status == Ophirah_Qquoteadv_Model_Status::STATUS_PROPOSAL ||
+           $status == Ophirah_Qquoteadv_Model_Status::STATUS_PROPOSAL_SAVED
+        ){
+			$onclick = "if(isCheckRadio()){ convertQ2O(); }else{ return false;}";            
+        }else{
+            $btnEditProducts->setClass('disabled');
+            $onclick = 'showMsg(); return false;';
+        }
+		
+		$btnEditProducts->setOnclick($onclick);
+    ?> 
+    
+<div style="" id="sales_order_view_tabs_order_info_content">
+<div style="min-width: 940px; width:auto;">
+    <div id="order-messages"></div>
+	
+	<div class="box-left" style="min-width:450px;">
+		<!--Quote Information-->
+		<?php include('details/quote_information.phtml')?>
+	 </div>
+
+    <div class="box-right">
+        <!--Account Information-->
+        <?php include('details/account_information.phtml')?>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="box-left" style="min-width:450px;">
+        <!--General Request Information-->
+        <?php include('details/general_request_information.phtml')?>
+    </div>
+    <div class="box-right">
+        <!--Shipping Information-->
+         <?php include('details/shipping_information.phtml')?>
+    </div>
+    <div class="clear"></div>
+
+</div></div>
+
+    <div class="entry-edit-head" style="width:auto;">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Product Information') ?></h4>
+        <div style="float:right; margin:3px;">
+        
+        <?php print '&nbsp;&nbsp;'.$btnEditProducts->_toHtml(); ?>
+        </div>
+    </div>
+    <fieldset style="padding: 0px;"><legend><?php echo $this->__('Product Information') ?></legend>
+        <div class="grid np">
+        <div class="hor-scroll">
+        <table cellspacing="0" class="data order-tables" border=1>
+
+        	<thead>
+        		<tr class="headings">
+        			<th width="30%"><?php echo $this->__('Product name') ?></th>
+        			<th class="a-center" width="1%"><?php echo $this->__('Sku') ?></th>
+        			<th class="a-center" width="40%"><?php echo $this->__('Comment with Product') ?></th>
+        			<th class="a-center"><?php echo $this->__('Original Price') ?></th>
+        			<th class="a-center"><?php echo $this->__('Qty') ?></th>
+        			<th class="a-center" width="15%" style="min-width:130px;"><?php echo $this->__('Price Proposal') ?></th>
+        		</tr>
+        	</thead>
+        	<tbody class="even">
+ <?php
+ $q2qKey = 0;
+foreach($this->getProductData() as $item):
+	$product = $this->getProductInfo($item->getProductId());
+	$productUrl  = Mage::helper("adminhtml")->getUrl("adminhtml/catalog_product/edit/",array("id"=>$item->getProductId())); 
+?>        
+<tr class="border">
+	<td>
+		<div>
+			<div class="item-text">
+        		<h5 class="title"><a href="<?php echo $productUrl;?>" ><?php echo $product->getName()?></a></h5>
+<?php 
+    		
+if ($product->getTypeId() == 'bundle'):
+		$product->setStoreId($item->getStoreId()?$item->getStoreId():1);
+		
+        $virtualQuote = Mage::helper('qquoteadv')->getQuoteItem($product, $item->getAttribute());
+		$_helper = Mage::helper('bundle/catalog_product_configuration');
+		
+		foreach($virtualQuote->getAllItems() as $_unit) {
+			if( $_unit->getProductId() == $product->getId() ) {
+
+				$_options = $_helper->getOptions($_unit);
+				if( is_array($_options) ) {
+					?>
+					 <dl class="item-options">
+						<?php foreach ($_options as $_option): ?>
+
+						<?php $_formatedOptionValue = $this->getFormatedOptionValue($_option);  ?>
+						<dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+						<dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+							<?php if (isset($_formatedOptionValue['full_view'])): ?>
+							<div class="truncated_full_value">
+								<dl class="item-options">
+									<dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+									<dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
+								</dl>
+							</div>
+							<?php endif; ?>
+						</dd>
+						<?php endforeach; ?>
+					</dl>
+				 <?php
+			 }
+        }
+    }
+    
+elseif($product->isConfigurable()):
+       
+        $x = Mage::helper('qquoteadv')->getQuoteItem($product, $item->getAttribute());
+
+        foreach($x->getAllItems() as $_zz) {
+			if( $_zz->getProductId() == $product->getId() ) {
+					$obj = new Ophirah_Qquoteadv_Block_Item_Renderer_Configurable;
+                    $obj->setTemplate('qquoteadv/item/configurable.phtml');
+                    $obj->setItem($_zz);
+                   
+          ?>          
+                    
+                    
+<?php if ($_options = $obj->getOptionList()):?>
+        <dl class="item-options">
+            <?php foreach ($_options as $_option) : ?>
+            <?php $_formatedOptionValue = $obj->getFormatedOptionValue($_option) ?>
+            <dt><?php echo $obj->htmlEscape($_option['label']) ?></dt>
+            <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+                <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                <div class="truncated_full_value">
+                    <dl class="item-options">
+                        <dt><?php echo $obj->htmlEscape($_option['label']) ?></dt>
+                        <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
+                    </dl>
+                </div>
+                <?php endif; ?>
+            </dd>
+            <?php endforeach; ?>
+        </dl>
+<?php endif;?>
+                    
+                    
+                    
+           <?php						
+			}
+		}
+    
+endif;
+?>
+<?php 
+if($product->getTypeId() == 'simple'):
+ 	$superAttribute = Mage::helper('qquoteadv')->getSimpleOptions($product, unserialize($item->getAttribute()));
+    if($superAttribute):
+        echo '<em><dl class="item-options">';
+ 		foreach($superAttribute as $option => $value):
+  			echo '<dt>'.$option.'</dt>';
+            echo '<dd>'.$value.'</dd>';
+        endforeach;
+        echo '</dl></em>';
+	endif;
+endif;
+?>  
+ 	</div>
+ 	</div>
+ </td>
+<?       	
+$status = Mage::registry('qquote_data')->getData('status');
+if(  
+           $status == Ophirah_Qquoteadv_Model_Status::STATUS_PROPOSAL ||
+           $status == Ophirah_Qquoteadv_Model_Status::STATUS_PROPOSAL_SAVED
+){
+ $hideRadio = true;
+}else{
+ $hideRadio = false;   
+}
+$prices = array();
+$aQty   = array();
+
+$collection = $this->getRequestedProductData($item->getId()); 
+if( count($collection) >0 ):  
+	foreach($collection as $requested_item):
+		 $line =  '';
+         
+         $line = $requested_item->getRequestQty();
+         $line.= '<input type="hidden" name="product['.$requested_item->getId().'][qty]" value="'.$requested_item->getRequestQty().'">';
+                  
+        $aQty[] = $line;                        
+
+		$showPrice = number_format($requested_item->getOriginalPrice(),2);
+		if($ownerPrice = Mage::app()->getStore()->roundPrice($requested_item->getOwnerBasePrice())){
+			$showPrice = $ownerPrice;
+		}
+
+		$priceLine = '';
+        
+        if($hideRadio) {
+         $priceLine.= '&nbsp;<input class="rbt" type="radio" name="q2o['.$q2qKey .']" value="'.$requested_item->getId().'">&nbsp;&nbsp;';
+        }
+        
+        $url = $this->getUrl('*/*/deleteQtyField', array('request_id' => $requested_item->getId()));
+    
+        $priceLine.='<input type="text" name="product['.$requested_item->getId().'][price]"
+				value="'.$showPrice.'" size="3" class="required-entry validate-zero-or-greater required-entry input-text"  style="width:70px;">';
+		$priceLine.='&nbsp;<a title="'.$this->__('Delete').'" href="'. $url .'"><img align="absmiddle" src="'. $this->getSkinUrl('images/minus-icon.png').'" width="16" height="16" alt="'. $this->__('Remove item'). '" /></a>';
+
+        $prices[] = $priceLine;
+        
+	endforeach;
+endif;
+?>
+
+       				    <td><?php echo $product->getSku()?></td>
+                        <td class="a-center">
+        				<textarea name="requestedproduct[<?php echo $item->getId()?>][client_request]"  rows="4" style="width:95%;"><?php echo $this->htmlEscape($item->getClientRequest()) ?></textarea>
+        				</td>
+        				<td class="a-center"><span class="price"><?php 
+						if(is_object($requested_item)) {
+						echo Mage::helper('checkout')->formatPrice($requested_item->getOriginalPrice());
+						} 
+						?></span></td>
+        				<td class="a-center">
+        				<?php if(count($aQty))?>
+        				<?php foreach($aQty as $key => $value): ?>
+        				 	<div style="height:25px;"><?php echo $value;?></div>
+        				<?php endforeach; ?>
+                          								
+								<a href="#" onclick="typeQty('<?php echo $item->getData('id')?>')"><?php echo $this->__('Add') ?></a> 
+        				</td>
+        				<td <?php  if($hideRadio): ?>class="a-left"<?php else: ?>class="a-center"<?php endif; ?> >
+                            <?php if(count($prices))?>
+                            <?php foreach($prices as $key => $value): ?>
+
+                                <div style="height:25px;"><?php echo $value;?></div>
+
+                            <?php endforeach; ?>
+        				</td>
+        				</tr>
+                        
+                        
+                        <?php $q2qKey++; ?>
+        			<?php endforeach; ?>
+        		</tr>
+
+        	</tbody>
+        </table>
+        <div class="f-left"><!-- --></div>
+
+        </div>
+
+        </div>
+
+        </fieldset>
+</div>
+
+<form id="frmPromt" action="<?php echo $this->getUrl('*/*/addQtyField')?>">
+<input type="hidden" name="request_qty" id="request_qty" />
+<input type="hidden" name="quote_product_id" id="quote_product_id" />
+</form>
+<script>
+function typeQty(quote_product_id){
+    var msg = "<?php echo $this->__("Add new Qty") ?>";
+	var qty=prompt(msg,"1");
+	if (qty!=null && qty!=""){
+		$('quote_product_id').value=quote_product_id;
+		$('request_qty').value =qty;
+		$('frmPromt').submit();
+        $('loading-mask').show();
+	}else{
+		$('quote_product_id').value='';
+		$('request_qty').value ='';
+
+		return false;
+	}
+}
+</script>
+
+<div style="min-width: 940px; width: auto;">
+	
+	<div class="box-left"  style="min-width: 450px;" >
+		
+		<?php include('details/shipping_proposal.phtml'); ?>
+		
+		
+	</div>
+	
+	<div class="box-right">
+		 <!--File upload section-->
+		<?php include('details/file_load_information.phtml'); ?>		
+	</div>	
+	<div class="clear"></div>
+</div>
+<br />
+
+
+<div>
+	<?php include('details/buttons.phtml'); ?>	
+</div>
+    <script>
+        function convertQ2O(){
+            $('edit_form').writeAttribute("action", "<?php echo $url ?>");
+            $('edit_form').submit();
+        }
+        
+        function showMsg(){
+            msg = '<?php echo $this->__("First save this Quotation"); ?>';
+            alert(msg);
+        }
+
+		function isCheckRadio(){
+			checkedRadio=false;
+			$$('#edit_form .rbt').each(function(item){
+
+					if (item.checked == true) {
+						str = item.value;
+						if(str.length >0){ 
+						 checkedRadio=true;
+						 throw $break;
+						}
+					}
+				}
+			);
+
+		 if(!checkedRadio){
+            msg =  '<?php echo $this->__("Select one Qty per product. (When editing this product you will be able to re-enter the extra tiers in this screen.)") ?>';
+			alert(msg);
+		 }
+		 return checkedRadio;
+		}
+
+    </script>  
+<div class="clear"></div>
+
+</div>
+</div>
+
+<div id="loading-mask" style="display:none">
+    <p class="loader" id="loading_mask_loader"><img src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif') ?>" alt="<?php echo Mage::helper('adminhtml')->__('Loading...') ?>"/><br/><?php echo Mage::helper('adminhtml')->__('Please wait...') ?></p>
+</div>

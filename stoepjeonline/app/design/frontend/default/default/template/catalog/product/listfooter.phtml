@@ -1,0 +1,53 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+?>
+<?php
+    $_productCollection=$this->getLoadedProductCollection();
+    $_helper = $this->helper('catalog/output');
+?>
+<?php if(!$_productCollection->count()): ?>
+<p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<?php else: ?>
+    <ul class="product-list">
+    <?php $i=0; foreach ($_productCollection as $_product): $i++; ?>
+
+        <li<?php if($i%2==0) echo ' class="bg"'?>>
+    		<a href="<?php echo $_product->getProductUrl() ?>">
+            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(170,182); ?>" width="170" height="182" alt="image description"/>
+            </a>
+    		<strong class="title"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></strong>
+    	</li>   
+        <?php if (($i%4==0) and ($i != count($_productCollection))) echo '</ul><ul class="product-list2">';?>
+    <?php endforeach; ?>
+    </ul>
+<?php endif; ?>

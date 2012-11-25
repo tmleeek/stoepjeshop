@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!-- 
+  Copyright (c) 2009 Raptor Commerce (http://www.raptorcommerce.com)
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/supermenu.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/menu_changes.css</stylesheet></action>
+            <action method="addJs"><script>supermenu/supermenu.js</script></action>
+        </reference>
+        <reference name="top.menu">
+            <remove name="catalog.topnav" />
+            <block type="supermenu/explodedmenu_navigation" name="supermenu.navigation" template="supermenu/navigation.phtml"/>
+        </reference>
+    </default>
+
+    <!--
+    <supermenu_brands_index translate="label">
+        <label>Quick Search Form</label>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="left">
+            <block type="catalogsearch/layer" name="catalogsearch.leftnav" after="currency" template="catalog/layer/view.phtml"/>
+        </reference>
+        <reference name="content">
+            <block type="supermenu/brands_result" name="search.result" template="supermenu/brands.phtml">
+                <block type="catalog/product_list" name="search_result_list" template="catalog/product/list.phtml">
+                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                        <block type="page/html_pager" name="product_list_toolbar_pager"/>
+                    </block>
+                    <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>
+                    <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
+                </block>
+                <action method="setListOrders"/>
+                <action method="setListModes"/>
+                <action method="setListCollection"/>
+            </block>
+        </reference>
+    </supermenu_brands_index>
+    -->
+
+    <supermenu_brands_index translate="label">
+        <label>Brands</label>
+        <!-- Mage_Catalogsearch -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+        </reference>
+        <reference name="content">
+            <block type="supermenu/brands_all" name="catalogsearch_advanced_form" template="supermenu/brands/all.phtml"/>
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+        </reference>
+    </supermenu_brands_index>
+
+   <supermenu_brands_search translate="label">
+        <label>Brands</label>
+        <update handle="page_two_columns_right" />
+        <!-- Mage_Catalogsearch -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="supermenu/brands_searchresults" name="catalogsearch_advanced_result" template="supermenu/brands/result.phtml">
+                <block type="catalog/product_list" name="search_result_list" template="catalog/product/list.phtml">
+                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                        <block type="page/html_pager" name="product_list_toolbar_pager"/>
+                    </block>
+                    <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>
+                    <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
+                </block>
+                <action method="setListOrders"/>
+                <action method="setListModes"/>
+                <action method="setListCollection"/>
+            </block>
+        </reference>
+    </supermenu_brands_search>
+
+</layout>

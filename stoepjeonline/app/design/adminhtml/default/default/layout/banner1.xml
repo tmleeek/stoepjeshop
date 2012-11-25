@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+		<reference name="head">	
+    		<action method="addJs"><script>magentothem/ma.jq.slide.js</script></action>
+    	</reference>
+	</default>
+    <banner1_adminhtml_banner1_index>
+        <reference name="content">
+            <block type="banner1/adminhtml_banner1" name="banner1" />
+        </reference>
+    </banner1_adminhtml_banner1_index>
+</layout>

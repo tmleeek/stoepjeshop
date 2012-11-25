@@ -1,0 +1,25 @@
+<?php if($this->getConfig('enabled')){ ?>	  <!-- start enable -->
+	<?php
+		$mode = $this->getConfig('animation');
+		switch ( $mode ) {
+			case 'animation1':
+				echo $this->getLayout()->createBlock('banner1/banner1')->setTemplate('magentothem/banner1/style1.phtml')->toHtml();
+				break;
+			case 'animation2':
+				echo $this->getLayout()->createBlock('banner1/banner1')->setTemplate('magentothem/banner1/style2.phtml')->toHtml();
+				break;
+			case 'animation3':
+				echo $this->getLayout()->createBlock('banner1/banner1')->setTemplate('magentothem/banner1/style2.phtml')->toHtml();
+				break;
+			case 'animation4':
+				echo $this->getLayout()->createBlock('banner1/banner1')->setTemplate('magentothem/banner1/style3.phtml')->toHtml();
+				break;
+			case 'animation5':
+				echo $this->getLayout()->createBlock('banner1/banner1')->setTemplate('magentothem/banner1/style3.phtml')->toHtml();
+				break;
+			case 'animation6':
+				echo $this->getLayout()->createBlock('banner1/banner1')->setTemplate('magentothem/banner1/style3.phtml')->toHtml();
+				break;
+		}
+	?>
+<?php } ?>

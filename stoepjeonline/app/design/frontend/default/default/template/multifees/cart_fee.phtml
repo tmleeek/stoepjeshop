@@ -1,0 +1,279 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@mageworx.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ * or send an email to sales@mageworx.com
+ *
+ * @category   design_default
+ * @package    MageWorx_MultiFees
+ * @copyright  Copyright (c) 2009 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Multi Fees extension
+ *
+ * @category   design_default
+ * @package    MageWorx_MultiFees
+ * @author     MageWorx Dev Team <dev@mageworx.com>
+ */
+?>
+<?php $counOptions = 0; ?>
+<?php if ($this->isCartEnabled()): ?>
+<?php $multifees = $this->getItems(); ?>
+<?php if ($counFees = count($multifees)): ?>
+<script type="text/javascript">
+//<![CDATA[
+function getOffsetSum(elem) {
+    var top = 0, left = 0;
+    do {
+    	left += elem.offsetLeft || 0;
+        top  += elem.offsetTop  || 0;
+        elem = elem.offsetParent;
+        if (elem) {
+            if (elem.tagName.toUpperCase() == 'BODY') break;
+            var p = Calendar.getStyle(elem, 'position');
+            if (p !== 'static') break;
+        }
+    } while (elem);
+    return { y: top, x: left };
+}
+
+function getOffsetRect(elem) {
+    var box = elem.getBoundingClientRect();
+
+    var body    = document.body;
+    var docElem = document.documentElement;
+
+    var scrollTop  = window.pageYOffset || docElem.scrollTop || body.scrollTop;
+    var scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft;
+
+    var clientTop  = docElem.clientTop || body.clientTop || 0;
+    var clientLeft = docElem.clientLeft || body.clientLeft || 0;
+
+    var top  = box.top + scrollTop - clientTop;
+    var left = box.left + scrollLeft - clientLeft;
+
+    return { y: Math.round(top), x: Math.round(left) };
+}
+
+Calendar.getAbsolutePos = function(element) {
+	if (element.getBoundingClientRect) {
+        return getOffsetRect(element);
+    } else {
+        return getOffsetSum(element);
+    }
+}
+
+var multifees = {
+	checkIsRequired: function(objId, id) {
+		var reqElem = $('is_required_'+ id);
+		if (reqElem) {
+			var value = '';
+			var option = $$('input[id^="option_'+ id +'_"]');
+			$A(option).each(function(elem) {
+				if (elem.checked === true) {
+					value = 1;
+				}
+			});
+			reqElem.setAttribute('value', value);
+		}
+	},
+	setIsRequiredValue: function(id) {
+		var reqElem = $('is_required_'+ id);
+		if (reqElem) {
+			reqElem.setAttribute('value', 1);
+		}
+	},
+	processRemove: function() {
+		if (confirm('<?php echo $this->__('Are you sure you want to do this?') ?>')) {
+			location.href = '<?php echo $this->getUrl('multifees/cart/remove') ?>';
+		}
+	},
+	getOptionImage: function(value, itemId) {
+		var itemElem = $('multifees-option-file-'+ itemId);
+		if (value != '' && itemElem) {
+			this.createOptionImage(value, itemElem)
+		} else {
+			if (itemElem) {
+				itemElem.update('');
+			}
+		}
+	},
+	createOptionImage: function(optionId, elem) {
+		new Ajax.Request('<?php echo $this->getUrl('multifees/cart/getImage') ?>', {
+			method: 'post',
+			parameters: 'option='+ optionId,
+			onSuccess: function(res) {
+				elem.update(res.responseText);
+			}
+		});
+	}
+}
+//]]>
+</script>
+<?php $_helper   = Mage::helper('multifees') ?>
+<div class="multifees-cart-fee <?php if ($_helper->isOldVersion()): ?>box<?php else: ?>shipping<?php endif; ?>">
+<form method="post" action="<?php echo $this->getUrl('multifees/cart/') ?>" id="multifees-form">
+    <fieldset>
+    <h4><?php echo $this->__('Additional Fees')?></h4>
+	<?php echo $this->getFeeHtml() ?>
+
+   	
+   	<?php $_optionId = ''; ?>
+   	<?php $_required = false; ?>
+
+   		<?php foreach ($multifees as $item): ?>
+   		<div class="fee-items">
+   			<div class="fee-title">
+   			<?php echo $item->getTitle() ?>
+    		<?php if ($_helper->isRequired($item->getRequired())): ?>
+    			<?php $_required = true; ?>
+    			<span class="required">*</span>
+   			<?php if (!$_helper->isDropDown($item->getInputType())): ?>
+				<input type="hidden" name="is_required_<?php echo $item->getId() ?>" id="is_required_<?php echo $item->getId() ?>" value="" class="required-entry" />
+			<?php endif; ?>
+           	<?php endif; ?>
+			</div>
+
+		<?php $feeOptions = $this->getOptionItems($item->getId()) ?>
+		<?php if ($counOptions = count($feeOptions)): ?>
+			<div class="fee-options">
+			<?php if ($_helper->isDropDown($item->getInputType())): ?>
+				 <table class="options">
+				    <tbody>
+				        <tr>
+				            <td>
+				            <select name="fee[<?php echo $item->getId() ?>][]" id="select-item-<?php echo $item->getId() ?>" onchange="multifees.getOptionImage(this.value, '<?php echo $item->getId() ?>')">
+				            <?php if (!$_helper->isRequired($item->getRequired())): ?>
+				            	<option value=""><?php echo $this->__('None') ?></option>
+				            <?php endif; ?>
+				            <?php foreach ($feeOptions as $option): ?>
+				            	<option value="<?php echo $option->getId() ?>" <?php if ($option->getIsDefault()): ?> selected="selected"<?php endif; ?>>
+				            	<?php echo $option->getOption() ?> (<?php if ($_helper->isTypeFixed($option->getPriceType())): ?><?php echo $_helper->getFormatPrice($_helper->getInclTaxPrice($option->getPrice()), true, true) ?><?php else: ?><?php echo $option->getPrice() ?>%<?php endif; ?>)
+				            	</option>
+				            <?php endforeach; ?>
+				            </select>
+				            <div id="multifees-option-file-<?php echo $item->getId() ?>">
+				            <?php foreach ($feeOptions as $option): ?>
+				            	<?php if ($option->getIsDefault()): ?>
+						            <?php if ($_helper->isMultifeesFile($option->getId())): ?>
+										<?php echo $this->getOptionImgHtml($option, $item->getId()) ?>
+						        	<?php endif; ?>
+					        	<?php endif; ?>
+					        <?php endforeach; ?>
+					        </div>
+				            </td>
+				        </tr>
+				   </tbody>
+				</table>
+			<?php else: ?>
+				<table class="options">
+				    <tbody>
+				    <?php foreach ($feeOptions as $option): ?>
+				        <tr>
+				        	<td>
+				        	<?php if ($_helper->isMultifeesFile($option->getId())): ?>
+								<?php echo $this->getOptionImgHtml($option, $item->getId()) ?>
+				        	<?php else: ?>&nbsp;<?php endif; ?>
+				        	</td>
+				            <td>
+				            	<input type="<?php if ($_helper->isRadioButton($item->getInputType())): ?>radio<?php else: ?>checkbox<?php endif; ?>" name="fee[<?php echo $item->getId() ?>][]" <?php if ($option->getIsDefault()): ?>checked="checked"<?php endif; ?> value="<?php echo $option->getId() ?>" id="option_<?php echo $item->getId() ?>_<?php echo $option->getId() ?>" <?php if ($_helper->isRequired($item->getRequired())): ?> <?php $_required = true; ?> onclick="multifees.checkIsRequired('<?php echo $option->getId() ?>', '<?php echo $item->getId() ?>')" <?php endif; ?> />
+				            	<?php if ($option->getIsDefault()): ?><script type="text/javascript">multifees.setIsRequiredValue('<?php echo $item->getId() ?>')</script><?php endif; ?>
+				            </td>
+				            <td><label for="option_<?php echo $item->getId() ?>_<?php echo $option->getId() ?>"><?php echo $option->getOption() ?> (<?php if ($_helper->isTypeFixed($option->getPriceType())): ?><?php echo $_helper->getFormatPrice($_helper->getInclTaxPrice($option->getPrice()), true, true) ?><?php else: ?><?php echo $option->getPrice() ?>%<?php endif; ?>)</label></td>
+				        </tr>
+				        <?php if ($_helper->isStoreMultifees()
+				    	   && $_helper->isRadioButton($item->getInputType())
+				    	   && (!$_helper->isRequired($item->getRequired()))
+				    	   && $option->getIsDefault()): ?>
+				    		<?php $_optionId = $option->getId() ?>
+						<?php endif; ?>
+				    <?php endforeach; ?>
+				    <?php if ($_optionId): ?>
+				    	<tr>
+				    		<td>&nbsp;</td>
+				            <td>
+				            	<input type="radio" name="fee[<?php echo $item->getId() ?>][]" value="" id="option_<?php echo $_helper->codeOptionKey($_optionId) ?>" />
+				            </td>
+				            <td><label for="option_<?php echo $_helper->codeOptionKey($_optionId) ?>"><?php echo $this->__('None') ?></label></td>
+				        </tr>
+				    <?php $_optionId = '' ?>
+				    <?php endif; ?>
+				    </tbody>
+				</table>
+			<?php endif; ?>
+			</div>
+
+			<div class="right-block">
+   			<?php if ($_helper->isEnableDate()): ?>
+	   			<div class="multifees-cart-date">
+	   				<?php $dateId = "date-field-{$item->getId()}"; ?>
+	   				<label for="<?php echo $dateId ?>"><?php echo $_helper->getDateTitle() ?></label>
+	   				<input name="date[<?php echo $item->getId() ?>]" id="<?php echo $dateId ?>" value="<?php echo $this->getFeeDate($item->getId()) ?>" class="input-text validate-date" />
+	   				<script type="text/javascript">
+	   				//<![CDATA[
+	   					Calendar.setup({
+	   						inputField : "<?php echo $dateId ?>",
+	   						ifFormat   : "<?php echo $this->getDateFormat() ?>",
+	   						align      : false, // important!
+	   						singleClick: true
+			            });
+			        //]]>
+	            	</script>
+				</div>
+			<?php endif; ?>
+			<?php if ($_helper->isEnableCustomerMessage()): ?>
+				<div class="customer-massage">
+					<label for="customer-massage-<?php echo $item->getId() ?>"><?php echo $_helper->getCustomerMessage() ?></label>
+					<textarea name="message[<?php echo $item->getId() ?>]" id="customer-massage-<?php echo $item->getId() ?>"><?php echo $this->getFeeMessage($item->getId()) ?></textarea>
+				</div>
+			<?php endif; ?>
+   			</div>
+		<?php endif; ?>
+            <div class="clear"></div>
+		</div>
+		<?php endforeach; ?>
+
+		<?php if ($_required): ?>
+			<p class="required">* <?php echo $this->__('Required Fee') ?></p>
+		<?php endif; ?>
+		<?php if ($counFees > 0 || $counOptions > 1 || $_helper->isEnableDate() || $_helper->isEnableCustomerMessage()): ?>
+        	<div class="left">&nbsp;<button type="submit" class="form-button-alt button"><span><?php echo $this->__('Add Fees to My Order Total')?></span></button></div>
+        <?php endif; ?>
+		<?php if ($_helper->isStoreMultifees() && (!$_required || !$_helper->isAutoaddTotal())): ?>
+	        <button type="button" onclick="multifees.processRemove()" class="form-button-alt multifees-clear-button button"><span><?php echo $this->__('Clear All')?></span></button>
+		<?php endif; ?>
+        <div class="clear"></div>
+    </fieldset>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+	LightboxOptions.fileLoadingImage = '<?php echo Mage::getSingleton('core/url')->getBaseUrl(array('_type' => 'js')) ?>lightbox/images/loading.gif';
+	LightboxOptions.fileBottomNavCloseImage = '<?php echo Mage::getSingleton('core/url')->getBaseUrl(array('_type' => 'js')) ?>lightbox/images/closelabel.gif';
+	LightboxOptions.overlayOpacity = 0.6;
+	LightboxOptions.labelImage = "<?php echo $this->__('Image')?>";
+	LightboxOptions.labelOf = "<?php echo $this->__('of')?>";
+
+	var feeForm = new VarienForm('multifees-form', true);
+//]]>
+</script>
+</div>
+<?php endif; ?>
+<?php endif ?>

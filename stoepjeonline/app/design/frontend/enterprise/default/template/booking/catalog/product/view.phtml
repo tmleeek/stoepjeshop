@@ -1,0 +1,94 @@
+<?php
+/**
+ * aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ *
+ * @category   AW
+ * @package    AW_Booking
+ * @copyright  Copyright (c) 2009-2010 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ */
+?>
+<?php if($this->getProduct() && $this->getProduct()->isSalable()): ?>
+<h4><?php echo $this->__('Reserve date')?></h4>
+<div id="booking_order" class="yui-skin-sam booking-order" style="clear:both;">
+
+    <div id="cal1Container"><div class="yuical-busy"></div></div>
+    <div id="dates" class="booking-dates">
+            <?php if ($this->getProduct()->getAwBookingRangeType() == AW_Booking_Model_Entity_Attribute_Source_Rangetype::TIME):?>
+                <?php echo $this->getChildHtml('time')?>
+            <?php endif; ?>
+            <?php if ($this->getProduct()->getAwBookingRangeType() == AW_Booking_Model_Entity_Attribute_Source_Rangetype::DATE):?>
+                <?php echo $this->getChildHtml('date')?>
+            <?php endif; ?>
+            <?php if ($this->getProduct()->getAwBookingRangeType() == AW_Booking_Model_Entity_Attribute_Source_Rangetype::DATETIME):?>
+                <?php echo $this->getChildHtml('datetime')?>
+            <?php endif; ?>
+    </div>
+</div>
+    <?php echo $this->getChild('yuical-init')->setProduct($this->getProduct())->toHtml() ?>
+
+
+<script type="text/javascript">
+    /** Product id */
+    Booking.productId = <?php echo $this->getProduct()->getId()?>
+    /** Multiply options or not */
+    Booking.multiplyOptions = <?php echo Zend_Json::encode((int)$this->getProduct()->getAwBookingMultiplyOptions())?>
+
+    Booking.fieldFromDisplayId = "id_<?php echo $this->getDisplayFieldName(AW_Booking_Block_Catalog_Product_View::DATE_FROM_NAME)?>";
+    Booking.fieldFromId = "id_<?php echo AW_Booking_Block_Catalog_Product_View::DATE_FROM_NAME?>";
+    Booking.fieldToDisplayId = "id_<?php echo $this->getDisplayFieldName(AW_Booking_Block_Catalog_Product_View::DATE_TO_NAME)?>";
+    Booking.fieldToId = "id_<?php echo AW_Booking_Block_Catalog_Product_View::DATE_TO_NAME?>";
+
+    Booking.updatePrice = function(price){
+        var price = price || Booking.getCurrentPrice()
+        if(price instanceof Array){
+            optionsPrice.productPrice = price[0];
+             try{
+            if(Booking.multiplyOptions && (opConfig instanceof Object)){
+                for(var i in opConfig.config){
+                    for(var k in opConfig.config[i]){
+                        opConfig.config[i][k] = function(){ return Booking.opConfig[i][k] * price[1]}();
+                    }
+                }
+            }
+           
+                opConfig.reloadPrice()
+            }catch(e){
+
+            }
+            optionsPrice.reload();
+        }else if(price){
+            optionsPrice.productPrice = price;
+            optionsPrice.reload();
+        }
+    }
+
+    document.observe('dom:loaded', function(){
+       
+        if(opConfig instanceof Object){
+            // Clone original opConfig
+            Booking.opConfig = {}
+            for(var i in opConfig.config){
+                Booking.opConfig[i] = {}
+                for(var k in opConfig.config[i]){
+                    Booking.opConfig[i][k] = opConfig.config[i][k];
+                }
+            }
+        }
+        Booking.updatePrice(<?php echo $this->getFirstAvailableDayPrice()?>)
+       
+    });
+
+
+
+</script>
+
+
+<?php endif; ?>

@@ -1,0 +1,60 @@
+<?php $item = $this->getItem();  ?>
+<?php $product = Mage::getModel('catalog/product')->load($item->getProductId()); ?>
+
+<tr>
+    <th style="padding:0 10px 1px 0;" align="left" width="650px">
+&nbsp;
+    </th>
+    
+    <th align="center" ><small><?php echo $this->__('Qty') ?></small></th>
+   
+</tr>
+
+<tr>
+ <td align="left" valign="top" style="padding:3px 9px 0 0">
+<small><?php echo $this->htmlEscape($product->getName()) ?></small>
+<small><i>
+<?php 
+if ($product->getTypeId() == 'bundle' || $product->getTypeId() == 'configurable' ) { 
+    $product->setStoreId($item->getStoreId()?$item->getStoreId():1);
+	$quoteByProduct = Mage::helper('qquoteadv')->getQuoteItem($product, $item->getAttribute());
+
+	foreach($quoteByProduct->getAllItems() as $_unit) {
+    	if( $_unit->getProductId() == $product->getId() ) {
+			echo $this->getItemHtml($_unit);			
+        }
+	}
+}
+?>
+<?php 
+if($product->getTypeId() == 'simple'):
+ 	$superAttribute = Mage::helper('qquoteadv')->getSimpleOptions($product, unserialize($item->getAttribute()));
+    if($superAttribute):
+        echo '<em><dl>';
+ 		foreach($superAttribute as $option => $value):
+  			echo '<dt>'.$option.'</dt>';
+            echo '<dd>'.$value.'</dd>';
+        endforeach;
+        echo '</dl></em>';
+	endif;
+endif;
+?>    
+</i></small></td>
+
+    <?php
+        $reqData = $this->getRequestedProductData($item->getId(), $item->getQuoteId());
+        $aQty   = $reqData['aQty'];        
+    ?>
+ <td valign="top" >
+        <?php if (count($aQty)): ?>
+        <?php foreach ($aQty as $key => $value): ?>
+                        <div style="height:25px;" align="center"><?php echo $value; ?></div>
+        <?php endforeach; ?>
+        <?php endif; ?>
+ </td>
+
+</tr>
+
+<tr>
+  <td align="left" colspan="2"><?php echo nl2br($item->getClientRequest()) ?><br /><hr /></td>
+</tr>

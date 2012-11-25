@@ -1,0 +1,48 @@
+<?php  $_quote = $this->getQuote(); //die('=='.$_quote->getId() ); ////$this->getQuote();  ?>
+<table style="width:100%; padding:5px;" border="0" summary="<?php echo $this->__('Items Quoted') ?>">
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+
+    <?php $i=0; foreach($this->getAllItems() as $_item): ?>
+    <tbody>
+        <?php echo $this->getLayout()->getBlock('qquoteadv_item')->setItem($_item)->toHtml(); ?>
+    </tbody>
+    <?php endforeach; ?>
+
+        <?php
+        $price = $_quote->getShippingPrice();
+        $shippingType = $_quote->getShippingType();
+
+        if ($shippingType == 'I') {
+            $txtShip = $this->__('Shipping & Handling price per Item');
+        } elseif ($shippingType == 'O') {
+            $txtShip = $this->__('Fixed Shipping & Handling price');
+        } else {
+            $txtShip = $this->__("Shipping & Handling price varies.");
+        }
+    ?>
+    <tbody>
+        <tr>
+            <td ><strong><?php   echo $txtShip; ?></strong></td>
+            <td colspan="3">
+                <?php if ($shippingType != 'I' && $shippingType == 'O'):?>
+                    <?php echo Mage::helper('checkout')->formatPrice($price) ?>
+                <?php else: ?>
+<?php echo $this->__("Please select required qty and check out online to see applicable price."); ?>
+                <?php endif; ?><br /><br />
+            </td>
+        </tr>
+    </tbody>
+<?php if($_quote->getClientRequest()): ?>
+    <tbody>
+        <tr>
+            <td colspan="4"><strong><?php echo $this->__('Remark with Proposal') ?></strong>
+            <br /><?php  echo $_quote->getClientRequest()?>
+            </td>
+        </tr>
+    </tbody>
+ <?php endif; ?>
+
+</table>

@@ -1,0 +1,87 @@
+<?php 
+/******************************************************
+ * Website: http://www.magentothem.com
+*******************************************************/
+?> 
+<?php if($this->getConfig('enabled')){ ?>	  <!-- start enable -->
+	<div class="ma-banner1-container">
+		<div id="slideshowWrapper">	
+			<ul id="slideshow">
+				<?php
+					// Get data banner
+					$slide = $this->getDataBanner1();
+					$path = Mage::getBaseUrl('media');					
+					$width = $this->getConfig('width');
+					$height = $this->getConfig('height');
+					$speed = $this->getConfig('speed');
+					$interval = $this->getConfig('interval');
+					$qty_Item = $this->getConfig('qty_item');
+					/* Get max item & qty item */
+					if ($qty_Item > count($slide)) {
+						$qty_Item = count($slide);
+					}
+				?>
+				<?php
+					$i = 1;
+					foreach($slide as $s)
+					{
+						if($i <= $qty_Item) {
+							//Get images slide show
+							$st1 = $s['image'];
+							$p1 = strpos($st1,'banner1');
+							$st2 = substr($st1,$p1+7);
+							$p2 = strpos($st2,'"');
+							$imag = substr($st2,0,$p2);
+					?>
+						<li>					
+							<?php if( $s['link'] ) { ?>
+								<a href="<?php echo $s['link']?>" title=""><img src="<?php echo $path.'magentothem/banner1'.$imag;?>" width="<?php echo $width;?>" height="<?php echo $height;?>" alt="" /></a>												
+							<?php } else { ?>
+								<img src="<?php echo $path.'magentothem/banner1'.$imag;?>" width="<?php echo $width;?>" height="<?php echo $height;?>" alt="" />
+							<?php } ?>							
+						</li>
+				<?php
+                        }//end if
+					$i++;
+                    } // end foreach
+				?>
+		    </ul>
+			<script type="text/javascript">
+				$bn1(document).ready(function(){
+					$bn1("#slideshowWrapper, ul#slideshow")
+						.css("width","<?php echo $width; ?>px")
+						.css("height","<?php echo $height; ?>px");
+					$bn1('#slideshow').fadeSlideShow({
+						width: <?php echo $width; ?>, // default width of the slideshow
+						height: <?php echo $height; ?>, // default height of the slideshow						
+						PlayPauseElement: '', // default css id for the play / pause element
+						<?php if($this->getConfig('next_back')){ ?>
+							NextElement: 'bnNext', // default id for next button
+							PrevElement: 'bnPrev', // default id for prev button
+							NextElementText: 'Next >', // default text for next button
+							PrevElementText: '< Prev', // default text for prev button
+						<?php } ?>
+						<?php if($this->getConfig('nav_ctrl')){ ?>
+							ListElement: 'bnList', // default id for image / content controll list
+						<?php } ?>
+						speed: <?php echo $speed; ?>, // default animation transition speed						
+						interval: <?php echo $interval; ?> // default interval between image change
+					});
+				});
+			</script>
+		</div>
+		<div style="display: none;"><a href="http://www.magentothem.com/" title="Magento Themes">Magento Themes</a></div>
+		<div style="display: none;"><a href="http://www.plazathemes.com/" title="Magento Themes">Magento Themes</a></div>
+		<div style="display: none;"><a href="http://www.magentothemess.com/" title="Magento Themes">Magento Themes</a></div>
+	</div>
+<?php } ?> <!-- end enable -->
+
+
+
+
+
+
+
+
+
+

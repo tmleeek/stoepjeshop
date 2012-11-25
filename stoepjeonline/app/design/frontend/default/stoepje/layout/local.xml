@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+	<catalog_product_view translate="label">
+		<reference name="abovefooter">
+			<block type="catalog/product_list_related" name="catalog.product.related" before="-" template="catalog/product/list/related.phtml"/>
+		</reference>
+	</catalog_product_view>
+
+	<catalog_category_default translate="label">
+		<reference name="abovefooter">
+			<block type="catalog/navigation" name="catalog.category" template="catalog/navigation/assortiment.phtml"/>
+		</reference>
+	</catalog_category_default>
+
+	<!--
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="downloadable"><name>downloadable_products</name><path>downloadable/customer/products</path><label>My Downloadable Products</label></action>
+        </reference>
+    </customer_account>
+	-->
+
+	<default>
+		<reference name="top.links">
+			<action method="addLink" translate="label title" module="customer"><label>Quickorder</label><url>quickorders/quickorder</url><title>Quickorder</title><prepare>true</prepare><urlParams/><position>8</position></action>
+		</reference>
+
+		<remove name="downloadable_products"/>
+		<remove name="checkout.cart.shipping"/>
+
+		<reference name="header">
+			<block type="storepicker/stores" name="currentstore" as="currentstore" template="storepicker/currentstore.phtml"/>
+		</reference>
+	</default>
+
+</layout>

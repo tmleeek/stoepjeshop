@@ -1,0 +1,63 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Category left navigation
+ *
+ * @see Mage_Catalog_Block_Navigation
+ */
+?>
+<h2 class="sectionTitle">Assortiment</h2>
+<ul class="assortiment-list">
+<?php
+	$l_oCatalogusCategory = Mage::getModel('catalog/category')->load(2);
+	$l_sCategories = $l_oCatalogusCategory->getChildren();
+	$l_aCategories = explode(",", $l_sCategories);
+	$currentCategory = $this->getCurrentCategory()->getId();
+	$currentCatIndex = array_search($currentCategory, $l_aCategories);
+	unset($l_aCategories[$currentCatIndex]);
+	sort($l_aCategories);
+	
+	for($i=0; $i<count($l_aCategories); $i++){
+		$p = $l_iPosition = ($i%3) + 1;
+
+		$l_oCategory = Mage::getModel('catalog/category')->load($l_aCategories[$i]);
+		if($l_oCategory->getIncludeInMenu() == "0") continue;
+		
+		?><li class="assortiment_<?=$p?>"><div class="image-holder"><a href="<?php echo $l_oCategory->getUrl(); ?>"><img src="<?php echo $l_oCategory->getImageUrl(); ?>" alt="<?= $l_oCategory->getName(); ?>" /></a></div><div class="text"><?php
+		echo $l_oCategory->getName(); ?>
+		</div></li> <?
+	}
+	/*foreach($l_aCategories as $l_iCategoryID) {
+		$l_oCategory = Mage::getModel('catalog/category')->load($l_iCategoryID);
+
+		?><li><div class="image-holder"><a href="<?php echo $l_oCategory->getUrl(); ?>"><img src="<?php echo $l_oCategory->getImageUrl(); ?>" alt="<?= $l_oCategory->getName(); ?>" /></a></div><div class="text"><?php
+
+		echo $l_oCategory->getName(); ?>
+		</div></li> <?
+	}*/
+?>
+</ul>

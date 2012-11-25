@@ -1,0 +1,126 @@
+<script type='text/javascript'>
+var storepickerMap;
+var geocoder;
+var stores = new Array();
+var resultFieldset;
+
+function initialize() {
+	geocoder = new google.maps.Geocoder();
+	
+	var myLatlng = new google.maps.LatLng(52.163403, 5.407333);
+
+	var myOptions = {
+		zoom: 7,
+		center: myLatlng,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	}
+
+	storepickerMap = new google.maps.Map(document.getElementById('storepickerCanvas'), myOptions);
+
+<?php
+	$stores = $this->getStores()->getData();
+	foreach ($stores as $key => $store) {
+		$storeUrl = Mage::getUrl('storepicker/index/index', array('id' => $store['id']));
+
+		foreach ($store as $label => $value) {
+			$store[$label] = addslashes($value);
+		}
+
+		if (empty($store['latitude'])) {
+			$store['latitude'] = 0;
+		}
+
+		if (empty($store['longitude'])) {
+			$store['longitude'] = 0;
+		}
+
+		if ($store['canpickup'] && $store['cansend']) {
+			$sendMethods = "Afhalen en verzenden";
+		} else if ($store['cansend']) {
+			$sendMethods = "Verzenden";
+		} else {
+			$sendMethods = "Afhalen";
+		}
+
+		$open = "<ul>";
+		$open .= "<li>Zondag: {$store['opensunday']}</li>";
+		$open .= "<li>Maandag: {$store['openmonday']}</li>";
+		$open .= "<li>Dinsdag: {$store['opentuesday']}</li>";
+		$open .= "<li>Woensdag: {$store['openwednesday']}</li>";
+		$open .= "<li>Donderdag: {$store['openthursday']}</li>";
+		$open .= "<li>Vrijdag: {$store['openfriday']}</li>";
+		$open .= "<li>Zaterdag: {$store['opensaturday']}</li>";
+		$open .= "</ul>";
+
+		echo <<<ECHO
+	stores['{$key}'] = new Store({
+		'storepickerMap' : storepickerMap,
+		'lat': {$store['latitude']},
+		'lng': {$store['longitude']},
+		'name' : '{$store['name']}',
+		'content' : '<div class="storepickerStore clearfix">'+
+			'<div class="storepickerInfo">'+
+			'<h3><a href="{$storeUrl}">{$store['name']}</a></h3>'+
+			'<p>{$store['street']} {$store['housenr']}<br />{$store['postal']}<br />{$store['city']}</p>'+
+			'</div>'+
+			'<div class="storepickerOpening">'+
+			'<span>Aanwezig op:</span>'+
+			'{$open}'+
+			'<p>Verzendmethodes:<br />{$sendMethods}</p>'+
+			'</div>'+
+			'</div>'
+	});
+
+ECHO;
+	}
+?>
+}
+
+function updateStores(loc, dist) {
+	resultFieldset.innerHTML = '';
+	var foundStores = 0;
+	for (i in stores) {
+		if (typeof(stores[i]) == 'object') {
+			stores[i].removeMarker();
+			stores[i].calculateDistance(loc.lat(), loc.lng());
+			if (stores[i].distance < dist) {
+				foundStores ++;
+				stores[i].putMarker();
+
+				resultFieldset.innerHTML += stores[i].content;
+			}
+		}
+	}
+
+	resultFieldset.innerHTML = '<div>Er zijn '+ foundStores +' winkels gevonden.</div>'+ resultFieldset.innerHTML;
+}
+
+function codeAddress(locationBox, distanceBox) {
+	var address = locationBox.value;
+	var distance = distanceBox.value;
+
+	resultFieldset = document.getElementById('storepickerResults');
+
+	if (distance == 0) {
+		distance = 10;
+	}
+
+	geocoder.geocode( { 'address': address}, function(results, status) {
+		if (status == google.maps.GeocoderStatus.OK) {
+			storepickerMap.setCenter(results[0].geometry.location);
+			updateStores(results[0].geometry.location, distance);
+		} else {
+			alert("Geocode was not successful for the following reason: " + status);
+		}
+	});
+}
+
+function loadScript() {
+	var script = document.createElement("script");
+	script.type = "text/javascript";
+	script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
+	document.body.appendChild(script);
+}
+
+window.onload = loadScript;
+</script>

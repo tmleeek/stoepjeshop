@@ -1,0 +1,11 @@
+
+
+<tr>
+    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+         <?php echo($this->helper('afterpay')->__($this->getTotal()->getTitle())); ?>
+    </td>
+    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+        <?php echo $this->helper('checkout')->formatPrice($this->getExtraFeeExcludeTax()) ?>
+    </td>
+</tr>
+

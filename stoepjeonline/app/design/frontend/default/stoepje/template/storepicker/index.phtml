@@ -1,0 +1,29 @@
+<link href="../../../../../../../skin/frontend/default/stoepje/css/custom.css" rel="stylesheet" type="text/css" />
+<div class="storepicker_header"><h2><?php echo $this->__("Zoek en kies eerst een markt bij u in de buurt."); ?></h2></div>
+<fieldset id='uitleg' style="width: 500px;">
+<h5>Vul aan de rechterzijde uw postcode in en druk op Vind! Aan de linkerzijde <br />
+worden de resultaten weergegeven. U maakt een keuze door op de markt te klikken.<a href="http://shop.stoepje.nl/hoe_te_bestellen.html" title="Hoe te bestellen" target="_parent"></a><br />
+Voor meer informatie ga naar <a href="http://shop.stoepje.nl/hoe_te_bestellen.html" title="Hoe te bestellen" target="_parent">Hoe te bestellen?</a><br />
+<br/>
+Let op: U kunt tot 10:00 uur bestellen voor de volgende dag. Is het 10 uur geweest dan wordt automatisch de week erop getoond.<br />
+</fieldset>
+<fieldset id='storepickerResults'>
+  <img src="../../../../../../../skin/frontend/default/stoepje/images/marktkeuze.gif" width="400" height="400" />
+</fieldset>
+<div id="storepicker_text"></div>
+<div id='storepickerBlue'>
+
+<form id='storepickerForm'>
+<fieldset id='storepickerData'>
+<label>Postcode</label> <input id='storepickerPostal' type='textbox' name='storepickerPostal' value='' class='input-text' />
+<label>Straal</label> <select id='storepickerDistance'><option value='5'>5 km</option><option value='10'>10 km</option><option value='15'>15 km</option><option value='20'>20 km</option><option value='25'>25 km</option></select><!--<input id='storepickerDistance' type='textbox' name='storepickerDistance' value='' /> km-->
+<input type='checkbox' id='filterPickup' name='filterPickup' value='1' checked /> <label for='pickup'>Afhaal</label>
+<input type='checkbox' id='filterSend' name='filterSend' value='1' checked /> <label for='send'>Bezorg</label>
+<input id='storepickerSet' type='submit' value='Vind!' onClick='codeAddress(document.getElementById("storepickerPostal"), document.getElementById("storepickerDistance"), document.getElementById("filterPickup"), document.getElementById("filterSend")); return false' />
+</fieldset>
+</form>
+<div id='storepickerCanvas'></div>
+<div id='storepickerNote'>Klik op een pin in de kaart voor adressen en markttijden.</div>
+</div>
+<?php
+//echo print_r($this->getStores()->getData(), 1);

@@ -1,0 +1,18 @@
+<?php 
+/**
+ * Raptor Commerce
+ *
+ * @category   Raptor
+ * @package    Raptor_Supermenu
+ * @copyright  Copyright (c) 2009 Raptor Commerce (http://www.raptorcommerce.com)
+ */
+?>
+<div class="nav-container">
+	<h4 class="no-display"><?php echo $this->__('Category Navigation:') ?></h4>
+	<ul id="anav">
+	<?php echo $this->drawHomeLink() ?>
+	<?php echo $this->drawCategories(); ?>
+	<?php echo $this->drawBrands(); ?>
+	<?php echo $this->drawCMSMenu(); ?>
+	</ul>
+</div>

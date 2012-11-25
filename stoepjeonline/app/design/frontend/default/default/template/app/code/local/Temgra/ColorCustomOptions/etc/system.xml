@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * NOTICE OF LICENSE
+ *
+ * This file is subject to the license
+ * that is bundled with this package in the file LICENSE_Temgra.txt.
+ * If you did not receive a copy of the license, please send an email
+ * to info@temgra.com so we can send you a copy immediately.
+ *
+ * @copyright Copyright (c) 2009-2011 by Tania Alekova, temgra.com - Templates and Graphics Online Store (http://www.temgra.com) - All rights reserved.
+ * @license http://www.temgra.com/license
+ * 
+ */
+-->
+<config><tabs><temgra translate="label" module="colorcustomoptions"><label>Temgra</label><sort_order>100</sort_order></temgra></tabs><sections><colorcustomoptions translate="label" module="colorcustomoptions"><label>Color Custom Options</label><tab>temgra</tab><frontend_type>text</frontend_type><sort_order>1000</sort_order><show_in_default>1</show_in_default><show_in_website>1</show_in_website><show_in_store>1</show_in_store><groups><control translate="label"><label>Color Custom Options</label><sort_order>0</sort_order><show_in_default>1</show_in_default><show_in_website>1</show_in_website><fields><enabled translate="label"><label>Enabled</label><sort_order>0</sort_order><frontend_type>select</frontend_type><source_model>adminhtml/system_config_source_yesno</source_model><show_in_default>1</show_in_default><show_in_website>1</show_in_website><show_in_store>1</show_in_store></enabled></fields></control></groups></colorcustomoptions></sections></config>

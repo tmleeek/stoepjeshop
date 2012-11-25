@@ -1,0 +1,240 @@
+<script type='text/javascript'>
+var storepickerMap;
+var geocoder;
+var stores = new Array();
+var resultFieldset;
+var openInfowindow;
+
+function initialize() {
+	geocoder = new google.maps.Geocoder();
+	
+	var myLatlng = new google.maps.LatLng(52.163403, 5.407333);
+
+	var myOptions = {
+		zoom: 7,
+		center: myLatlng,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	}
+
+	storepickerMap = new google.maps.Map(document.getElementById('storepickerCanvas'), myOptions);
+
+<?php
+	$daysOfWeek = array("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday");
+	$daysOfWeek = array_merge($daysOfWeek, $daysOfWeek);
+	$daysOfWeekTranslated = array(
+		"sunday" => "Zondag", 
+		"monday" => "Maandag",
+		"tuesday" => "Dinsdag",
+		"wednesday" => "Woensdag",
+		"thursday" => "Donderdag",
+		"friday" => "Vrijdag",
+		"saturday" => "Zaterdag"
+	);
+
+	$time = Mage::getModel('core/date')->timestamp(time());
+
+	$currentDay = date("w", $time);
+	$activeDaysOfWeek = array();
+	$dayOffset = 1;
+
+	if (date('G', $time) >= 10) {
+		$currentDay ++;
+		$dayOffset = 2;
+	}
+
+	for ($dayCount = 0; $dayCount < 7; $dayCount ++) {
+		$currentDay ++;
+
+		$activeDaysOfWeek[] = $daysOfWeek[$currentDay];
+	}
+
+	$stores = $this->getStores()->getData();
+	foreach ($stores as $key => $store) {
+		$storeUrl = Mage::getUrl('storepicker/index/index', array('id' => $store['id']));
+
+		foreach ($store as $label => $value) {
+			$store[$label] = addslashes($value);
+		}
+
+		if (empty($store['latitude'])) {
+			$store['latitude'] = 0;
+		}
+
+		if (empty($store['longitude'])) {
+			$store['longitude'] = 0;
+		}
+
+		if ($store['pickup'] && $store['send']) {
+			$sendMethods = "Afhalen en verzenden";
+		} else if ($store['send']) {
+			$sendMethods = "Verzenden";
+		} else {
+			$sendMethods = "Afhalen";
+		}
+
+
+		$open = "<ul>";
+		if ($store['opensunday'] != '-') {
+			$open .= "<li>Zondag: {$store['opensunday']}</li>";
+		}
+		if ($store['openmonday'] != '-') {
+			$open .= "<li>Maandag: {$store['openmonday']}</li>";
+		}
+		if ($store['opentuesday'] != '-') {
+			$open .= "<li>Dinsdag: {$store['opentuesday']}</li>";
+		}
+		if ($store['openwednesday'] != '-') {
+			$open .= "<li>Woensdag: {$store['openwednesday']}</li>";
+		}
+		if ($store['openthursday'] != '-') {
+			$open .= "<li>Donderdag: {$store['openthursday']}</li>";
+		}
+		if ($store['openfriday'] != '-') {
+			$open .= "<li>Vrijdag: {$store['openfriday']}</li>";
+		}
+		if ($store['opensaturday'] != '-') {
+			$open .= "<li>Zaterdag: {$store['opensaturday']}</li>";
+		}
+		$open .= "</ul>";
+
+		for ($dayCtr = 0; $dayCtr < 7; $dayCtr ++) {
+			$dayOfWeek = $activeDaysOfWeek[$dayCtr];
+			if ($store["open{$dayOfWeek}"] != '' && $store["open{$dayOfWeek}"] != '-' || $store["send{$dayOfWeek}"] != '' && $store["send{$dayOfWeek}"] != '-') {
+				$date = date("d-m-Y", $time+ 86400*$dayCtr + 86400*$dayOffset);
+				if ($store['sendradius'] == '') {
+					$store['sendradius'] = 0;
+				}
+				if ($store["open{$dayOfWeek}"] == '' || $store["open{$dayOfWeek}"] == '-') {
+					$store["open{$dayOfWeek}"] = 'n.v.t.';
+				}
+				if ($store["send{$dayOfWeek}"] == '' || $store["send{$dayOfWeek}"] == '-') {
+					$store["send{$dayOfWeek}"] = 'n.v.t.';
+				}
+				$sortedStores[$dayCtr][] = <<<ECHO
+	stores['{$dayCtr}-{$store['id']}'] = new Store({
+		'id' : {$store['id']},
+		'storepickerMap' : storepickerMap,
+		'lat': {$store['latitude']},
+		'lng': {$store['longitude']},
+		'name' : '{$store['name']}',
+		'pickup' : {$store['pickup']},
+		'send' : {$store['send']},
+		'sendradius' : {$store['sendradius']},
+		'content' : '<div class="storepickerStore clearfix">'+
+			'<div class="storepickerDate">{$date}</div>'+
+			'<div class="storepickerDay">{$daysOfWeekTranslated[$dayOfWeek]}</div>'+
+			'<div class="storepickerInfo"><h3><a href="{$storeUrl}" onMouseOver="toggleInfo(this, \'{$dayCtr}-{$store['id']}\')" onMouseOut="toggleInfo(this, \'{$dayCtr}-{$store['id']}\')">{$store['city']}</a></h3><p>{$store['street']} {$store['housenr']}<br />{$store['postal']}<br />{$store['city']}</p></div>'+
+			'<div class="storepickerPickup">{$store["open{$dayOfWeek}"]}</div>'+
+			'<div class="storepickerSend">{$store["send{$dayOfWeek}"]}</div>'+
+			'<div class="storepickerPickupFull">Afhalen: {$store["open{$dayOfWeek}"]}</div>'+
+			'<div class="storepickerSendFull">Bezorgen: {$store["send{$dayOfWeek}"]}</div>'+
+			'</div>'
+	});
+
+ECHO;
+		/*
+		'content' : '<div class="storepickerStore clearfix">'+
+			'<div class="storepickerInfo">'+
+			'<h3><a href="{$storeUrl}">{$store['name']}</a></h3>'+
+			'<p>{$store['street']} {$store['housenr']}<br />{$store['postal']}<br />{$store['city']}</p>'+
+			'</div>'+
+			'<div class="storepickerOpening">'+
+			'<span>Aanwezig op:</span>'+
+			'{$open}'+
+			'<p>Verzendmethodes:<br />{$sendMethods}</p>'+
+			'</div>'+
+			'</div>'
+		 */
+			}
+		}
+	}
+
+	for ($dayCtr = 0; $dayCtr < 7; $dayCtr ++) {
+		$dayStores = $sortedStores[$dayCtr];
+		foreach ($dayStores as $store) {
+			echo $store;
+		}
+	}
+?>
+}
+
+function toggleInfo(storeName, id) {
+	storeInfo = storeName.parentNode.parentNode.getElementsByTagName('p')[0];
+	container = storeName.parentNode.parentNode.parentNode.parentNode;
+
+	if (container.id == 'storepickerResults') {
+		if (storeInfo.style.display == '' || storeInfo.style.display == 'none') {
+			storeInfo.style.display = 'block';
+			if (openInfowindow) {
+				stores[openInfowindow].closeInfowindow();
+			}
+			openInfowindow = id;
+			stores[id].centerMarker();
+		} else {
+			storeInfo.style.display = 'none';
+		}
+	}
+}
+
+function updateStores(loc, dist, pickup, send) {
+	resultFieldset.innerHTML = '';
+	var foundStores = 0;
+	for (i in stores) {
+		if (typeof(stores[i]) == 'object') {
+			stores[i].removeMarker();
+			if ((pickup && stores[i].pickup) || (send && stores[i].send)) {
+				stores[i].calculateDistance(loc.lat(), loc.lng());
+				if (stores[i].distance < dist || stores[i].distance < stores[i].sendradius) {
+					foundStores ++;
+					stores[i].putMarker();
+
+					resultFieldset.innerHTML += stores[i].content;
+				}
+			}
+		}
+	}
+
+	if (foundStores > 0) {
+		resultFieldset.innerHTML = '<div class="storepickerStore storepickerHead clearfix">'+
+			'<div class="storepickerDate">Datum</div>'+
+			'<div class="storepickerDay">Dag</div>'+
+			'<div class="storepickerInfo">Markt</div>'+
+			'<div class="storepickerPickup">Afhalen</div>'+
+			'<div class="storepickerSend">Bezorgen</div>'+
+			'</div>' + resultFieldset.innerHTML;
+	}
+
+	resultFieldset.innerHTML = '<div>Er zijn '+ foundStores +' winkels gevonden.</div>'+ resultFieldset.innerHTML;
+}
+
+function codeAddress(locationBox, distanceBox, filterPickup, filterSend) {
+	var address = locationBox.value +' Nederland';
+	var distance = distanceBox.value;
+	var pickup = filterPickup.checked;
+	var send = filterSend.checked;
+
+	resultFieldset = document.getElementById('storepickerResults');
+
+	//if (distance == 0) {
+		//distance = 10;
+	//}
+
+	geocoder.geocode( { 'address': address}, function(results, status) {
+		if (status == google.maps.GeocoderStatus.OK) {
+			storepickerMap.setCenter(results[0].geometry.location);
+			updateStores(results[0].geometry.location, distance, pickup, send);
+		} else {
+			alert("Geocode was not successful for the following reason: " + status);
+		}
+	});
+}
+
+function loadScript() {
+	var script = document.createElement("script");
+	script.type = "text/javascript";
+	script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
+	document.body.appendChild(script);
+}
+
+window.onload = loadScript;
+</script>

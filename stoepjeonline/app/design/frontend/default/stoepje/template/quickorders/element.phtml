@@ -1,0 +1,23 @@
+<tr id="product-<?php echo $this->nr?>" class='<?php echo $this->class ?>'>
+	<td class='cleft'>
+		<?php echo $this->product_sku; ?>
+		<input type="hidden" name="sku[]" value="sku[]" />
+	</td>
+	<td class='cleft'>
+		<?php echo $this->product_name; ?>
+	</td>
+	<td>
+	    <?php if($this->nr): ?>
+		<input type="text" size="3" name="qty[]" value="<?php echo $this->product_qty?>" />
+		<?php endif; ?>
+	</td>
+	<td>
+		<span id="stock_<?php echo $this->product_id ?>" class="q_quantity<?php echo Mage::helper('quickorders/data')->getQtyClass($this->qty)?>"><?php echo Mage::helper('quickorders/data')->getStockQuantity($this->qty); ?></span>&nbsp;
+		<span id="lastupdated_<?php echo $this->product_id ?>" class='last_updated'><?php if($this->last_updated) echo "(" . $this->last_updated . ")"; ?></span>
+                <img id="loadingicon_<?php echo $this->product_id ?>" alt="<?php echo $this->__('Loading'); ?>" src="<?php echo $this->getSkinUrl('images/ajaxsearch/loader.gif'); ?>" style="display:none" />
+	</td>
+	<td>
+		<input type="checkbox" name="name" id="delcheck-<?php echo $this->nr?>" value="" onclick="addToDelete(this,'<?=$this->nr?>')" />
+		<input type="hidden" name="product_id[]" value="<?php echo $this->product_id ?>" />
+	</td>
+</tr>

@@ -1,0 +1,34 @@
+<div style="padding:0px 5px 0px 5px">
+  <?php
+  	foreach($this->data as $key=>$data)
+  	{
+  		/*print "<pre>";
+  		print_r($data);
+  		print "</pre>";*/
+  		$product = Mage::getModel('catalog/product')->loadByAttribute('sku',$data['prod_data']['sku']); 
+  		?>
+  		<div class="suggest_product">
+	  		<div class="suggest_title">
+	  			<a onmouseover="closeAutoSuggest=false;" onmouseout="closeAutoSuggest=true;" style="cursor:pointer" onclick="loadProduct('<?php echo urlencode($data['prod_data']['sku']) ?>','1')">
+	  				<strong>
+	  					<?php echo $product->getName(); ?>
+	  				</strong>
+	  			</a>
+	  			
+	  		</div>
+	  		<div class="suggest_field">
+		  		<div class="suggest_img">
+		  			<a onmouseover="closeAutoSuggest=false;" onmouseout="closeAutoSuggest=true;" style="cursor:pointer" onclick="loadProduct('<?php echo urlencode($data['prod_data']['sku']) ?>','1')">
+		  				<img src="<? echo Mage::helper('catalog/image')->init($product, 'small_image')->resize(50, 50); ?>" />
+		  			</a>
+		  		</div>
+		  		<div class="suggest_des" style="padding-bottom:5px">
+		  			<a onmouseover="closeAutoSuggest=false;" onmouseout="closeAutoSuggest=true;" style="cursor:pointer" onclick="loadProduct('<?php echo urlencode($data['prod_data']['sku']) ?>','1')"><?php echo $product->getShortDescription(); ?></a>
+		  		</div>
+		  		<div class="clear"></div>
+	  		</div>
+  		</div>
+  		<?php
+  	}
+  ?>
+</div>

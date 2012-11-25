@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * NOTICE OF LICENSE
+ *
+ * This file is subject to the license
+ * that is bundled with this package in the file LICENSE_Temgra.txt.
+ * If you did not receive a copy of the license, please send an email
+ * to info@temgra.com so we can send you a copy immediately.
+ *
+ * @copyright Copyright (c) 2009-2011 by Tania Alekova, temgra.com - Templates and Graphics Online Store (http://www.temgra.com) - All rights reserved.
+ * @license http://www.temgra.com/license
+ * 
+ */
+-->
+<layout version="0.1.0">   
+	<catalog_product_view>
+		<reference name="head">
+			<action method="addJs" ifconfig="colorcustomoptions/control/enabled"><script>temgra/colorCustomOptions.js</script></action>
+			<action method="addItem" ifconfig="colorcustomoptions/control/enabled"><type>skin_css</type><name>css/colorCustomOptions.css</name></action>
+		</reference>
+		<reference name="product.info.media">
+			<action method="setTemplate" ifconfig="colorcustomoptions/control/enabled"><template>colorcustomoptions/media.phtml</template></action>
+		</reference>
+		<reference name="product.info.options">
+			<action method="setTemplate" ifconfig="colorcustomoptions/control/enabled"><template>colorcustomoptions/options.phtml</template></action>
+			<action method="addOptionRenderer" ifconfig="colorcustomoptions/control/enabled"><type>select</type><block>catalog/product_view_options_type_select</block><template>colorcustomoptions/select.phtml</template></action>
+		</reference>
+	</catalog_product_view>
+</layout>

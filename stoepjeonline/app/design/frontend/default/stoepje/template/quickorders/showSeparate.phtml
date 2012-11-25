@@ -1,0 +1,313 @@
+<?php
+/*
+ * Created on Apr 1, 2010
+ *
+ * To change the template for this generated file go to
+ * Window - Preferences - PHPeclipse - PHP - Code Templates
+ */
+?>
+<script language="JavaScript" type="text/javascript">
+  var productNr = 0;
+  var rowsToDelete = new Array();
+  var i=0;
+  var closeAutoSuggest = true;
+  var check = true;
+  var skuFocus = true;
+
+  function loadProduct(prodNr,quantity) {
+	  	skuFocus = true;
+	  	if(!prodNr) {
+	  		alert('<?php echo $this->__("Please enter product number!") ?>');
+	  		return;
+	  	}
+	  	$('loading-bar').clonePosition($('quick-orders-container'));
+        $('loading-bar').show();
+	  	productNr++;
+	  	prodNr = prodNr.replace("/","..");
+	  	url = '<?php echo $this->getUrl('quickorders/quickorder/load')?>?prod='+prodNr+'&nr='+productNr+'&qty='+quantity;
+	  	new Ajax.Request(url, {
+			  method: 'get',
+			  onSuccess: function(transport) {
+			  	if (transport.responseText != '') {
+					$('quickorder-list').insert({bottom:transport.responseText});
+					$('current-input').value = '';
+					document.getElementById('autosuggest').style.display = 'none';
+					document.getElementById('autosuggest').innerHTML = '';
+					$('loading-bar').hide();
+					closeAutoSuggest = true;
+			    }
+			    else {
+			      alert('<?php echo $this->__("Product not found") ?> : ' +prodNr);
+			      $('loading-bar').hide();
+			      closeAutoSuggest = true;
+			    }
+			  }
+			});
+  }
+
+  function loadProductAutoSuggest() {
+	  	prodNrPart = $('current-input').getValue();
+	  	prodNrPart = trimAll(prodNrPart);
+	  	prodNrPart = prodNrPart.replace("/","..");			
+	  	if(prodNrPart.length >= 3){
+			url = '<?php echo $this->getBaseUrl()?>quickorders/quickorder/loadpart/prod/'+prodNrPart;
+		  	new Ajax.Request(url, {
+				  method: 'get',
+				  onSuccess: function(transport) {
+				    if (transport.responseText != '') {
+				    	document.getElementById('autosuggest').style.display = 'block';
+						$('autosuggest').update(transport.responseText);
+						$('autosuggest').innerHTML;
+				    }
+				 }
+				});
+	  	} else {
+			document.getElementById('autosuggest').style.display = 'none';
+			document.getElementById('autosuggest').innerHTML = '';
+		}
+  }
+
+  function disableAutosuggest() {
+  		if(closeAutoSuggest) {
+  			document.getElementById('autosuggest').style.display = 'none';
+			document.getElementById('autosuggest').innerHTML = '';
+  		}
+  }
+
+  function collectProductRows() {
+		prodRows = $('product_rows').getValue();
+		prodRows = prodRows.split('\n');
+		prodRows.each(function(item) {
+			if(item.indexOf(',') > 0) {
+				rowParts = item.split(',');
+			} else {
+				rowParts = item.split('\t');
+			}
+			if (item.empty()) {
+				return false;
+			}
+			loadProduct(encodeURIComponent(rowParts[0]),trimAll(rowParts[1]));
+		});
+		$('product_rows').update('');
+		$('product_rows').innerHTML;
+  }
+
+  function addToDelete(obj,nr) {
+		if(obj.checked==true){
+			rowsToDelete[i++] = nr;
+		} else {
+			rowsToDelete = rowsToDelete.without(nr);
+		}
+  }
+
+  function deleteRows() {
+	  	if(!rowsToDelete.size()){
+	  		alert('<?php echo $this->__("You must select a product!") ?>');
+	  		return;
+	  	}
+	  	rowsToDelete.each(function(item) {
+	  		rowsToDelete = rowsToDelete.without(item);
+			$('product-'+item).remove();
+		});
+  }
+
+  function checkProducts() {
+  		if(document.getElementById('quickorder-list').rows.length==1) {
+  			alert('<?php echo $this->__("You must load products to your list!") ?>');
+  		} else {
+	  		$('quickorders-form').submit();
+	  	}
+  }
+
+  function trimAll(sString) {
+		while (sString.substring(0,1) == ' ') {
+			sString = sString.substring(1, sString.length);
+		}
+		while (sString.substring(sString.length-1, sString.length) == ' ') {
+			sString = sString.substring(0,sString.length-1);
+		}
+		return sString;
+  }
+
+  function setImportDefaultText(textarea) {
+  		if(textarea.value == '') {
+  			textarea.value = "<?php echo html_entity_decode($this->__("articlenumber,quantity") . "\\n" . $this->__("articlenumber,quantity"),ENT_NOQUOTES,"UTF-8")?>";
+  		}
+  }
+
+  function updateStock(productNumber) {
+      $('stock_' + productNumber).hide();
+      $('lastupdated_' + productNumber).hide();
+      $('loadingicon_' + productNumber).show();
+
+      new Ajax.Request(
+      '<?php echo Mage::getUrl('inventory/index/update/') ?>',
+      {
+              parameters: {
+                  products: productNumber
+              },
+              method:'get',
+              onComplete: function(transport, json) {
+                  var data = eval(transport.responseText);
+                  for (var i = 0; i < data.length; i++) {
+                      $('stock_'+data[i]['productNumber']).innerHTML = getStockQty(data[i]['stock']);
+                      $('lastupdated_'+data[i]['productNumber']).innerHTML = '(' + data[i]['time'] + ')';
+                      $('stock_'+data[i]['productNumber']).setAttribute('class',getQtyClass(data[i]['stock']));
+                  }
+                  $('loadingicon_' + productNumber).hide();
+                  $('stock_' + productNumber).show();
+                  $('lastupdated_' + productNumber).show();
+              }
+      }
+      );
+}
+
+  function removeImportDefaultText(textarea) {
+		if(textarea.value == "<?php echo html_entity_decode($this->__("articlenumber,quantity") . "\\n" . $this->__("articlenumber,quantity"),ENT_NOQUOTES,"UTF-8") ?>") {
+			textarea.value = '';
+		}
+  }
+
+  function checkAll() {
+		var checkboxes = $('quickorders-form').getInputs('checkbox');
+		checkboxes.each(function(item) {
+			if(!item.checked && check) {
+				item.click();
+			}
+			if(item.checked && !check) {
+				item.click();
+			}
+		});
+		if(check) {
+			check = false;
+		} else {
+			check = true;
+		}
+  }
+
+</script>
+<div id="attributesbox" style="margin-top:0px;" class="attributes-box">
+	<div style="padding-left:10px" id="orders">
+
+	<form method="post" onsubmit="" action="<?php echo $this->getBaseUrl()?>quickorders/quickorder/addtocart" id="quickorders-form" name="quickorders_form">
+		<div class="quick-orders-container" id="quick-orders-container">
+    		<h1><?php echo $this->__("Quick-Orders") ?></h1>
+    		<div class="comment"><?php echo $this->__("Here you can import articles, the format is: [productnumber][separator][quantity]"); ?></div>
+			<div class="blok">
+    			<div class="title"><?php echo $this->__("Bestellijst invoeren") ?></div>
+	   			<div class="text"><?php echo $this->__("Voer hieronder uw producten in."); ?></div>
+    			<textarea onfocus="removeImportDefaultText(this)" onblur="setImportDefaultText(this)" name="product_rows" id="product_rows" rows="10" cols="50" wrap="off" ><?php echo $this->__("articlenumber,quantity") . "\n" . $this->__("articlenumber,quantity") ?></textarea>
+    			<div class="send">
+    				<button class="button delete" type="button" onclick="collectProductRows()" name="import">
+	    				<span>
+	    					<span>
+	    						<?php echo $this->__("Import") ?>
+	    					</span>
+	    				</span>
+    				</button>
+    			</div>
+			</div>
+
+			<h1><?php echo $this->__("Artikelen zoeken op EAN-, artikelnummer of naam") ?></h1>
+			<div class="text"><?php echo $this->__("Use the input field to add products to the quick order list"); ?></div>
+			<div class="quicksearch">
+				<input type="text" tabindex="1" onkeyup="loadProductAutoSuggest()" onblur="skuFocus=false;disableAutosuggest()" onfocus="skuFocus=true" id="current-input" />
+    			<div id="autosuggest" style="display:none;position:absolute;top:28px;background-color:#FFFFFF;width:300px" class="autosuggest"></div>
+    			<div id="loading-bar" style="display:none;">Loading</div>
+    		</div>
+	
+    		<div style="text-align:right;"><?php echo $this->__('Select all')?> <input type="checkbox" onclick="checkAll()" id="select-all" name="select-all"></div>
+    
+    		<div class="quickorder-list">
+    			<div class="grid">
+        			<div class="hor-scroll">
+    					<table cellspacing="0" class="data" id="quickorder-list">
+    						<col width="30%">
+    						<col width="30%">
+    						<col width="15%">
+    						<!-- <col width="15%"> -->
+    						<!--<col width="15%"> -->
+    						<col width="10%">
+    						<thead>
+    							<tr class="headings">
+    		            			<th><span class="sort"><a><?php echo $this->__("Articlenumber") ?></a></span></th>
+    		                		<th><span class="nobr"><a><?php echo $this->__("Name") ?></a></span></th>
+    		                		<th><span class="nobr"><a><?php echo $this->__("Qty") ?></a></span></th>
+    		                		<!-- <th><span class="nobr"><a><?php //echo $this->__("Eenheid") ?></a></span></th> -->
+    		               			<!--<th><span class="nobr"><a><?php //echo $this->__("Stock") ?></a></span></th>-->
+    		                		<th class="actions"><span class="nobr"><a><?php echo $this->__("Action") ?></a></span></th>
+    		                		<th></th>
+    		            		</tr>
+    						</thead>
+    					</table>
+    				</div>
+    			</div>
+    		</div>
+    		<button class="button delete" type="button" onclick="deleteRows()">
+	    		<span>
+	    			<span>
+	    				<?php echo $this->__('Delete') ?>
+	    			</span>
+	    		</span>
+    		</button>
+    		<button class="button" tabindex="2" type="button" onclick="checkProducts()">
+	    		<span>
+	    			<span>
+	    				<?php echo $this->__('Add to cart') ?>
+	    			</span>
+	    		</span>
+    		</button>
+		</div>
+	</form>
+	</div>
+</div>
+<script type="text/javascript">
+
+function stopRKey(evt) {
+  var evt = (evt) ? evt : ((event) ? event : null);
+  var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+  if ((evt.keyCode == 13) && (node.type=="text"))  {return false;}
+}
+
+document.onkeypress = stopRKey;
+
+</script>
+<script language="JavaScript" type="text/javascript">
+function kpress() {
+	alert('pressed'+event.keyCode);
+}
+
+function kpressblur() {
+	alert('blur'+event.keyCode);
+}
+Drecomm.Quickorder =
+{
+	isHidden: true,
+	Init: function(){
+		$("quick-orders-import").hide();
+	},
+	ToggleContent: function(object){
+		if(object == null)
+		{
+			return;
+		}
+		if(Drecomm.Quickorder.isHidden)
+		{
+			$('toggle-import').removeClassName("block-welcome-grid-arrow-plus");
+			$('toggle-import').addClassName("block-welcome-grid-arrow-minus");
+			$("quick-orders-import").show();
+			Drecomm.Quickorder.isHidden = false;
+			return;
+		}
+		$('toggle-import').removeClassName("block-welcome-grid-arrow-minus");
+		$('toggle-import').addClassName("block-welcome-grid-arrow-plus");
+		$("quick-orders-import").hide();
+		Drecomm.Quickorder.isHidden = true;
+	}
+};
+document.observe("dom:loaded", function() {
+	Drecomm.Quickorder.Init();
+});
+
+Event.observe(document, 'keyup', function(event){ if(event.keyCode == '9' && !skuFocus) loadProduct($('current-input').getValue(),1);});
+</script>

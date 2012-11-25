@@ -1,0 +1,29 @@
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-account"><?php echo $this->__('Shipping address') ?></h4>
+	</div>
+	<div class="fieldset">
+		<div class="hor-scroll">
+            <div class="lbaddr"><?php echo $this->__('Customer Name') ?></div>
+			<div class="taddr"><?php echo $this->htmlEscape($this->helper('qquoteadv')->getShippingName($quote)) ?></div>
+			<br />
+            
+			<div class="lbaddr"><?php echo $this->__('Address') ?></div>
+			<div class="taddr"><?php echo $quote['shipping_address'] ?></div>
+			<br />
+
+
+			<div class="lbaddr"><?php echo $this->__('City, Zip code') ?></div>
+			<div class="taddr"><?php echo $quote['shipping_city'] . ", " . $quote['shipping_postcode'] ?></div>
+			<br />
+
+
+			<div class="lbaddr"><?php echo $this->__('Country') ?></div>
+			<div class="taddr"><?php echo $this->helper('qquoteadv')->getCountryName($quote['shipping_country_id']) ?></div>
+			<br />
+
+			<div class="lbaddr"><?php echo $this->__('Telephone') ?></div>
+			<div class="taddr"><?php echo $quote['shipping_telephone'] ?></div>
+		</div>
+	</div>
+</div>

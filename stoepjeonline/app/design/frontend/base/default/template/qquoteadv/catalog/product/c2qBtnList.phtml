@@ -1,0 +1,31 @@
+<?php   $_product = $this->getProduct();
+        $addCartUrl = $this->getAddToCartUrl($_product);
+		$html		= '';
+		$ordermode	= '';
+		$quotemode	= '';
+		$btnQuoteTitle = $this->__("Add to Quote");
+		$btnCartTitle  = $this->__('Add to Cart');
+
+		$allowed_to_quotemode = Mage::getModel("catalog/product")->load($_product->getId())->getAllowedToQuotemode();
+
+		if( $_product->isSaleable() ) {
+			$cartBtn = 	'<button type="button" title="%s" class="button btn-cart" onclick="setLocation(\'%s\')"><span><span>%s</span></span></button>';
+			$ordermode = sprintf($cartBtn, $btnCartTitle, $addCartUrl, $btnCartTitle);
+		}else{
+			$ordermode ='<p class="availability out-of-stock"><span>'.$this->__('Out of stock').'</span></p>';
+		}
+
+		if( $allowed_to_quotemode==1 ) {
+			$quoteBtn = '<button title="%s" type="button" class="button btn-cart" onclick="setLocation(\'%s\')"><span><span>%s</span></span></button>';
+			if( $_product->getTypeId() == 'grouped' ){
+				$url = $_product->getProductUrl();
+			}else{
+				$url = $this->helper('qquoteadv/catalog_product_data')->getUrlAdd2Qquoteadv($_product);
+			}
+
+			$quotemode = sprintf($quoteBtn, $btnQuoteTitle, $url, $btnQuoteTitle );
+		}
+
+		$html.="<p>$ordermode&nbsp;&nbsp;$quotemode</p>";
+		
+		print $html;

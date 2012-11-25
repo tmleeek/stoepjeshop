@@ -1,0 +1,161 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@mageworx.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ * or send an email to sales@mageworx.com
+ *
+ * @category   design_default
+ * @package    MageWorx_MultiFees
+ * @copyright  Copyright (c) 2009 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Multi Fees extension
+ *
+ * @category   design_default
+ * @package    MageWorx_MultiFees
+ * @author     MageWorx Dev Team <dev@mageworx.com>
+ */
+?>
+<div class="entry-edit">
+	<form id="<?php echo $this->getForm()->getId() ?>" method="<?php echo $this->getForm()->getMethod() ?>" action="<?php echo $this->getForm()->getAction() ?>" enctype="multipart/form-data">
+	<input type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" name="form_key" />
+	<?php echo $this->getFromElement('checkout_type') ?>
+	<?php echo $this->getFromElement('required') ?>
+
+	<div class="entity-edit">
+	    <div class="entry-edit-head">
+	        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Title') ?></h4>
+	    </div>
+	    <div class="box">
+			<div class="hor-scroll">
+		        <table class="dynamic-grid" cellspacing="0" id="attribute-labels-table">
+		            <tr>
+						<th rowspan="2">
+							<table class="dynamic-grid" cellspacing="0">
+					        	<?php $_labels = $this->getLabelValues() ?>
+					        	<?php foreach ($this->getStores() as $_store): ?>
+					            <tr>
+					                <td>
+					                	<div class="multifees-store-title"><?php echo $_store->getName() ?><?php if ($_store->getStoreId() == 0): ?> <span class="required">*</span><?php endif; ?></div>
+					                	<input class="input-text<?php if($_store->getStoreId()==0): ?> required-option<?php endif; ?> multifees-input-long" type="text" name="titles[<?php echo $_store->getStoreId() ?>]" value="<?php echo $this->htmlEscape($_labels[$_store->getStoreId()]) ?>" />
+					            	</td>
+					            </tr>
+					            <?php endforeach; ?>
+							</table>
+						</th>
+						<th><?php echo $this->__('Type') ?> <span class="required">*</span></th>
+		            	<th><?php echo $this->__('Status') ?></th>
+		            	<th><?php if (!Mage::app()->isSingleStoreMode()): ?><?php echo $this->__('Store View') ?> <span class="required">*</span><?php endif; ?></th>
+					</tr>
+					<tr>
+		                <td><?php echo $this->getFromElement('input_type') ?>
+		                    <div id="checkout-type">
+		                    <?php $_inputType = Mage::registry('input_type') ?>
+		                    <?php if (!empty($_inputType)): ?>
+			                    <?php if ($_inputType == MageWorx_MultiFees_Helper_Data::CHECKOUT_TYPE_PAYMENT): ?>
+                                    <div class="multifees-store-title"><strong><?php echo $this->__('Payment Methods') ?></strong> <span class="required">*</span></div>
+	                                <?php echo $this->getFromElement('payment') ?>
+			                    <?php else: ?>
+                                    <div class="multifees-store-title"><strong><?php echo $this->__('Shipping Methods') ?></strong> <span class="required">*</span></div>
+	                                <?php echo $this->getFromElement('shipping') ?>
+			                    <?php endif; ?>
+		                    <?php endif; ?>
+		                    </div>
+		                </td>
+		                <td><?php echo $this->getFromElement('status') ?></td>
+		                <td><?php echo $this->getFromElement('store_id') ?></td>
+		            </tr>
+		        </table>
+			</div>
+	    </div>
+	</div>
+
+	<div class="entity-edit multifees-options">
+	    <div class="entry-edit-head">
+	    	<h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Options') ?></h4>
+	    </div>
+	    <div class="box">
+			<div class="hor-scroll">
+		        <table class="dynamic-grid" cellspacing="0" cellpadding="0">
+		        	<thead>
+		            	<tr>
+		            	<?php foreach ($this->getStores() as $_store): ?>
+			                <th><?php echo $_store->getName() ?><?php if ($_store->getStoreId() == 0): ?> <span class="required">*</span><?php endif; ?></th>
+			            <?php endforeach; ?>
+			                <th><?php echo $this->__('Price') ?> <span class="required">*</span></th>
+			                <th><?php echo $this->__('Price Type') ?></th>
+			            </tr>
+					</thead>
+					<tbody>
+					<?php $option = $this->getOptionValues() ?>
+					<?php $optionId = $option->getId(); $optionId = empty($optionId) ? 0 : $optionId; ?>
+
+					   <tr class="option-row">
+					    <?php foreach ($this->getStores() as $_store): ?>
+					    <?php $optionStore = $option->getStore(); ?>
+					        <td><input name="option[title][<?php echo $optionId ?>][<?php echo $_store->getStoreId() ?>]" value="<?php echo isset($optionStore[$_store->getStoreId()]) ? $optionStore[$_store->getStoreId()] : '' ?>" class="input-text<?php if($_store->getStoreId() == 0): ?> required-option<?php endif; ?>" type="text" /></td>
+					    <?php endforeach; ?>
+					        <td><input class="input-text required-option validate-zero-or-greater" type="text" name="option[price][<?php echo $optionId ?>]" value="<?php echo $option->getPrice() ?>" /></td>
+					        <td><?php echo $this->getPriceTypeOfForm($optionId) ?></td>
+    				    </tr>
+					</tbody>
+		        </table>
+			</div>
+
+	    </div>
+	</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+paymentTpl  = '<div class="multifees-store-title"><strong><?php echo $this->__('Payment Methods') ?></strong> <span class="required">*</span></div><?php echo $this->getCheckoutMethods('payment') ?>';
+shippingTpl = '<div class="multifees-store-title"><strong><?php echo $this->__('Shipping Methods') ?></strong> <span class="required">*</span></div><?php echo $this->getCheckoutMethods('shipping') ?>';
+
+var feeCheckout = {
+    checkInType: function(obj) {
+	   var tpl = '';
+        var elem = $('checkout-type');
+        if (obj.value == <?php echo MageWorx_MultiFees_Helper_Data::CHECKOUT_TYPE_PAYMENT ?>) {
+        	tpl = paymentTpl;
+        } else if (obj.value == <?php echo MageWorx_MultiFees_Helper_Data::CHECKOUT_TYPE_SHIPPING ?>) {
+        	tpl = shippingTpl;
+        }
+        elem.update(tpl);
+	},
+	setPriceType: function(obj) {
+		if (obj.price_type) {
+            $A($('option_price_type_'+ obj.id).options).each(function(option) {
+                if (option.value == obj.price_type) {
+                    option.selected = true;
+                }
+            });
+        }
+    }
+}
+Validation.addAllThese([
+    ['required-option', '<?php echo $this->__('Failed') ?>', function(v) {
+        return !Validation.get('IsEmpty').test(v);
+}]]);
+
+feeCheckout.setPriceType(<?php echo $this->getOptionValues()->toJson() ?>);
+//]]>
+</script>

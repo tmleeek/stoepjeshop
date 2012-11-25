@@ -1,0 +1,49 @@
+<?php if (Mage::getStoreConfig('ajax_search/general/enabled')) :?>
+<?php if (Mage::getStoreConfig('ajax_search/general/enableright')) :?>
+<div class="block mini-search-right">
+    <div class="block-title">
+        <strong><?php echo $this->__('Search') ?></strong>
+    </div>
+	<div class="block-content">
+	<form id="search_mini_form-right" action="<?php echo $this->helper('catalogSearch')->getResultUrl() ?>" method="get">
+    <fieldset>
+        <legend><?php echo $this->__('Search Site') ?></legend>
+        <div class="mini-search-right">
+			<label for="newsletter"><?php echo $this->__('Search entire store here') ?></label>
+            <input id="search-right" type="text" class="input-text" name="<?php echo $this->helper('catalogSearch')->getQueryParamName() ?>" value="<?php echo Mage::getStoreConfig('ajax_search/general/searchfieldtext'); ?>" />
+        	<div id="search-rightajaxico" class=""></div>
+			<button type="submit" class="button"><span><?php echo $this->__('Search') ?></span></button>
+			<a href="<?php echo $this->getUrl('catalogsearch/advanced/'); ?>"><?php echo $this->__('Advanced search') ?></a>
+            <script type="text/javascript">
+            //<![CDATA[
+			function initAutocomplete(){
+				new Autocomplete('search-right', { 
+					serviceUrl:'<?php echo $this->getUrl('ajaxsearch'); ?>',
+					store:'<?php echo Mage::app()->getStore()->getStoreId(); ?>',
+					enableimage:'<?php echo (int)Mage::getStoreConfig('ajax_search/general/enableimage'); ?>',
+					enableloader:'<?php echo (int)Mage::getStoreConfig('ajax_search/general/enableloader'); ?>',
+					enabledescription:'<?php echo (int)Mage::getStoreConfig('ajax_search/general/enabledescription'); ?>',
+					descriptionchars:'<?php echo (int)Mage::getStoreConfig('ajax_search/general/descriptionchars'); ?>',
+					minChars:'<?php echo Mage::getStoreConfig('ajax_search/general/minchars'); ?>', 
+					maxHeight:'<?php echo Mage::getStoreConfig('ajax_search/general/maxheight'); ?>',
+					width:'<?php echo Mage::getStoreConfig('ajax_search/general/width'); ?>',
+					searchtext:'<?php echo Mage::getStoreConfig('ajax_search/general/searchfieldtext'); ?>',
+                    baseUrl:'<?php echo Mage::getBaseUrl(); ?>',
+                    secureUrl:'<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true); ?>',
+					onSelect: onAutocompleteSubmit 
+				});
+			}
+			if (Prototype.Browser.IE) {
+			    Event.observe(window, 'load', initAutocomplete);
+			} else {
+			    document.observe("dom:loaded", initAutocomplete);
+			}
+            //]]>
+            </script>
+        </div>
+    </fieldset>
+	</form>
+	</div>
+</div>
+<?php endif; ?>
+<?php endif; ?>

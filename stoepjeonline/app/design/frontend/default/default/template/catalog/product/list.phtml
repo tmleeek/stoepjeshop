@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Magictoolbox product list template for Magento store. 
+ * Allow use MagicTools on product list page. 
+ * @mail support@magictoolbox.com
+ */
+ 
+$_productCollection = $this->getLoadedProductCollection();
+
+if($_productCollection && $_productCollection->count()) {
+
+    $productsListFileName = 'list_original.phtml';
+    require(dirname(__FILE__) . '/magictoolbox_list.phtml');
+
+} else {
+
+    echo $this->__('There are no products matching the selection.');
+
+}
+
+?>

@@ -1,0 +1,75 @@
+<?php $item = $this->getItem(); ?>
+<?php $product = Mage::getModel('catalog/product')->load($item->getProductId()); ?>
+
+<tr>
+    <th style="padding:0 10px 1px 0;" align="left" width="650px">
+&nbsp;
+    </th>
+    <th align="left" style="padding-right: 15px;"><small><?php echo $this->__('Price') ?></small></th>
+    <th align="center" ><small><?php echo $this->__('Qty') ?></small></th>
+    <th align="left" style="padding-left: 20px;"><small><?php echo $this->__('Subtotal') ?></small></th>
+</tr>
+
+<tr>
+ <td align="left" valign="top" style="padding:3px 9px 0 0">
+<small><?php echo $this->htmlEscape($product->getName()) ?></small>
+<small><i>
+<?php 
+if ($product->getTypeId() == 'bundle' || $product->getTypeId() == 'configurable' ) { 
+    $product->setStoreId($item->getStoreId()?$item->getStoreId():1);
+	$quoteByProduct = Mage::helper('qquoteadv')->getQuoteItem($product, $item->getAttribute());
+
+	foreach($quoteByProduct->getAllItems() as $_unit) {
+    	if( $_unit->getProductId() == $product->getId() ) {
+			echo $this->getItemHtml($_unit);			
+        }
+	}
+}
+?>
+<?php 
+if($product->getTypeId() == 'simple'):
+ 	$superAttribute = Mage::helper('qquoteadv')->getSimpleOptions($product, unserialize($item->getAttribute()));
+    if($superAttribute):
+        echo '<em><dl>';
+ 		foreach($superAttribute as $option => $value):
+  			echo '<dt>'.$option.'</dt>';
+            echo '<dd>'.$value.'</dd>';
+        endforeach;
+        echo '</dl></em>';
+	endif;
+endif;
+?>    
+</i></small></td>
+
+    <?php
+        $reqData = $this->getRequestedProductData($item->getId(), $item->getQuoteId());
+        $prices = $reqData['ownerPrices'];
+        $aQty   = $reqData['aQty'];        
+    ?>
+ <td style="padding-right: 15px;" valign="top" >
+       <?php if (count($prices)): ?>
+        <?php foreach ($prices as $key => $value): ?>
+                <div style="height:25px;" ><?php echo Mage::helper('checkout')->formatPrice($value); ?></div>
+        <?php endforeach; ?>
+        <?php endif; ?>
+ </td>
+ <td valign="top" >
+        <?php if (count($aQty)): ?>
+        <?php foreach ($aQty as $key => $value): ?>
+                        <div style="height:25px;" align="center"><?php echo $value; ?></div>
+        <?php endforeach; ?>
+        <?php endif; ?>
+ </td>
+
+        <?php $merge = array_combine($aQty, $prices); ?>
+ <td style="padding-left: 20px;" valign="top" >
+        <?php foreach ($merge as $qty => $price): ?>
+        <?php $total = Mage::helper('checkout')->formatPrice($qty * $price); ?>
+                            <div style="height:25px;" ><?php echo $total; ?></div>
+        <?php endforeach; ?>
+  </td>
+</tr>
+
+<tr>
+  <td align="left" colspan="4"><?php echo nl2br($item->getClientRequest()) ?><br /><hr /></td>
+</tr>

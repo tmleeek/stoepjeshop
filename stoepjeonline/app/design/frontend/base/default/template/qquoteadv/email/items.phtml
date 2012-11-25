@@ -1,0 +1,25 @@
+<?php $_quote = $this->getQuote(); ?>
+<table style="width:650; padding:5px;" border="0" summary="<?php echo $this->__('Items Quoted') ?>">
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+
+<?php foreach($this->getAllItems() as $_item): ?>
+    <tbody>
+        <?php echo $this->getLayout()->getBlock('qquoteadv_item')->setItem($_item)->toHtml(); ?>
+    </tbody>
+<?php endforeach; ?>
+
+<?php if($_quote->getClientRequest()): ?>
+    <tbody>
+        <tr>
+            <td colspan="4"><hr />
+                <strong><?php echo $this->__('Remark with Proposal') ?></strong>
+            <br /><?php  echo $_quote->getClientRequest()?>
+            </td>
+        </tr>
+    </tbody>
+ <?php endif; ?>
+
+</table>

@@ -1,0 +1,162 @@
+﻿<?xml version="1.0"?>
+<!-- 
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@mageworx.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ * or send an email to sales@mageworx.com
+ *
+ * @category   design_default
+ * @package    MageWorx_MultiFees
+ * @copyright  Copyright (c) 2009 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Multi Fees extension
+ *
+ * @category   design_default
+ * @package    MageWorx_MultiFees
+ * @author     MageWorx Dev Team <dev@mageworx.com>
+ */
+-->
+<layout version="0.1.0">
+	<mageworx_multifees_fee_edit>
+		<reference name="head">
+        	<action method="addItem"><type>skin_css</type><name>multifees.css</name><params/><if/></action> 
+    	</reference>
+    </mageworx_multifees_fee_edit>
+    
+    <mageworx_multifees_fee_index>
+        <reference name="content">
+            <block type="mageworx/multifees_fee" name="multifees" template="multifees/fee.phtml"></block>
+        </reference>
+    </mageworx_multifees_fee_index>
+    
+	<adminhtml_sales_order_view>
+		<reference name="head">
+        	<action method="addItem"><type>skin_css</type><name>multifees.css</name><params/><if/></action> 
+    	</reference>
+        <reference name="sales.order.view.totals.main">
+			<block type="adminhtml/sales_order_totals_item" name="multifees" template="sales/order/totals/item.phtml">
+                <action method="setSourceField"><value>multifees</value></action>
+                <action method="setLabel"><value>Additional Fees</value></action>
+			</block>
+		</reference>
+        <reference name="order_tab_info">
+        	<action method="setTemplate"><value>multifees/sales-order-view-tab-info.phtml</value></action>
+            <block type="adminhtml/sales_order_totals_item" name="details.multifees" as="details.multifees" template="multifees/sales-order-totals-details-fee.phtml" />
+		</reference>
+    </adminhtml_sales_order_view>
+    
+    <adminhtml_sales_order_invoice_new>
+		<reference name="head">
+        	<action method="addItem"><type>skin_css</type><name>multifees.css</name><params/><if/></action> 
+    	</reference>
+        <reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="multifees" template="sales/order/totals/item.phtml">
+                <action method="setSourceField"><value>multifees</value></action>
+                <action method="setLabel"><value>Additional Fees</value></action>
+			</block>
+        </reference>
+		<reference name="order_items">
+        	<action method="setTemplate"><value>multifees/sales-order-invoice-create-items.phtml</value></action>
+            <block type="adminhtml/sales_order_totals_item" name="details.multifees" as="details.multifees" template="multifees/sales-order-totals-details-fee.phtml" />
+		</reference>
+    </adminhtml_sales_order_invoice_new>
+    
+	<adminhtml_sales_order_invoice_view>
+    	<reference name="head">
+        	<action method="addItem"><type>skin_css</type><name>multifees.css</name><params/><if/></action> 
+    	</reference>
+        <reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="multifees" template="sales/order/totals/item.phtml">
+                <action method="setSourceField"><value>multifees</value></action>
+                <action method="setLabel"><value>Additional Fees</value></action>
+            </block>
+        </reference>
+        <reference name="form">
+        	<action method="setTemplate"><value>multifees/sales-order-invoice-view-form.phtml</value></action>
+            <block type="adminhtml/sales_order_totals_item" name="details.multifees" as="details.multifees" template="multifees/sales-order-totals-details-fee.phtml" />
+		</reference>
+    </adminhtml_sales_order_invoice_view>
+    
+    <adminhtml_sales_order_invoice_updateqty>
+    	<reference name="head">
+        	<action method="addItem"><type>skin_css</type><name>multifees.css</name><params/><if/></action> 
+    	</reference>
+        <reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="multifees" template="sales/order/totals/item.phtml">
+                <action method="setSourceField"><value>multifees</value></action>
+                <action method="setLabel"><value>Additional Fees</value></action>
+            </block>
+        </reference>
+		<reference name="order_items">
+        	<action method="setTemplate"><value>multifees/sales-order-invoice-create-items.phtml</value></action>
+            <block type="adminhtml/sales_order_totals_item" name="details.multifees" as="details.multifees" template="multifees/sales-order-totals-details-fee.phtml" />
+		</reference>
+	</adminhtml_sales_order_invoice_updateqty>
+    
+    <adminhtml_sales_order_creditmemo_new>
+		<reference name="head">
+        	<action method="addItem"><type>skin_css</type><name>multifees.css</name><params/><if/></action> 
+    	</reference>
+        <reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="multifees" template="sales/order/totals/item.phtml">
+                <action method="setSourceField"><value>multifees</value></action>
+                <action method="setLabel"><value>Additional Fees</value></action>
+            </block>
+        </reference>
+        <reference name="order_items">
+        	<action method="setTemplate"><value>multifees/sales-order-creditmemo-create-items.phtml</value></action>
+            <block type="adminhtml/sales_order_totals_item" name="details.multifees" as="details.multifees" template="multifees/sales-order-totals-details-fee.phtml" />
+		</reference>
+    </adminhtml_sales_order_creditmemo_new>
+    
+    <adminhtml_sales_order_creditmemo_updateqty>
+    	<reference name="head">
+        	<action method="addItem"><type>skin_css</type><name>multifees.css</name><params/><if/></action> 
+    	</reference>
+    	<reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="multifees" template="sales/order/totals/item.phtml">
+                <action method="setSourceField"><value>multifees</value></action>
+                <action method="setLabel"><value>Additional Fees</value></action>
+            </block>
+        </reference>
+        <reference name="order_items">
+        	<action method="setTemplate"><value>multifees/sales-order-creditmemo-create-items.phtml</value></action>
+            <block type="adminhtml/sales_order_totals_item" name="details.multifees" as="details.multifees" template="multifees/sales-order-totals-details-fee.phtml" />
+		</reference>
+    </adminhtml_sales_order_creditmemo_updateqty>
+    
+    <adminhtml_sales_order_creditmemo_view>
+    	<reference name="head">
+        	<action method="addItem"><type>skin_css</type><name>multifees.css</name><params/><if/></action> 
+    	</reference>
+    	<reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="multifees" template="sales/order/totals/item.phtml">
+                <action method="setSourceField"><value>multifees</value></action>
+                <action method="setLabel"><value>Additional Fees</value></action>
+            </block>
+        </reference>
+		<reference name="form">
+        	<action method="setTemplate"><value>multifees/sales-order-creditmemo-view-form.phtml</value></action>
+            <block type="adminhtml/sales_order_totals_item" name="details.multifees" as="details.multifees" template="multifees/sales-order-totals-details-fee.phtml" />
+		</reference>
+    </adminhtml_sales_order_creditmemo_view>
+</layout>

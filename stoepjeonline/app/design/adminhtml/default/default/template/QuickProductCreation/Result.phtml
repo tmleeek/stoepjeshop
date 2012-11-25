@@ -1,0 +1,32 @@
+<div class="content-header">
+    <h3 class="icon-head"><?php echo $this->__('Results'); ?></h3>
+    <p class="form-buttons">
+        <button type="button" class="scalable back" onclick="document.location.href='<?php echo $this->getBackUrl(); ?>';" style=""><span><?php echo $this->__('Back'); ?></span></button>
+    </p>
+</div>
+
+<div class="grid">
+    <table cellspacing="0" class="data" id="ticketGrid_table">
+        <thead>
+            <tr class="headings">
+                <th><?php echo $this->__('Result'); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($this->getResult() as $result): ?>
+            <tr>
+                <td>
+                    <?php if ($result['result'] == 'success'): ?>
+                        <font color="green">
+                            <?php $_product = $result['product']; ?>
+                            <?php echo $this->__('Product %s (%s) created', $_product->getName(), $_product->getSku()); ?> (<a href="<?php echo $this->getProductUrl($_product); ?>"><?php echo $this->__('edit'); ?></a>)
+                        </font>
+                    <?php else: ?>
+                        <font color="red"><?php echo $result['message']; ?></font>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

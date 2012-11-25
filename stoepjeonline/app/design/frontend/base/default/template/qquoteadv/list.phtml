@@ -1,0 +1,454 @@
+<?php 
+	$productNames = array();
+	foreach($this->getQuote() as $_item){
+		$product = $this->getProduct($_item->getProductId());
+
+		if(!$product->isSaleable())
+			$productNames[] = $product->getName();
+	}
+?>
+
+<?php
+if($this->getQuote()->getData() != array()):
+?>
+
+<script language="javascript">
+function isExistUserEmail(target){
+	$("please-wait").show();
+    $('submitOrder').disabled=false;
+
+    var url = '<?php echo $this->getUrl('qquoteadv/index/useJsEmail') ?>';
+	var pars = 'email=' + $F(target);
+    var message = '<?php echo $this->__('Customer email already exists. You should login here', $this->getLoginUrl()) ?>';
+	var myAjax=new Ajax.Request( url,
+        {
+        	method: 'post',
+        	parameters: pars,
+        	onSuccess: function( transport ){
+        		var responseStr = transport.responseText;
+        		if(responseStr=='exists'){
+            		$('email_message').show();
+        		    $('email_message').innerHTML=message;
+    				$('email_message').addClassName("validation-advice");
+
+    				if($('advice-required-entry-customer:email')) $('advice-required-entry-customer:email').hide();
+    				if($('advice-validate-email-customer:email')) $('advice-validate-email-customer:email').hide();
+
+    				$('customer:email').addClassName('validation-failed');
+
+    				$('submitOrder').setStyle({background: '#dddddd'});
+    				$('submitOrder').disabled=true;
+
+        		}else{
+        		    $('email_message').hide();
+        		    $('email_message').removeClassName("validation-advice");
+        		}
+        		$("please-wait").hide();
+        	}
+        });
+}
+</script>
+<script language="javascript">
+
+var pool = new Array();
+
+function addNewLine(itemId, inputName){
+    if (!pool[itemId]){
+	   pool[itemId] = 1;
+   }
+
+   index = pool[itemId];
+   index++;
+   pool[itemId] = index;
+
+   var parentElemt = document.getElementById('qdiv_'+itemId);
+   var childElem = document.createElement('div');
+   childElem.setAttribute("id",'div_' + itemId + '_' + index);
+   parentDiv='div_' + itemId + '_' + index;
+   inputField='quote_' + itemId + '_' + index;
+   link = '&nbsp;&nbsp;<a style="text-decoration:none;" href="#"  onClick="removeElement(\''+parentDiv+'\', \''+inputField+'\'); $(\''+parentDiv+'\').hide()"><img style="vertical-align: bottom;" src="<?php echo $this->getSkinUrl('images/minus-icon.png')?>"></a>';
+
+   childElem.innerHTML = '<input size="6" type="text" name="'+inputName+'"  id="quote_' + itemId + '_' + index +'" value=""  class="required-entry validate-zero-or-greater required-entry input-text m5">'+link;
+
+   parentElemt.appendChild(childElem);
+}
+
+function removeElement(parentElemt, childElemt) {
+  var parentDiv = document.getElementById(parentElemt);
+  var childElemt = document.getElementById(childElemt);
+  parentDiv.removeChild(childElemt);
+}
+</script>
+
+<div class="page-title" style="height:55px;">
+    <h3><?php echo $this->__('Request for Quote') ?></h3>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<form method='post' id="quotelist" name="quotelist" action='<?php echo $this->getUrl('qquoteadv/index/quoteRequest', array('_secure' => true)) ?>' >
+<table cellspacing="0" border="0" id="shopping-cart-table" class="data-table cart-table">
+    <col width="30" />
+    <col width="75" />
+	<col />
+    <col width="300"/>
+    <col width="60" />
+    <col width="60" />
+    <thead>
+       <tr>
+        <th class="a-center"><?php echo $this->__('Remove') ?></th>
+        <th class="a-center">&nbsp;</th>
+        <th><?php echo $this->__('Product Name') ?></th>
+        <th><?php echo $this->__('Request information') ?></th>
+        <th class="a-center"><?php echo $this->__('Unit price') ?></th>
+        <th class="a-center"><?php echo $this->__('Qty') ?> <span class="required">*</span></th>
+       </tr>
+    </thead>
+    <tbody>
+		<?php
+        $i = 0;
+		foreach($this->getQuote() as $item):
+
+			$product = $this->getProduct($item->getProductId());
+			?>
+			<tr>
+				<td class="a-center">
+
+				<input type="hidden" id="quote_id" name="quote_id" value="<?php echo $item->getQuoteId() ?>">
+				<input type="hidden" class="input-text" name="quote[<?php echo $item->getId() ?>][product]" value="<?php echo $item->getProductId(); ?>" size="3" />
+				<input type="hidden" class="input-text" name="quote_request[<?php echo $item->getId() ?>][product_id]" value="<?php echo $item->getProductId(); ?>" size="6" />
+					<a href="<?php echo $this->getUrl('qquoteadv/index/delete',array('id'=>$item->getId())); ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" /></a>
+
+				</td>
+				<td ><a class="product-image" href="<?php echo $product->getProductUrl(); ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'thumbnail', $item->getSmallImage())->resize(75); ?>" alt="<?php echo $item->getName(); ?>" /></a>
+
+				</td>
+				<td class="attributes-col"><h4 class="title">
+<?php if (1): //$product->hasProductUrl()):?>
+    <a href="<?php echo $product->getProductUrl() ?>"><?php echo $this->htmlEscape($product->getName()) ?></a>
+<?php else: ?>
+    <?php echo $this->htmlEscape($product->getName()) ?>
+<?php endif; ?>
+</h4>
+                                              
+<?php
+if($product->getTypeId() == 'bundle' || $product->isConfigurable() ) {
+    $quoteByProduct = Mage::helper('qquoteadv')->getQuoteItem($product, $item->getAttribute());
+	
+    foreach($quoteByProduct->getAllItems() as $_item) {
+        if( $_item->getProductId() == $product->getId() ) {
+			echo $this->getItemHtml($_item);             
+        }
+    }
+	$itemPrice = $quoteByProduct->getSubtotal();
+}else{
+    if($product->getTypeId() == 'simple') {
+    $superAttribute = $this->getOption($product, $item->getAttribute());
+        if($superAttribute) {
+            foreach($superAttribute as $option => $value) {
+            ?>
+            <b><i><?php echo $option ?></i></b><br/> <?php echo $value ?> <br/>
+            <?php
+            }
+        }
+    }
+}
+?>
+
+				</td>
+				<td>
+                    
+                        <?php if($i>0):?>
+                        <textarea name="quote_request[<?php echo $item->getId() ?>][client_request]"
+                                     rows="4"  style="width:98%;" >&nbsp;</textarea>
+                        <?php else: ?>
+                        <div id="parent">
+                            <textarea id="textArea" name="quote_request[<?php echo $item->getId() ?>][client_request]"
+                                         rows="7"  style="width:98%; position: absolute;" ></textarea>
+                            <div onclick="$('comment').hide(); $('textArea').focus();"  id="comment">
+                                    <?php echo $this->__('Be advised to enter your comments')?>
+                            </div>
+                        </div>    
+                        <?php endif; ?>                    
+				</td>				                				
+<?php 
+if ($product->getTypeId() == 'bundle' || $product->getTypeId() == 'configurable' ) {
+    $_finalPrice = $itemPrice;                
+}else{
+    $_finalPrice = Mage::helper('qquoteadv')->productPriceCalculation($product, $item->getAttribute());
+}
+?>                       
+              
+				<td><?php echo Mage::helper('checkout')->formatPrice($_finalPrice)?></td>
+				<td nowrap="nowrap">
+<div id="qdiv_<?php echo $item->getId() ?>" nowrap="nowrap">
+	<input type="text"  class="required-entry validate-zero-or-greater required-entry input-text loading" size="6"
+			name="quote_request[<?php echo $item->getId() ?>][qty][]" value="<?php echo $item->getQty(); ?>"  />
+</div>
+<div>
+   <a class="pad" href="#" onClick="addNewLine(<?php echo $item->getId() ?>, 'quote_request[<?php echo $item->getId() ?>][qty][]'); return false;"><?php echo $this->__('Add Qty') ?></a>
+</div>
+				<input type="hidden" name="quote[<?php echo $item->getId() ?>][qty]" value="<?php echo $item->getQty(); ?>" size="3" />&nbsp;
+				<input type="hidden" name="quote[<?php echo $item->getId() ?>][attributeEncode]" value="<?php echo base64_encode($item->getAttribute()) ?>" />
+				<input type="hidden" name="quote[<?php echo $item->getId() ?>][product]" value="<?php echo $product->getId() ?>" />
+				<input type="hidden" name="quote[<?php echo $item->getId() ?>][quoteid]" value="<?php echo $item->getId() ?>" />
+				</td>
+			</tr>
+			<?php
+			$i++;
+		endforeach;
+		?>
+		</tbody>
+		<tfoot>
+		<tr>
+			<td colspan="100" class="a-right">
+                <?php if($this->getContinueShoppingUrl()): ?>
+                    <button class="button btn-continue" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')" type="button"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+                <?php endif; ?>
+
+                <?php $action = "setLocation('".$this->getUrl('qquoteadv/index/switch2Order')."');";
+
+                if(count($productNames)>0){
+                    $action = 'initMsg();';
+                }
+                ?>
+
+                <button type="button" onclick="<?php echo $action; ?>"
+                class="button btn-update" ><span><span><?php echo $this->__('Order Mode') ?></span></span></button>
+			</td>
+		</tr>
+		</tfoot>
+
+	</table>
+<script type="text/javascript">decorateTable('shopping-cart-table')</script>
+
+<?php $countryCollection = $this->getCountryCollection(); ?>
+
+<div class="qquote-client-collaterals">
+
+    <div class="client-data box"><h4><?php echo $this->__('Enter your details to get a price proposal') ?> </h4>
+
+    <?php echo $this->__('Do you have a general remark with your quote request?') ?> <br/>
+
+<textarea name="customer[client_request]" id="customer:client_request" cols="10" rows="5" style="width:95%;" class="input-text"></textarea>
+
+
+<?php $billingEmail=$this->getValue('email','billing'); ?>
+<?php if(Mage::getSingleton('customer/session')->isLoggedIn() && !empty($billingEmail)): ?>
+        <fieldset>
+        <p>
+        <input type="radio" name="billing_address" value="use_default_billing" checked="checked" onclick="$('billing-new-address-form').hide();$('qquoteadv_shipping_box').hide();">&nbsp;<label
+        		for="customer:use_default_billing"><?php echo $this->__('Default Address') ?> </label>
+        &nbsp;<input type="radio" name="billing_address" value="use_new_billing" 
+        		onclick="$('billing-new-address-form').show(); $('qquoteadv_shipping_box').show()">&nbsp;<label
+        		for="customer:use_new_billing"><?php echo $this->__('New Address') ?></label>
+        </p>
+        </fieldset>
+
+        <div id="billing-new-address-form" style="display:none;">
+<?php else:?>
+        <div class="input-box">
+<?php endif; ?>
+
+<table id="qquote-tbl-address" cellspacing='6' cellpadding='3' border="0" width="100%" >
+	<tr>
+		<td colspan="2" align="left"><?php $email = $this->getValue('email','billing')?$this->getValue('email','billing'):$this->getCustomerEmail() ?>
+			<?php echo $this->__('Email Address') ?> <span class="required">*</span><br/>
+			<input <?php if(!empty($email)): ?>readonly="readonly"<?php endif; ?> type='text' value="<?php echo $email; ?>" onChange="isExistUserEmail(this);"
+			name='customer[email]' id='customer:email' class="validate-email required-entry input-text" /><span id="please-wait" style="display:none;"><img alt="<?php echo $this->__('Checking..')?>" src="<?php echo $this->getSkinUrl('images/ajax-loader.gif') ?>" /></span><div style="display:none;" id="email_message">&nbsp;</div>
+
+<script>
+var charfield=document.getElementById("customer:email")
+charfield.onkeydown=function(e){
+    var e=e || window.event;
+
+    $('submitOrder').disabled=false;
+
+    if(e)
+    if (e.keyCode == 13) return false;
+
+}
+
+charfield.onclick=function(e){
+    if( $('customer:email').hasClassName('validation-failed') ){
+		$('customer:email').removeClassName('validation-failed');
+		$('customer:email').value='';
+     	$('email_message').hide();
+	    $('email_message').removeClassName('validation-advice');
+
+	    $('submitOrder').setStyle({background: '#F18200'});
+	    $('submitOrder').disabled=false;
+    }
+}
+</script>
+
+		</td>
+	</tr>
+	<tr>
+		<td  width="20%">
+			<?php echo $this->__('First Name') ?> <span class="required">*</span><br/>
+			<input type='text' value="<?php echo $this->getValue('firstname','billing') ?>" name='customer[firstname]' id='customer:firstname' class="required-entry input-text" />
+		</td>
+		<td class="p5">
+			<?php echo $this->__('Last Name') ?> <span class="required">*</span><br/>
+			<input type='text' value="<?php echo $this->getValue('lastname','billing') ?>" name='customer[lastname]' id='customer:lastname' class="required-entry input-text" />
+		</td>
+		
+	</tr>
+	<tr>
+		<td >
+			<?php echo $this->__('Company') ?> <br/>
+			<input type='text' class="input-text" value="" name='customer[company]' id='customer:company' />
+		</td>
+		<td class="p5">
+			<?php echo $this->__('Telephone') ?> <span class="required">*</span><br/>
+			<input type='text' value="" name='customer[telephone]' id='customer:telephone' class="required-entry input-text" />
+		</td>
+	</tr>
+
+	   </td>
+	</tr>
+
+</table>
+</div>
+<?php if(!Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+<div><br />
+	<input id="chkShip" type="checkbox" onclick="if(this.checked){ $('shipDiv').show(); }else{ $('shipDiv').hide(); } "> <?php echo $this->__('Request a shipping quote'); ?>
+</div>
+<?php endif; ?>
+</div>
+<?php if(Mage::getSingleton('customer/session')->isLoggedIn() && !empty($billingEmail)): ?>
+<div id="qquoteadv_shipping_box" class="qquote-cart-collaterals" style="display:none;">
+<?php else: ?>
+<div class="qquote-cart-collaterals">
+<?php endif; ?>
+   <div id="shipDiv" class="shipping-adress box" <?php if(!Mage::getSingleton('customer/session')->isLoggedIn()):?> style="display:none;" <?php endif;?> >
+      <h4><?php echo $this->__('Shipping details') ?></h4>
+
+        <p><?php echo $this->__("Enter your destination to get a shipping quotation") ?></p>
+
+
+	        <table id="qquote-tbl-shipping" cellspacing='3' cellpadding='3' border="0" width="100%">
+            	 <tr>
+            		<td  width="20%">
+            			<?php echo $this->__('Address') ?> <span class="required">*</span><br/>
+            			<input onfocus="this.value=''; Element.setStyle(this, {color:'#2F2F2F'});" type='text' value="<?php echo $this->__('enter your address')?>" name='customer[address]' id='customer:address' class="required-entry input-text addr w224" />
+            		</td>
+            		<td class="p5">
+            			<?php echo $this->__('City') ?> <span class="required">*</span><br/>
+            			<input onfocus="this.value=''; Element.setStyle(this, {color:'#2F2F2F'});" type='text' value="<?php echo $this->__('enter your city')?>" name='customer[city]' id='customer:city' class="required-entry input-text w224"  />
+            		</td>
+            	</tr>
+            	<tr>
+            		<td>
+            			<?php echo $this->__('Zip/Postal Code') ?> <span class="required">*</span><br/>
+            			<input onfocus="this.value=''; Element.setStyle(this, {color:'#2F2F2F'});" type='text' value="<?php echo $this->__('enter your Zip')?>" name='customer[postcode]' id='customer:postcode' class="required-entry input-text w224"  />
+            		</td>
+            		<td class="p5">
+            			<?php echo $this->__('State/Province') ?> <span class="required">*</span><br />
+            			<select name='customer[region_id]' id='region_id' title="<?php echo $this->__('State/Province') ?>" class="validate-select w224" style="display:none;">
+            			   <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+            			</select>
+            			<input onfocus="this.value=''; Element.setStyle(this, {color:'#2F2F2F'});" type="text" name='customer[region]' id='region' value="<?php echo $this->__('enter your state')?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text w224" style="display:none;" />
+            		</td>
+            	</tr>
+            	<tr>
+            		<td colspan="2">
+            			<?
+                        $countryCode = $this->getValue('country','billing');
+            			if(empty($countryCode)){ $countryCode = Mage::getStoreConfig('general/country/default'); }            			
+            			 ?>
+            			<?php echo $this->__('Country') ?> <span class="required">*</span><br/>
+            			<select name='customer[country_id]' id='country' class="validate-select w224">
+            				<?php
+            					foreach($countryCollection as $country) {
+            						?>
+            						<option value="<?php echo $country['value'] ?>" <?php if($country['value'] == $countryCode): echo "selected='selected'"; endif; ?>><?php echo $country['label'] ?></option>
+            						<?php
+            					}
+            				?>
+            			</select>
+            		</td>
+            	</tr>
+
+	        </table>
+<p class="required">* <?php echo $this->__('Required Fields') ?></p>
+      </div>
+
+
+</div>
+
+<div  style="float:right;">
+		<input type='hidden' name='customer[is_quote]' value='1' />
+		<input style="display:none;" type='submit' name='submitOrder' id="submitOrder" class='form-button'  value="<?php echo $this->__('Request quote') ?>" />
+
+        <button onclick="$('submitOrder').click(); event.preventDefault();  event.stopPropagation();" class="button btn-proceed-checkout btn-checkout" 
+                title="<?php echo $this->__('Request quote') ?><" type="button"><span><span><?php echo $this->__('Request quote') ?></span></span></button>        
+</div>
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+	var quotelistForm = new VarienForm('quotelist');
+	new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>);
+//]]>
+
+	function moveAllToCart() {
+		document.quotelist.action = '<?php echo $this->getUrl('qquoteadv/index/move')."quoteid/0" ?>';
+		document.quotelist.submit();
+	}
+
+</script>
+</div>
+</form>
+
+<?php else: ?>
+                                                      
+<div class="page-title">
+    <h1><?php echo $this->__('Request for Quote') ?></h1>
+</div>
+<div class="cart-empty">
+        <p><?php echo $this->__('No Items to display.'); ?></p>
+        <p><?php echo $this->__('Click <a href="%s">here</a> to continue shopping.', $this->getUrl()) ?></p>
+</div>
+
+<?php endif; ?>
+
+
+<div id="lightbox1" class="leightbox">
+<form method="post" name="switchmode" id="switchmode" action="<?php echo $this->getUrl('qquoteadv/index/switch2Order', array('_secure'=>true)) ?>">
+	<input type="hidden" name="redirect" value="cart">
+	<br />
+	<center><h1><?php echo $this->__('Change to Order mode?') ?></h1><center>
+
+	<?php //if($this->getTotalQty()>0 ):?>
+
+		<?php if(count($productNames)): ?>
+			<br />
+			<h2>
+			<?php echo $this->__('This quote list contains items that cannot ordered.') ?><br />
+			<?php echo $this->__('This item will be removed from the list if you continue:') ?>
+			</h2>
+
+			<p style="font-size:12px;">
+			<?php echo implode("<br />", $productNames)  ?>
+			</p>
+			<br />
+		<?php else:?>
+			<script>
+			$('lightbox1').setStyle({'height': '90px'});
+			</script>
+		<?php endif ?>
+	<?php //endif ?>
+
+	<br />
+<button type="button" class="button" onclick="cancelMsg();$('lightbox1').hide();"><span><span><?php echo Mage::helper('qquoteadv')->__('Cancel') ?></span></span></button>
+<button type="button" class="button" onclick="$('lightbox1').hide();$('switchmode').submit();"><span><span><?php echo Mage::helper('qquoteadv')->__('Continue') ?></span></span></button>
+
+</center>
+</form>
+</div>
+<script type="text/javascript">
+    var dataForm = new VarienForm('switchmode', true);
+</script>

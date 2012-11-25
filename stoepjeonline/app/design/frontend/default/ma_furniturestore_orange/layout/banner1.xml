@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <cms_index_index>
+		<reference name="head">
+            <action method="addCss" ifconfig="banner1/banner1_config/enabled"><stylesheet>magentothem/css/ma.style1.css</stylesheet></action>
+			<action method="addCss" ifconfig="banner1/banner1_config/enabled"><stylesheet>magentothem/css/ma.style2.css</stylesheet></action>
+			<action method="addCss" ifconfig="banner1/banner1_config/enabled"><stylesheet>magentothem/css/ma.style3.css</stylesheet></action>
+			<action method="addJs" ifconfig="banner1/banner1_config/enabled"><script>magentothem/ma.jq1.js</script></action>
+			<action method="addJs" ifconfig="banner1/banner1_config/enabled"><script>magentothem/ma.style1.js</script></action>
+			<action method="addJs" ifconfig="banner1/banner1_config/enabled"><script>magentothem/ma.style21.js</script></action>
+			<action method="addJs" ifconfig="banner1/banner1_config/enabled"><script>magentothem/ma.style2.js</script></action>
+			<action method="addJs" ifconfig="banner1/banner1_config/enabled"><script>magentothem/ma.style3.js</script></action>
+        </reference>
+        <reference name="mabanner">
+            <block type="banner1/banner1" before="-" name="banner1" template="magentothem/banner1/banner1.phtml" />
+        </reference>
+    </cms_index_index>
+</layout> 

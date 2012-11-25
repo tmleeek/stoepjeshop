@@ -1,0 +1,27 @@
+<?php
+/**
+ *
+ * NOTICE OF LICENSE
+ *
+ * This file is subject to the license
+ * that is bundled with this package in the file LICENSE_Temgra.txt.
+ * If you did not receive a copy of the license, please send an email
+ * to info@temgra.com so we can send you a copy immediately.
+ *
+ * @copyright Copyright (c) 2009-2011 by Tania Alekova, temgra.com - Templates and Graphics Online Store (http://www.temgra.com) - All rights reserved.
+ * @license   http://www.temgra.com/license
+ * 
+ */
+?>
+<?php require_once 'app/code/local/Temgra/ColorCustomOptions/colorCustomOptions.php';?>
+<?php $_option = $this->getOption() ?>
+<dt><label><?php echo  $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getIsRequire()): ?><span class="required">&nbsp;*</span><?php endif; ?></label></dt>
+<dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
+    <?php echo $this->getValuesHtml() ?>
+    <?php if ($_option->getIsRequire()): ?>
+        <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX): ?>
+            <span id="options-<?php echo $_option->getId() ?>-container"></span>
+    <?php endif; ?>
+<?php endif;?>
+<?php colorCustomOptions4($this->getProduct(), $_option, $_option->getId()); ?>
+</dd>

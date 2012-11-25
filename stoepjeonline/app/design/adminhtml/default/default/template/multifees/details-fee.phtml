@@ -1,0 +1,61 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@mageworx.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ * or send an email to sales@mageworx.com
+ *
+ * @category   design_default
+ * @package    MageWorx_MultiFees
+ * @copyright  Copyright (c) 2009 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Multi Fees extension
+ *
+ * @category   design_default
+ * @package    MageWorx_MultiFees
+ * @author     MageWorx Dev Team <dev@mageworx.com>
+ */
+?>
+<?php $_helper = Mage::helper('multifees') ?>
+<?php $items = $this->getItems() ?>
+<?php if ($items): ?>
+<div class="multifees-details-option-body">
+	<small>
+	<?php foreach ($items as $value): ?>
+		<div class="multifees-details-title"><?php echo $_helper->getFeeTitle($value['title']) ?></div>
+		<?php if (isset($value['message']) && $value['message']): ?>
+			<div class="multifees-details-message"><?php echo $_helper->getCustomerMessage() ?>: <?php echo $value['message'] ?></div>
+		<?php endif; ?>
+		<?php if (isset($value['date']) && $value['date']): ?>
+			<div class="multifees-details-message"><?php echo $_helper->getDateTitle() ?>: <?php echo $value['date'] ?></div>
+		<?php endif; ?>
+		<?php foreach ($value['options'] as $id => $option): ?>
+		<?php $basePrice = isset($value['base_price'][$id]) ? $value['base_price'][$id] : $value['price'][$id]; ?>
+			<div class="multifees-details-option"><?php echo $_helper->getOptionTitle($id) ?> 
+            (<?php
+                    if ($_helper->isIncludingTax() && $value['price_incl_tax'][$id] != '') echo $this->displayPrices($basePrice, $value['price_incl_tax'][$id], false, ' ');
+                     else echo $this->displayPrices($basePrice, $value['price'][$id], false, ' ');
+            ?>)</div>
+		<?php endforeach; ?>
+	<?php endforeach; ?>
+	</small>
+</div>
+<?php endif; ?>

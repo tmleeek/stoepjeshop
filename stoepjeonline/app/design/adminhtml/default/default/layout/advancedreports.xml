@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addCss"><name>aw_advancedreports/css/styles.css</name></action>
+        </reference>
+    </default>
+	<advancedreports_admin_setup_edit>
+        <reference name="head">        	
+        	<action method="addJs"><name>advancedreports/columns.js</name></action>
+        </reference>
+    </advancedreports_admin_setup_edit>
+	<advancedreports_admin_product_index>
+        <reference name="head">
+        	<action method="addJs"><name>advancedreports/sku.js</name></action>
+        </reference>
+    </advancedreports_admin_product_index>
+</layout>

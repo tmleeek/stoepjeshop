@@ -1,0 +1,62 @@
+<?php 
+$_productCollection=$this->getLoadedProductCollection() ?>
+<?php if(!$_productCollection->count()): ?>
+<div class="note-msg">
+    <?php echo $this->__('There are no products matching the selection.') ?>
+</div>
+<?php else: ?>
+<div id="best-selling">
+	<div class="both_header">
+    	<h2 class="best_sold_product"><?php echo $this->__('Nieuw in ons assortiment') ?></h2>
+        <h2 class="view_all">
+            <a class="graybutton" href="<?php echo $this->getBaseUrl()."led-lampen.html" ?>">Bekijk ons assortiment
+            	<span class="button_right"></span>
+            </a>
+        </h2>
+        <div class="clear"></div>
+	</div>
+<?php $_collectionSize = $_productCollection->count() ?>
+    <?php $i=0; foreach ($_productCollection as $_product): ?>
+        <?php if($i++%5==0): ?>
+		<!-- <div id="sp_1"> -->
+		<div id="best-selling-blok">
+        <?php endif; ?>
+		<?php if($i == 1): ?>
+        <div class="blok1">
+		<?php else: ?>
+        <div class="blok2">
+		<?php endif; ?>
+		<div class="sp_img_1">
+		   		<!--<div class="imagebox">-->
+		   			<a href= "<?php echo $this->helper('catalog/image')->init($_product, 'small_image') ?>">
+		   		 		<img src="<?php echo $this->getSkinUrl()."images/zoom_img.gif" ?>" alt="" class="zoomimg" />
+		   			</a>
+		   		<!--</div>-->
+		   	<a href="<?php echo $_product->getProductUrl() ?>" >
+		   		<img class="product-img" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->keepAspectRatio(TRUE)->resize(null, 152); ?>" alt="<?php echo ($this->htmlEscape($_product->getImageLabel()))? $this->htmlEscape($_product->getImageLabel()) : $this->htmlEscape($_product->getName()); ?>" />
+		    </a>
+        </div>
+          <div class="sp_detail">
+            <ul class="E27"><li><?php echo $this->htmlEscape($_product->getName()) ?></li></ul>
+              <ul class="meer_informaton">
+                  <li class="gray_arrow">&nbsp;</li>
+                  <li class="meer_information"><a href="<?php echo $_product->getProductUrl() ?>"><?=$this->__('More information')?></a></li>
+              </ul>
+             <ul class="euro"><li><?php echo $this->getPriceHtml($_product, true) ?></li></ul>
+             <ul class="botton"><li><a class="botton" style="cursor:pointer;" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"></a></li></ul>
+          </div>    
+        	<div class="clear"></div>
+		</div>		
+		<?php if($i == 5): ?>
+			<span class="vertical_line_3" style="display:none;">  </span>
+		<?php else : ?>
+			<span class="vertical_line_3">  </span>
+		<?php endif; ?>
+        <?php if($i%5==0 || $i==$_collectionSize): ?>
+		</div>
+        <!-- </div> -->
+        <?php endif; ?>
+    <?php endforeach ?>
+    <script type="text/javascript">decorateGeneric($$('tr'), ['last', 'odd', 'even']);</script>
+</div>
+<?php endif; //$_productCollection->count() ?>

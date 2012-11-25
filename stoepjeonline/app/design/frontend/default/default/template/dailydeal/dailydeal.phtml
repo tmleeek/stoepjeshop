@@ -1,0 +1,70 @@
+<?
+    $_product = Mage::registry('product');
+?>
+<? if ($this->getIsDaily()==$_product->getId()): ?>		
+	<!-- COUNTDOWN -->
+	<div class="clear"></div><br/>
+	<?php
+		$alpha = Mage::getStoreConfig('dailydeal/countdown_configuration/alpha');
+		$bg_main = str_replace('#','0x',Mage::getStoreConfig('dailydeal/countdown_configuration/bg_main'));
+		$bg_color = str_replace('#','0x',Mage::getStoreConfig('dailydeal/countdown_configuration/bg_color'));
+		$textcolor = str_replace('#','0x',Mage::getStoreConfig('dailydeal/countdown_configuration/textcolor'));
+		$sec_text = Mage::getStoreConfig('dailydeal/countdown_configuration/sec_text');
+		$min_text = Mage::getStoreConfig('dailydeal/countdown_configuration/min_text');
+		$hour_text = Mage::getStoreConfig('dailydeal/countdown_configuration/hour_text');
+		$txt_color = str_replace('#','0x',Mage::getStoreConfig('dailydeal/countdown_configuration/txt_color'));
+		$offset = Mage::getStoreConfig('dailydeal/configuration/offset');
+		
+		$date = date ( 'Y-m-d H:i:s' ); 
+		$currentdate = strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s', strtotime ( '-'.$offset.' hours' . $date )));
+		
+		$this->getNrViews();
+	?>	
+	<script type="text/javascript">
+		AC_FL_RunContent = 0;
+	</script>
+	<script src="<?php echo $this->getSkinUrl('dailydeal/js/AC_RunActiveContent.js') ?>" language="javascript"></script>
+		<div class="main-countdown">
+			<script language="javascript">
+				if (AC_FL_RunContent == 0) {
+					alert("This page requires AC_RunActiveContent.js.");
+				} else {
+					AC_FL_RunContent(
+						'codebase', 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0',
+						'width', '285',
+						'height', '75',
+						'src', 'clock',
+						'quality', 'high',
+						'pluginspage', 'http://www.macromedia.com/go/getflashplayer',
+						'align', 'middle',
+						'play', 'true',
+						'loop', 'true',
+						'scale', 'showall',
+						'wmode', 'transparent',
+						'devicefont', 'false',
+						'id', 'clock',
+						'bgcolor', '#fff',
+						'name', 'clock',
+						'menu', 'true',
+						'allowFullScreen', 'false',
+						'FlashVars','sourcedate=2011-11-11-00-00-00&currentdate=<? echo $currentdate;  ?>&Alpha=<? echo $alpha; ?>&bg_color=<? echo $bg_color; ?>&textcolor=<? echo $textcolor; ?>&bg_main=<? echo $bg_main; ?>&seco_text=<? echo $sec_text; ?>&min_text=<? echo $min_text; ?>&hour_text=<? echo $hour_text; ?>&txt_color=<? echo $txt_color; ?>',
+						'allowScriptAccess','sameDomain',
+						'movie', '<?php echo $this->getSkinUrl('dailydeal/flash/clock') ?>',
+						'salign', ''
+					); //end AC code
+				}
+			</script> 
+			<noscript>
+				<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="285" height="75" id="clock" align="middle">
+					<param name="allowScriptAccess" value="sameDomain" />
+					<param name="allowFullScreen" value="false" />
+					<param name="movie" value="<?php echo $this->getSkinUrl('dailydeal/flash/clock') ?>.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#fff" />	<embed src="<?php echo $this->getSkinUrl('dailydeal/flash/clock') ?>.swf" quality="high" bgcolor="#fff" width="285" height="75" name="clock" align="middle" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+				</object>
+			</noscript>				
+		</div>
+		<? if (Mage::getStoreConfig('dailydeal/configuration/qty') && $this->getDealQty()!=0): ?>
+			<p style="color:#a71d1d; font-family:Arial; font-size:13px;">Hurry, there are only <b style="color:#000;"><?php echo $this->getDealQty(); ?> item(s)</b> left!</p> 
+		<? endif; ?>
+
+	<!-- COUNTDOWN END -->
+<? endif; ?>

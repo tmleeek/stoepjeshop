@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <faqsadmin_adminhtml_faqs_index>
+		<update handle="editor" />
+        <reference name="content">
+            <block type="faqs/adminhtml_faqs" name="faqs" />
+        </reference>
+    </faqsadmin_adminhtml_faqs_index>
+    
+    <faqsadmin_adminhtml_topic_index>
+		<update handle="editor" />
+        <reference name="content">
+            <block type="faqs/adminhtml_topic" name="topic" />
+        </reference>
+    </faqsadmin_adminhtml_topic_index>
+	
+	<faqsadmin_adminhtml_faqs_edit>
+			<update handle="editor"/>
+	</faqsadmin_adminhtml_faqs_edit>
+	
+	<faqsadmin_adminhtml_faqs_new>
+   	    <update handle="editor" />
+	</faqsadmin_adminhtml_faqs_new>
+    
+</layout>

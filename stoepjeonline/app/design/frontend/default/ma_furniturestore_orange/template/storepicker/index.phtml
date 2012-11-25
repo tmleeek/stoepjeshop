@@ -1,0 +1,13 @@
+<div class="storepicker_header"><h2><?php echo $this->__("Zoek Bakkerij 't Stoepje bij u in de buurt"); ?></h2></div>
+<form id='storepickerForm'>
+<fieldset id='storepickerData'>
+<label>Postcode:</label><input id='storepickerPostal' type='textbox' name='storepickerPostal' value='' class='input-text' />
+<label>Straal:</label><select id='storepickerDistance'><option value='5'>5 km</option><option value='10'>10 km</option><option value='15'>15 km</option><option value='20'>20 km</option><option value='25'>25 km</option></select><!--<input id='storepickerDistance' type='textbox' name='storepickerDistance' value='' /> km-->
+<input id='storepickerSet' type='submit' value='zoeken' onClick='codeAddress(document.getElementById("storepickerPostal"), document.getElementById("storepickerDistance")); return false' />
+</fieldset>
+<fieldset id='storepickerResults'>
+</fieldset>
+</form>
+<div id='storepickerCanvas'></div>
+<?php
+//echo print_r($this->getStores()->getData(), 1);

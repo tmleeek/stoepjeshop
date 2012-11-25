@@ -1,0 +1,35 @@
+<?php
+$status = Mage::registry('qquote_data')->getData('status');
+
+$url = $this->getUrl('*/*/convert/id/' . $quote['quote_id']);
+$onclick = "if(isCheckRadio()){ convertQ2O(); }else{ return false;}";
+
+$btnCreateOrder = $this->getLayout()->createBlock('adminhtml/widget_button');
+$btnCreateOrder->setLabel($this->__('Create Order'));
+$btnCreateOrder->setClass('save');
+
+if (
+		$status == Ophirah_Qquoteadv_Model_Status::STATUS_PROPOSAL ||
+		$status == Ophirah_Qquoteadv_Model_Status::STATUS_PROPOSAL_SAVED
+) {
+	$onclick = "if(isCheckRadio()){ convertQ2O(); }else{ return false;}";	
+} else {
+	$btnCreateOrder->setClass('disabled');
+	$onclick = 'showMsg(); return false;';	
+}
+$btnCreateOrder->setOnclick($onclick);
+?>
+
+<?php
+$onclick = "saveAndContinueEdit();";
+$button = $this->getLayout()->createBlock('adminhtml/widget_button')
+				->setData(array(
+					'label' => $this->__('Submit Quote'),
+					'class' => 'save',
+					'onclick' => $onclick
+				));
+?>
+
+<fieldset>
+<?php echo $button->_toHtml() . '&nbsp;&nbsp;' . $btnCreateOrder->_toHtml(); ?>
+</fieldset>

@@ -1,0 +1,165 @@
+<?php $item = $this->getItem(); ?>
+<?php $product = $this->getProduct($item->getProductId()); ?>
+
+<tr>
+    <th style="padding:0 10px 1px 0;" align="left" width="650px">
+&nbsp;
+    </th>
+    <th align="left" style="padding-right: 15px;"><small><?php echo $this->__('Price') ?></small></th>
+    <th align="center" ><small><?php echo $this->__('Qty') ?></small></th>
+    <th align="left" style="padding-left: 20px;"><small><?php echo $this->__('Subtotal') ?></small></th>
+</tr>
+
+
+<tr>
+ <td align="left" valign="top" style="padding:3px 9px 0 0">
+     
+             <small><?php echo $this->htmlEscape($product->getName()) ?></small>
+
+<?php 
+$optionPrice = 0; 
+$superAttribute = $this->getOption($product, $item->getAttribute());
+        		
+if ($product->getTypeId() == 'bundle'):
+		$product->setStoreId($item->getStoreId()?$item->getStoreId():1);
+		
+		$request = new Varien_Object(unserialize($item->getAttribute()));
+		$virtualQuote = Mage::getModel('sales/quote');
+		$virtualQuote->getBillingAddress()->addData(array('country_id'=>'US','region_id'=>12));
+		$shippingAddress = $virtualQuote->getShippingAddress()->addData(array('country_id'=>'US','region_id'=>12));
+
+		$virtualQuote->addProductAdvanced($product, $request);
+		$virtualQuote->collectTotals();
+		$_helper = Mage::helper('bundle/catalog_product_configuration');
+		
+		foreach($virtualQuote->getAllItems() as $_unit) {
+			if( $_unit->getProductId() == $product->getId() ) {
+
+				$_options = $_helper->getOptions($_unit);
+				if( is_array($_options) ) {
+					?>
+					 <dl class="item-options">
+						<?php foreach ($_options as $_option): ?>
+
+						<?php $_formatedOptionValue = $this->getFormatedOptionValue($_option);  ?>
+						<dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+						<dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+							<?php if (isset($_formatedOptionValue['full_view'])): ?>
+							<div class="truncated_full_value">
+								<dl class="item-options">
+									<dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+									<dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
+								</dl>
+							</div>
+							<?php endif; ?>
+						</dd>
+						<?php endforeach; ?>
+					</dl>
+				 <?php
+			 }
+        }
+    }
+    
+elseif($product->isConfigurable()):
+       
+        $x = Mage::helper('qquoteadv')->getQuoteItem($product, $item->getAttribute());
+
+        foreach($x->getAllItems() as $_zz) {
+			if( $_zz->getProductId() == $product->getId() ) {
+					$obj = new Ophirah_Qquoteadv_Block_Item_Renderer_Configurable;
+                    $obj->setTemplate('qquoteadv/item/configurable.phtml');
+                    $obj->setItem($_zz);
+                   
+          ?>          
+                    
+                    
+<?php if ($_options = $obj->getOptionList()):?>
+        <dl class="item-options">
+            <?php foreach ($_options as $_option) : ?>
+            <?php $_formatedOptionValue = $obj->getFormatedOptionValue($_option) ?>
+            <dt><?php echo $obj->htmlEscape($_option['label']) ?></dt>
+            <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+                <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                <div class="truncated_full_value">
+                    <dl class="item-options">
+                        <dt><?php echo $obj->htmlEscape($_option['label']) ?></dt>
+                        <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
+                    </dl>
+                </div>
+                <?php endif; ?>
+            </dd>
+            <?php endforeach; ?>
+        </dl>
+<?php endif;?>
+                    
+                    
+                    
+           <?php						
+			}
+		}
+    
+endif;
+ 
+if($product->getTypeId() == 'simple'):
+ 	if($superAttribute):
+ 		foreach($superAttribute as $option => $value):
+  			echo '<b><i>'.$option.'</i></b><br/> '.$value.'<br/>';
+         endforeach;
+	endif;
+endif;
+?>
+     
+     
+     &nbsp;</td>
+
+    <?php
+        $collection = $this->getRequestedProductData($product->getId(), $item->getQuoteId());
+
+        $prices = array();
+        $aQty = array();
+
+        $n = count($collection);
+        if ($n > 0) {
+
+            $i = 0;
+            foreach ($collection as $requested_item) {
+                $aQty[] = $requested_item->getRequestQty();
+
+                $checked = '';
+                if ($i == 0)
+                    $checked = "checked";
+
+                $prices[] = $requested_item->getOwnerBasePrice();
+
+
+                $i++;
+            }
+        }
+    ?>
+ <td style="padding-right: 15px;">
+       <?php if (count($prices)): ?>
+        <?php foreach ($prices as $key => $value): ?>
+                <div style="height:25px;" ><?php echo Mage::helper('checkout')->formatPrice($value); ?></div>
+        <?php endforeach; ?>
+        <?php endif; ?>
+ </td>
+ <td>
+        <?php if (count($aQty)): ?>
+        <?php foreach ($aQty as $key => $value): ?>
+                        <div style="height:25px;" align="center"><?php echo $value; ?></div>
+        <?php endforeach; ?>
+        <?php endif; ?>
+ </td>
+
+        <?php $merge = array_combine($aQty, $prices); ?>
+ <td style="padding-left: 20px;">
+        <?php foreach ($merge as $qty => $price): ?>
+        <?php $total = Mage::helper('checkout')->formatPrice($qty * $price); ?>
+                            <div style="height:25px;" ><?php echo $total; ?></div>
+        <?php endforeach; ?>
+  </td>
+</tr>
+
+<tr>
+  <td align="left" colspan="4"><?php echo nl2br($item->getClientRequest()) ?><br /><hr /></td>
+</tr>

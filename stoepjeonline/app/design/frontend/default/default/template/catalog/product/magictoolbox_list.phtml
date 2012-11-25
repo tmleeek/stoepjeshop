@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * Magictoolbox product list template for Magento store. 
+ * Allow use MagicTools on product list page. 
+ * @mail support@magictoolbox.com
+ */
+
+require_once(BP . str_replace('/', DS, '/app/etc/magictoolbox/core/load.php'));
+
+$tool = & $GLOBALS["magictoolbox"]["magiczoom"];
+
+/* // This lines already don't need.. it's was needed only for old MagicZoom
+if(!defined('__MAGICZOOM_INCLUDED')) {
+    echo $tool->addonsTemplate($this->getSkinUrl('images'));
+    define('__MAGICZOOM_INCLUDED',1);
+}
+*/
+
+if(!$tool->params->checkValue('use-effect-on-category-page', 'No')) {
+
+    ob_start();
+    require(dirname(__FILE__) . '/' . $productsListFileName);
+    $contents = ob_get_contents();
+    ob_end_clean();
+
+
+    
+    foreach ($_productCollection as $_product) {
+        
+        $_product = Mage::getModel('catalog/product')->load($_product->getId());    
+        
+        if($_product->getImage() && $_product->getImage() != 'no_selection') {
+            $title = $this->htmlEscape($_product->getName());
+            $description = $this->htmlEscape($_product->getDescription());
+            $shortDescription = $this->htmlEscape($_product->getShortDescription());
+            list($img, $thumb) = magicToolboxResizer($_product, 'image', $tool->params->getValue("category-thumb-size"));
+
+            $onclick = "";
+            
+
+
+	        if (!($tool->params->checkValue('drag-mode', 'Yes'))) { //onclick only if drag mode is disabled
+	        $onclick = 'onclick="document.location.href = \'' . $_product->getProductUrl() . '\';" ';
+	        }
+
+
+
+            $link = '';
+
+
+            $id = $_product->getId();
+            $html = $tool->template(compact("id", "title", "description", "shortDescription", "img", "thumb", "link"));
+            $html = preg_replace('/^<a /is', '<a ' . $onclick, $html);
+
+            if ($tool->params->checkValue('show-selectors-on-category-page', 'Yes')) {
+                $gallery = Mage::getModel('catalog/product')->load($id)->getMediaGalleryImages();
+		        $html .= '<div class="MagicToolboxSelectorsContainer">';
+                foreach($gallery  as $_image) {
+                    list($img, $medium) = magicToolboxResizer($_product, 'image', $tool->params->getValue("category-thumb-size"), $_image->getFile());
+                    list($img, $thumb) = magicToolboxResizer($_product, 'image', $tool->params->getValue("category-selector-size"), $_image->getFile());
+                    $title = $this->htmlEscape($_image->getLabel());
+                    $a = $tool->subTemplate(compact("id", "img", "thumb", "medium", "title"));
+                    $html .= $a;
+                }
+		        $html .= '</div>';
+            }
+	    
+	        $html = '<div class="MagicToolboxContainer">' . $html . '</div>';
+	    
+            $pattern = '<a[^>]+href=\"' . preg_quote($_product->getProductUrl(), '/') . '\"[^>]*>\s*<img[^>]+\/>\s*<\/a>';
+            $pattern = '/' . $pattern . '/is';
+            $contents_new = preg_replace($pattern, $html, $contents);
+            if($contents_new == $contents) {
+                $hash = preg_replace('/^.*?image\/([a-z0-9]+)\/.*$/is', '$1', $img);
+                //$name = preg_replace('/^.*?image\/([a-z0-9]+)\/.*?\/([^\/]+)$/is', '$2', $img);
+                $name = $this->helper('catalog/image')->init($_product, 'small_image');
+                $name = preg_replace('/^.*?image\/([a-z0-9]+)\/.*?\/([^\/]+)$/is', '$2', $name);
+                $pattern = '<img[^>]+src=\"[^\"]*\/' . preg_quote($hash, '/') . '\/[^\"]*\/' . preg_quote($name, '/') . '\"[^>]*\/>';
+                //$pattern = '/' . $pattern . '/is';
+                $contents_new = preg_replace('/<a[^>]+>\s*' . $pattern . '\s*<\/a>/is', $html, $contents);
+                if($contents_new == $contents) {
+                    $contents_new = preg_replace('/' . $pattern . '/is', $html, $contents);
+                }
+            }
+            $contents = $contents_new;
+        }
+    }
+    
+    echo $contents;
+} else {
+    require(dirname(__FILE__) . '/' . $productsListFileName);
+}
+
+?>

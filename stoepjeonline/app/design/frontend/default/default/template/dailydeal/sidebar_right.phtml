@@ -1,0 +1,120 @@
+<? if ($this->getDailydeal()!='' && Mage::getStoreConfig('dailydeal/configuration/enabled') && Mage::getStoreConfig('dailydeal/sidebar_configuration/right_sidebar')): ?>
+<script type="text/javascript">
+	AC_FL_RunContent = 0;
+</script>
+<script src="<?php echo $this->getSkinUrl('dailydeal/js/AC_RunActiveContent.js') ?>" language="javascript"></script>
+
+<?php
+	$alpha = Mage::getStoreConfig('dailydeal/countdown_configuration/alpha');
+	$bg_main = str_replace('#','0x',Mage::getStoreConfig('dailydeal/countdown_configuration/bg_main'));
+	$bg_color = str_replace('#','0x',Mage::getStoreConfig('dailydeal/countdown_configuration/bg_color'));
+	$textcolor = str_replace('#','0x',Mage::getStoreConfig('dailydeal/countdown_configuration/textcolor'));
+	$sec_text = Mage::getStoreConfig('dailydeal/countdown_configuration/sec_text');
+	$min_text = Mage::getStoreConfig('dailydeal/countdown_configuration/min_text');
+	$hour_text = Mage::getStoreConfig('dailydeal/countdown_configuration/hour_text');
+	$txt_color = str_replace('#','0x',Mage::getStoreConfig('dailydeal/countdown_configuration/txt_color'));
+	$offset = Mage::getStoreConfig('dailydeal/configuration/offset');
+		
+	$date = date ( 'Y-m-d H:i:s' ); 
+	$currentdate = strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s', strtotime ( '-'.$offset.' hours' . $date )));
+	
+    $_helper = $this->helper('catalog/output');
+    $_product = Mage::getModel('catalog/product')->load($this->getDailydeal());	
+	
+	// CURRENCY CONVERSION
+	$currency_symbol = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
+	$baseCurrencyCode = Mage::app()->getStore()->getBaseCurrencyCode();
+	$currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();		
+
+    $_coreHelper = $this->helper('core');
+    $_weeeHelper = $this->helper('weee');
+    $_taxHelper  = $this->helper('tax');
+
+    $_simplePricesTax = ($_taxHelper->displayPriceIncludingTax() || $_taxHelper->displayBothPrices());
+	
+	if ($_product->getSpecialPrice()!='') {
+		$old_price = $_product->getPrice();
+		$special_price = $_product->getSpecialPrice();
+		
+		$converted_old_price = Mage::helper('directory')->currencyConvert($old_price, $baseCurrencyCode, $currentCurrencyCode);
+		$old_price_tax = $_taxHelper->getPrice($_product, $converted_old_price, $_simplePricesTax);
+		$converted_special_price = Mage::helper('directory')->currencyConvert($special_price, $baseCurrencyCode, $currentCurrencyCode);
+		$special_price_tax = $_taxHelper->getPrice($_product, $converted_special_price, $_simplePricesTax);
+	} else {
+		$price = $_product->getPrice();
+		$converted_price = Mage::helper('directory')->currencyConvert($price, $baseCurrencyCode, $currentCurrencyCode);	
+		$price_tax = $_taxHelper->getPrice($_product, $converted_price, $_simplePricesTax);
+	}
+	
+?>	
+<div class="block block-countdown">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Daily deal') ?></span></strong>
+    </div>
+    <div class="block-content">
+		<? if (Mage::getStoreConfig('dailydeal/sidebar_configuration/display_name')): ?>
+			<a href="<? echo $this->getUrl('dailydeal'); ?>"><span class="product_name"><? echo $_product->getName(); ?></span></a><br/>
+		<? endif; ?>
+		<div class="container">					
+			<? if (!Mage::getStoreConfig('dailydeal/sidebar_configuration/display_price') && !Mage::getStoreConfig('dailydeal/sidebar_configuration/display_qty')): ?>
+				<a href="<? echo $this->getUrl('dailydeal'); ?>"><img class="product_image_big" src="<?php echo Mage::helper('catalog/image')->init($_product, 'small_image')->resize(150,150);?>" alt="dailydeal_image" />
+			<? else: ?>
+				<a href="<? echo $this->getUrl('dailydeal'); ?>"><img class="product_image" src="<?php echo Mage::helper('catalog/image')->init($_product, 'small_image')->resize(70,70);?>" alt="dailydeal_image" />
+			<? endif; ?>
+			<div class="right-container">
+			  <? if (Mage::getStoreConfig('dailydeal/sidebar_configuration/display_price')): ?>
+				<? if ($_product->getSpecialPrice()!=''): ?>
+					<h5 class="old_price"><? echo $currency_symbol.number_format($old_price_tax,2); ?></h5>  
+					<h3><? echo $currency_symbol.number_format($special_price_tax,2); ?></h3>  
+				<? else: ?>
+					<h3><? echo $currency_symbol.number_format($price_tax,2); ?></h3>   					
+				<? endif; ?>			
+			  <? endif; ?>
+			  <? if (number_format(Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty(),0)!=0 && Mage::getStoreConfig('dailydeal/sidebar_configuration/display_qty')): ?>
+				<p><b><?php echo number_format(Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty(),0); ?> item(s)</b> left!</p>	
+			  <? endif; ?>
+			</div>
+			</a>
+		</div>
+		<div class="countdown">
+                <script language="javascript">
+					if (AC_FL_RunContent == 0) {
+						alert("This page requires AC_RunActiveContent.js.");
+					} else {
+						AC_FL_RunContent(
+							'codebase', 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0',
+							'width', '170',
+							'height', '45',
+							'src', 'clock',
+							'quality', 'high',
+							'pluginspage', 'http://www.macromedia.com/go/getflashplayer',
+							'align', 'middle',
+							'play', 'true',
+							'loop', 'true',
+							'scale', 'showall',
+							'wmode', 'transparent',
+							'devicefont', 'false',
+							'id', 'clock',
+							'bgcolor', '#fff',
+							'name', 'clock',
+							'menu', 'true',
+							'allowFullScreen', 'false',
+				'FlashVars','sourcedate=2011-11-11-00-00-00&currentdate=<? echo $currentdate;  ?>&Alpha=<? echo $alpha; ?>&bg_color=<? echo $bg_color; ?>&textcolor=<? echo $textcolor; ?>&bg_main=<? echo $bg_main; ?>&seco_text=<? echo $sec_text; ?>&min_text=<? echo $min_text; ?>&hour_text=<? echo $hour_text; ?>&txt_color=<? echo $txt_color; ?>',
+							'allowScriptAccess','sameDomain',
+							'movie', '<?php echo $this->getSkinUrl('dailydeal/flash/clock') ?>',
+							'salign', ''
+							); //end AC code
+					}
+				</script> 
+				<noscript>
+					<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="285" height="75" id="clock" align="middle">
+					<param name="allowScriptAccess" value="sameDomain" />
+					<param name="allowFullScreen" value="false" />
+					<param name="movie" value="<?php echo $this->getSkinUrl('dailydeal/flash/clock') ?>.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#fff" />	<embed src="<?php echo $this->getSkinUrl('dailydeal/flash/clock') ?>.swf" quality="high" bgcolor="#fff" width="285" height="75" name="clock" align="middle" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+					</object>
+				</noscript>				
+        </div>
+    </div>    
+    <div class="block-footer"></div>
+</div>				
+				<? endif; ?>

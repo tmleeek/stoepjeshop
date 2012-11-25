@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<quickorders_quickorder_index>
+		<reference name="content">
+			<block type="quickorders/show" name="quickorders.show" as="quickordersShow" template="quickorders/showSeparate.phtml" />
+		</reference>
+		<reference name="right">
+			<remove name="block.faq"></remove>
+		</reference>
+	</quickorders_quickorder_index>
+</layout>

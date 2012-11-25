@@ -1,0 +1,85 @@
+<?php 
+
+/**
+ * Magictoolbox product media template for Magento store.
+ * Allow use MagicTools on product detailes page.
+ * @mail support@magictoolbox.com
+ */
+
+    require_once(BP . str_replace('/', DS, '/app/etc/magictoolbox/core/load.php'));
+
+    echo '<div class="MagicToolboxContainer">';    
+
+    $tool = & $GLOBALS["magictoolbox"]["magiczoom"];
+
+    $_product = $this->getProduct();
+    
+    //$allowedPage = $tool->params->checkValue('pages', array('Product', 'Both'));
+    $allowedPage = $tool->params->checkValue('use-effect-on-product-page', 'Yes');
+    
+    if ($allowedPage && $_product->getImage() != 'no_selection' && $_product->getImage()) {
+        // we have main image. parce it and print out with Magic Zoom settings.
+        $title = $this->htmlEscape($_product->getName());
+        $description = $this->htmlEscape($_product->getDescription());
+        $shortDescription = $this->htmlEscape($_product->getShortDescription());
+        
+        if(!isset($GLOBALS["magictoolbox"]["image_num"])) $GLOBALS["magictoolbox"]["image_num"] = 1;
+        $id = 'magictoolbox' . $GLOBALS["magictoolbox"]["image_num"]++;
+        
+        list($img, $thumb) = magicToolboxResizer($_product, 'small_image', $tool->params->getValue("thumb-size"));
+        $img = magicToolboxResizer($_product, 'image');
+        
+        echo $tool->template(compact("id", "title", "description", "shortDescription", "img", "thumb"));
+        
+    } else {
+        //product has no main image. print magento default image
+        $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" alt="'.$this->htmlEscape($_product->getName()).'" />';
+        echo $this->helper('catalog/output')->productAttribute($_product, $_img, 'image');
+    }
+    
+    if (count($this->getGalleryImages()) > 1) {
+        // print more images
+        ?>
+            <div class="more-views MagicToolboxSelectorsContainer" id="MagicToolboxSelectorsContainer">
+                <h4><?php echo $this->__('More Views') ?></h4>
+                <ul>
+                    <?php 
+                        $title = $this->htmlEscape($_product->getName());
+                        foreach($this->getGalleryImages() as $_image) { 
+                            if($allowedPage) {
+                                list($img, $medium) = magicToolboxResizer($_product, 'small_image', $tool->params->getValue("thumb-size"), $_image->getFile());
+                                list($img, $thumb) = magicToolboxResizer($_product, 'thumbnail', $tool->params->getValue("selector-size"), $_image->getFile());
+                                $img = magicToolboxResizer($_product, 'image', null, $_image->getFile());
+                                if($tool->params->checkValue('use-individual-titles', 'Yes')) {
+                                    $title = $this->htmlEscape($_image->getLabel());
+                                }
+                                if(empty($title)) {
+                                    $title = $this->htmlEscape($_product->getName());
+                                }
+                                $alt = $this->htmlEscape($_image->getLabel());
+
+                                $a = $tool->subTemplate(compact("id", "img", "thumb", "medium", "title", "alt"));
+                                $event = 'click';
+                                $event = strtolower($tool->params->getValue('thumb-change'));
+
+
+                                $a = str_replace('<a ', '<a on' . $event . '="MagicToolbox_changeOption(this);" ', $a);
+                                if($tool->params->checkValue('ignore-magento-css', 'Yes')) {
+                                    $a = str_replace("<a ", "<a style=\"width:auto !important; height:auto !important; margin: 0 !important;\" ", $a);
+                                    $a = str_replace("<img ", "<img style=\"width:auto !important; height:auto !important; margin: 0 !important;\" ", $a);
+                                }
+                                echo "<li>{$a}</li>";
+                            } else {
+                                ?>
+                                    <a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=50,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>
+                                <?php
+                            }
+                        }                        
+                    ?>
+                </ul>
+            </div>
+        <?php    
+    }
+    
+    echo '</div>';
+?>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!--
+ @copyright  Copyright (c) 2009 Raptor Commerce (http://www.raptorcommerce.com)
+-->
+<layout version="0.1.0">
+    <supermenu_adminhtml_custommenu_index>
+        <reference name="content">
+            <block type="supermenu/adminhtml_custommenu" name="custommenu" />
+        </reference>
+    </supermenu_adminhtml_custommenu_index>
+</layout>

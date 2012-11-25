@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+		<reference name="head">
+            <action method="addCss" ifconfig="bestsellerproductvertscroller/bestsellerproductvertscroller_config/enabled"><stylesheet>magentothem/css/ma.bestsellervertscroller.css</stylesheet></action>			
+			<action method="addJs" ifconfig="bestsellerproductvertscroller/bestsellerproductvertscroller_config/enabled"><script>magentothem/bestsellerproductvertscroller/ma.jq.vert.js</script></action>
+			<action method="addJs" ifconfig="bestsellerproductvertscroller/bestsellerproductvertscroller_config/enabled"><script>magentothem/bestsellerproductvertscroller/ma.script.vert.js</script></action>
+		</reference>
+	</default>
+	<cms_index_index>
+        <reference name="left">
+            <block type="bestsellerproductvertscroller/bestsellerproductvertscroller" name="bestseller.vert.scroller.left" template="magentothem/bestsellerproductvertscroller/bestsellerleft.phtml" />
+        </reference>
+        <reference name="right">
+            <block type="bestsellerproductvertscroller/bestsellerproductvertscroller" name="bestseller.vert.scroller.right" template="magentothem/bestsellerproductvertscroller/bestsellerright.phtml" />
+        </reference>
+    </cms_index_index>
+	<catalog_category_default translate="label">
+        <reference name="left">
+            <block type="bestsellerproductvertscroller/bestsellerproductvertscroller" name="bestseller.vert.scroller.left" template="magentothem/bestsellerproductvertscroller/bestsellerleft.phtml" />
+        </reference>
+        <reference name="right">
+            <block type="bestsellerproductvertscroller/bestsellerproductvertscroller" name="bestseller.vert.scroller.right" template="magentothem/bestsellerproductvertscroller/bestsellerright.phtml" />
+        </reference>
+	</catalog_category_default>
+	<catalog_category_layered translate="label">
+        <reference name="left">
+            <block type="bestsellerproductvertscroller/bestsellerproductvertscroller" name="bestseller.vert.scroller.left" template="magentothem/bestsellerproductvertscroller/bestsellerleft.phtml" />
+        </reference>
+        <reference name="right">
+            <block type="bestsellerproductvertscroller/bestsellerproductvertscroller" name="bestseller.vert.scroller.right" template="magentothem/bestsellerproductvertscroller/bestsellerright.phtml" />
+        </reference>
+	</catalog_category_layered>
+</layout> 

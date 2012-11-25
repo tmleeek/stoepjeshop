@@ -1,0 +1,11 @@
+<?php
+	$storepickerId = Mage::getSingleton('core/session')->getStorepickerId();
+	if ($storepickerId) {
+		$stores = Mage::getModel("storepicker/store");
+		$stores->load($storepickerId);
+		$name = $stores->getName();
+
+		$storeUrl = Mage::getUrl('storepicker/index/index');
+
+		echo "<div id='currentstore'>{$this->__('Gekozen markt:')} <a href='{$storeUrl}'>{$name}</a></div>";
+	}

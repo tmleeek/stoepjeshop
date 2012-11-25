@@ -1,0 +1,84 @@
+<?php
+/**
+ * Manufacturers extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * 
+ * @category   FME
+ * @package    Manufacturers
+ * @author     Kamran Rafiq Malik <kamran.malik@unitedsol.net>
+ * @copyright  Copyright 2010 © free-magentoextensions.com All right reserved
+ */
+?>
+<link type="text/css" href="<?php echo $this->getSkinUrl(); ?>/css/faqs/accordion.css" rel="stylesheet">
+<?php  
+
+$maxDisplay  =  Mage::getStoreConfig('faqs/general/faq_maxtopic');
+$collection = $this->getItems($maxDisplay);
+$counter=0;
+
+?>
+<div class="block block-faqs">
+        <div class="block-title">
+        <strong>FAQs</strong>
+    </div>
+    <?php if ( count($collection) == 0 ) : ?>  
+        <div class="block-content">
+            <p class="empty"><?php echo Mage::helper('faqs')->__('No Faqs find yet!') ?></p>
+        </div>
+    <?php else : ?>
+        <div class="menu">
+            <?php echo Mage::helper('faqs')->__('Click on the Faq\'s topic:') ?>
+            <ul>
+             <?php foreach ($collection as $_topic): ?>
+                    <li><a href="<?php echo Mage::helper('faqs')->getUrl($_topic['identifier']); ?>"><?php echo $_topic["title"]; ?></a></li>
+                <?php $counter++; ?>   
+             <?php endforeach; ?>
+             <li><a href="<?php echo Mage::helper('faqs')->getUrl(); ?>"><?php echo Mage::helper('faqs')->__('View all topics') ?></a></li>
+           </ul>         
+        </div>
+        
+        <div>
+            <form action="<?php echo Mage::helper('faqs')->getUrl('search') ?>" id="faqsForm" method="post" >
+            <fieldset class="faqs">
+            
+           <table cellspacing="0" cellpadding="0" border="0">
+             <tbody>  
+                <tr>
+                	<td class="faq-search"><?php echo Mage::helper('faqs')->__('Search Faq\'s:') ?></td>
+                </tr>
+                <tr>
+                	<td class="value"><input id="faqssearch" name="faqssearch" value="" class="required-entry required-entry input-text" type="text"/></td>
+                </tr>
+                <tr>
+                	<td style="text-align:right; padding-top:5px">
+                  		<button class="form-button" type="submit"><span><?php echo Mage::helper('faqs')->__('Search') ?></span></button>
+                	</td>
+                </tr> 
+             </tbody>
+           </table>
+            </fieldset>
+           </form>
+        </div>     
+    <?php endif; ?>   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

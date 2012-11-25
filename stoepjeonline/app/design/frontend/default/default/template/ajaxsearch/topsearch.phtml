@@ -1,0 +1,38 @@
+<?php if (Mage::getStoreConfig('ajax_search/general/enabled')) :?>
+<form id="search_mini_form" action="<?php echo $this->helper('catalogSearch')->getResultUrl() ?>" method="get">
+    <fieldset>
+        <legend><?php echo $this->__('Search Site') ?></legend>
+        <div class="mini-search form-search">
+       	    <div id="searchajaxico" class=""></div>
+			<input id="search" type="text" class="input-text" name="<?php echo $this->helper('catalogSearch')->getQueryParamName() ?>" value="<?php echo Mage::getStoreConfig('ajax_search/general/searchfieldtext'); ?>" />
+            <button type="submit" title="<?php echo $this->__('Search') ?>" class="button"><span><span><?php echo $this->__('Search') ?></span></span></button>
+ <script type="text/javascript">
+            //<![CDATA[
+			function initAutocomplete(){
+				new Autocomplete('search', { 
+					serviceUrl:'<?php echo $this->getUrl('ajaxsearch'); ?>',
+					store:'<?php echo Mage::app()->getStore()->getStoreId(); ?>',
+					enableimage:'<?php echo (int)Mage::getStoreConfig('ajax_search/general/enableimage'); ?>',
+					enableloader:'<?php echo (int)Mage::getStoreConfig('ajax_search/general/enableloader'); ?>',
+					enabledescription:'<?php echo (int)Mage::getStoreConfig('ajax_search/general/enabledescription'); ?>',
+					descriptionchars:'<?php echo (int)Mage::getStoreConfig('ajax_search/general/descriptionchars'); ?>',
+					minChars:'<?php echo Mage::getStoreConfig('ajax_search/general/minchars'); ?>', 
+					maxHeight:'<?php echo Mage::getStoreConfig('ajax_search/general/maxheight'); ?>',
+					width:'<?php echo Mage::getStoreConfig('ajax_search/general/width'); ?>',
+					searchtext:'<?php echo Mage::getStoreConfig('ajax_search/general/searchfieldtext'); ?>',
+                    baseUrl:'<?php echo Mage::getBaseUrl(); ?>',
+                    secureUrl:'<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true); ?>',
+					onSelect: onAutocompleteSubmit 
+				});
+			}
+			if (Prototype.Browser.IE) {
+			    Event.observe(window, 'load', initAutocomplete);
+			} else {
+			    document.observe("dom:loaded", initAutocomplete);
+			}
+            //]]>
+            </script>
+        </div>
+    </fieldset>
+</form>
+<?php endif; ?>

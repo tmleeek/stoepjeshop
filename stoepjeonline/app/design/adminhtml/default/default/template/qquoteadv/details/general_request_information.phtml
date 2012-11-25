@@ -1,0 +1,24 @@
+<script language="javascript" type="text/javascript">
+	function limitText(limitField, limitCount, limitNum) {
+		if (limitField.value.length > limitNum) {
+			limitField.value = limitField.value.substring(0, limitNum);
+		} else {
+			limitCount.value = limitNum - limitField.value.length;
+		}
+	}
+</script>
+<?php $limit = 400; ?>
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-account"><?php echo $this->__('Quote request information') ?></h4>
+	</div>
+	<fieldset>
+		<textarea  onKeyDown="limitText(this.form.client_request,this.form.countdown,<?php echo $limit ?>);"
+				   onKeyUp="limitText(this.form.client_request,this.form.countdown,<?php echo $limit ?>);"
+				   style="width:98%;" name="client_request" id="client_request"  rows="4"><?php echo $this->htmlEscape($quote['client_request']) ?></textarea>
+		<br />
+		<font size="1">(<?php echo $this->__('Maximum characters') ?>: <?php echo $limit ?>)</font>
+		<input readonly type="text" name="countdown" size="3" value="<?php echo $limit ?>">
+		<br/>
+	</fieldset>
+</div>

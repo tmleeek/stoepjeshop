@@ -1,0 +1,28 @@
+<?php
+/**
+ * aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ *
+ * @category   AW
+ * @package    AW_Booking
+ * @copyright  Copyright (c) 2009-2010 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ */
+?>
+<h4><?php echo $this->__("Day details")?></h4>
+<div id="aw_booking_timetable">
+	<?php echo $this->getFromToHtml($this->getDate()) ?>
+</div>
+
+<table class="aw_booking_legend" >
+	<tr>
+		<td><div class="legend free"></div><?php echo $this->__('Free time')?></td>
+		<td><div class="legend busy"></div><?php echo $this->__('Busy time')?></td>
+	</tr>
+</table>

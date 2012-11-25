@@ -1,0 +1,10 @@
+<?php
+/**
+ * @category   design_default
+ * @package    PayNL_Ideal
+ * @copyright  Copyright (c) 2009 TinTel
+ */
+?>
+<?php echo $this->getMethod()->getTitle() ?>
+    {{pdf_row_separator}}
+<?php echo Mage::helper('ideal')->__('Bank: %s', $this->htmlEscape($this->getBankTitle())) ?>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+	</default>
+    <storepicker_manage_stores_index>
+        <update handle="editor" />
+        <reference name="content">
+            <block type="storepicker/manage_stores" name="stores" />
+        </reference>
+    </storepicker_manage_stores_index>
+	<storepicker_manage_stores_edit>
+		<reference name="content">
+			<block type="storepicker/manage_stores_edit" name="store_edit" />
+		</reference>
+	</storepicker_manage_stores_edit>
+	<storepicker_manage_stores_new>
+		<reference name="content">
+			<block type="storepicker/manage_stores_edit" name="store_new" />
+		</reference>
+	</storepicker_manage_stores_new>
+</layout>

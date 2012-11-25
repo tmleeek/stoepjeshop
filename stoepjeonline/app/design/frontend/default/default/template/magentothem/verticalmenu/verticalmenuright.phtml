@@ -1,0 +1,19 @@
+<?php if( $this->getConfig('enabled') && $this->getConfig('rightmenu') ): ?>
+	<div class="block block-verticalmenu">
+		<?php if( $this->getConfig('title') ): ?>
+			<div class="block-title"><strong><span><?php echo $this->getConfig('title') ?></span></strong></div>
+		<?php endif; ?>
+		<div class="block-content">
+			<?php $_menu = $this->renderCategoriesMenuHtml(0,'level-top') ?>
+			<?php if($_menu): ?>
+				<ul id="ma-<?php echo $this->getConfig('rightmenu') ?>">
+					<?php echo $_menu ?>
+				</ul>
+			<?php endif ?>
+		</div>
+		<div style="display: none;"><a href="http://www.magentothem.com" title="Magento Themes">Magento Themes</a></div>
+		<div style="display: none;"><a href="http://www.plazathemes.com" title="Magento Themes">Magento Themes</a></div>
+		<div style="display: none;"><a href="http://www.magentothemess.com" title="Magento Themes">Magento Themes</a></div>
+		<div style="display: none;"><a href="http://www.ecomthemes.com" title="Magento Themes">Magento Themes</a></div>
+	</div>
+<?php endif; ?>

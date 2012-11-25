@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layout>
+
+    <quickproductcreation_admin_form>
+        <reference name="head">
+            <action method="addJs">
+                <script>mdn/QuickProductCreation</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="QuickProductCreation/Admin_Form" name="quickproductcreation_form" template="QuickProductCreation/Form.phtml"/>
+        </reference>
+    </quickproductcreation_admin_form>
+
+    <quickproductcreation_admin_createproducts>
+        <reference name="content">
+            <block type="QuickProductCreation/Admin_Result" name="result" as="result" template="QuickProductCreation/Result.phtml"/>
+        </reference>
+    </quickproductcreation_admin_createproducts>
+
+</layout>

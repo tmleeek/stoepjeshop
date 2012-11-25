@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <qquoteadv_adminhtml_qquoteadv_index>
+        <reference name="content">
+            <block type="qquoteadv/adminhtml_qquoteadv" name="qquote"/>
+        </reference>
+    </qquoteadv_adminhtml_qquoteadv_index>
+<!--
+Email layouts section
+-->
+    <qquoteadv_email_qquoteadv_items>
+        <block type="qquoteadv/adminhtml_email_items" name="qquoteadv_items" template="qquoteadv/email/items.phtml">
+            <block type="qquoteadv/adminhtml_email_item" name="qquoteadv_item" as="qquoteadv_item"  template="qquoteadv/email/item.phtml">
+                <action method="addItemRender">
+                    <type>bundle</type>
+                    <block>qquoteadv/item_renderer_bundle</block>
+                    <template>qquoteadv/email/items/bundle.phtml</template>
+                </action>
+				<action method="addItemRender">
+					<type>configurable</type>
+					<block>qquoteadv/item_renderer_configurable</block>
+					<template>qquoteadv/email/items/configurable.phtml</template>
+				</action>
+            </block>
+        </block>
+    </qquoteadv_email_qquoteadv_items>
+    <default>
+        <reference name="notifications">
+            <block type="qquoteadv/adminhtml_notifications" name="qquoteadv_notifications" template="qquoteadv/notifications.phtml"></block>
+        </reference>
+    </default>
+</layout>

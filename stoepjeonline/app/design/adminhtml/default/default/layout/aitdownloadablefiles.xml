@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright  Copyright (c) 2009 AITOC, Inc. 
+ */
+-->
+
+<layout>
+
+    <adminhtml_catalog_product_downloadable>
+        <reference name="product_tabs">
+            <action method="addTab"><name>aitfile_files</name><block>aitdownloadablefiles/adminhtmlCatalogProductEditTabDownloadable</block></action>
+            <action method="bindShadowTabs"><first>aitfile_files</first><second>customer_options</second></action>
+        </reference>
+    </adminhtml_catalog_product_downloadable>
+    
+    <adminhtml_catalog_product_simple>
+        <reference name="product_tabs">
+            <action method="addTab"><name>aitfile_files</name><block>aitdownloadablefiles/adminhtmlCatalogProductEditTabDownloadable</block></action>
+            <action method="bindShadowTabs"><first>aitfile_files</first><second>customer_options</second></action>
+        </reference>
+    </adminhtml_catalog_product_simple>
+    
+    <adminhtml_catalog_product_grouped>
+        <reference name="product_tabs">
+            <action method="addTab"><name>aitfile_files</name><block>aitdownloadablefiles/adminhtmlCatalogProductEditTabDownloadable</block></action>
+            <action method="bindShadowTabs"><first>aitfile_files</first><second>customer_options</second></action>
+        </reference>
+    </adminhtml_catalog_product_grouped>
+    
+    <adminhtml_catalog_product_configurable>
+        <reference name="product_tabs">
+            <action method="addTab"><name>aitfile_files</name><block>aitdownloadablefiles/adminhtmlCatalogProductEditTabDownloadable</block></action>
+            <action method="bindShadowTabs"><first>aitfile_files</first><second>customer_options</second></action>
+        </reference>
+    </adminhtml_catalog_product_configurable>
+    
+    <adminhtml_catalog_product_bundle>
+        <reference name="product_tabs">
+            <action method="addTab"><name>aitfile_files</name><block>aitdownloadablefiles/adminhtmlCatalogProductEditTabDownloadable</block></action>
+            <action method="bindShadowTabs"><first>aitfile_files</first><second>bundle_items</second></action>
+        </reference>
+    </adminhtml_catalog_product_bundle>
+    
+    <adminhtml_catalog_product_virtual>
+        <reference name="product_tabs">
+            <action method="addTab"><name>aitfile_files</name><block>aitdownloadablefiles/adminhtmlCatalogProductEditTabDownloadable</block></action>
+            <action method="bindShadowTabs"><first>aitfile_files</first><second>customer_options</second></action>
+        </reference>
+    </adminhtml_catalog_product_virtual>
+    
+</layout>
+<!--
+/**
+ * Product:     1.4.0.x-1.5.0.x
+ * Package:     Aitoc_Aitdownloadablefiles_2.1.1_44829
+ * Purchase ID: EUuGgWCe9R8lNix4kkddD7KpG37GhZF23A92LkTSFp
+ * Generated:   2011-02-18 14:24:10
+ * File path:   app/design/adminhtml/default/default/layout/aitdownloadablefiles.xml
+ * Copyright:   (c) 2011 AITOC, Inc.
+ */
+-->

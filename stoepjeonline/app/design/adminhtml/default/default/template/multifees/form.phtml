@@ -1,0 +1,293 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@mageworx.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ * or send an email to sales@mageworx.com
+ *
+ * @category   design_default
+ * @package    MageWorx_MultiFees
+ * @copyright  Copyright (c) 2009 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Multi Fees extension
+ *
+ * @category   design_default
+ * @package    MageWorx_MultiFees
+ * @author     MageWorx Dev Team <dev@mageworx.com>
+ */
+?>
+<div class="entry-edit">
+	<form id="<?php echo $this->_form->getId() ?>" method="<?php echo $this->_form->getMethod() ?>" action="<?php echo $this->_form->getAction() ?>" enctype="multipart/form-data">
+	<input type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" name="form_key" />
+
+	<div class="entity-edit">
+	    <div class="entry-edit-head">
+	        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Title') ?></h4>
+	    </div>
+	    <div class="box">
+			<div class="hor-scroll">
+		        <table class="dynamic-grid" cellspacing="0" id="attribute-labels-table">
+		            <tr>
+						<th rowspan="2">
+							<table class="dynamic-grid" cellspacing="0">
+					        	<?php $_labels = $this->getLabelValues() ?>
+					        	<?php foreach ($this->getStores() as $_store): ?>
+					            <tr>
+					                <td>
+					                	<div class="multifees-store-title"><?php echo $_store->getName() ?><?php if ($_store->getStoreId() == 0): ?> <span class="required">*</span><?php endif; ?></div>
+					                	<input class="input-text<?php if($_store->getStoreId()==0): ?> required-option<?php endif; ?> multifees-input-long" type="text" name="titles[<?php echo $_store->getStoreId() ?>]" value="<?php echo $this->htmlEscape($_labels[$_store->getStoreId()]) ?>" />
+					            	</td>
+					            </tr>
+					            <?php endforeach; ?>
+							</table>
+						</th>
+						<th><?php echo $this->__('Input Type') ?> <span class="required">*</span></th>
+		            	<th><?php echo $this->__('Is Required') ?></th>
+		            	<th><?php echo $this->__('Sort Order') ?></th>
+		            	<th><?php echo $this->__('Status') ?></th>
+                        <th><?php echo $this->__('Apply To') ?> <span class="required">*</span></th>
+		            	<th><?php if (!Mage::app()->isSingleStoreMode()): ?><?php echo $this->__('Store View') ?> <span class="required">*</span><?php endif; ?></th>
+					</tr>
+					<tr>
+		                <td><?php echo $this->getFromElement('input_type') ?></td>
+		                <td><?php echo $this->getFromElement('required') ?></td>
+		                <td><?php echo $this->getFromElement('sort_order') ?></td>
+		                <td><?php echo $this->getFromElement('status') ?></td>
+                                <td>
+                                        <?php echo $this->getFromElement('select_apply_to') ?>
+                                        <?php echo $this->getFromElement('apply_to') ?>
+                                        <?php echo $this->getFromElement('custom') ?>
+                                </td>
+		                <td><?php echo $this->getFromElement('store_id') ?></td>
+		            </tr>
+		        </table>
+			</div>
+	    </div>
+	</div>
+
+	<div class="entity-edit multifees-options">
+	    <div class="entry-edit-head">
+	    	<h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Options') ?></h4>
+	    </div>
+	    <div class="box">
+			<div class="hor-scroll">
+		        <table class="dynamic-grid" cellspacing="0" cellpadding="0">
+		        	<thead>
+		            	<tr>
+		            	<?php foreach ($this->getStores() as $_store): ?>
+			                <th><?php echo $_store->getName() ?><?php if ($_store->getStoreId() == 0): ?> <span class="required">*</span><?php endif; ?></th>
+			            <?php endforeach; ?>
+			                <th><?php echo $this->__('Price') ?> <span class="required">*</span></th>
+			                <th><?php echo $this->__('Price Type') ?></th>
+			                <th><?php echo $this->__('Position') ?></th>
+			                <th class="nobr a-center"><?php echo $this->__('Is Default') ?></th>
+			                <th style="width: 200px !important;"><?php echo $this->getAddNewButtonHtml() ?></th>
+			            </tr>
+					</thead>
+					<tbody id="attribute-options-table"></tbody>
+		        </table>
+			</div>
+			<input type="hidden" id="option-count-check" class="required-options-count" value="" /><label for=""></label>
+	    </div>
+	</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var optionDefaultInputType = 'radio';
+
+// IE removes quotes from element.innerHTML whenever it thinks they're not needed, which breaks html.
+var templateText =
+	'<tr class="option-row" id="option-row-{{id}}">'+
+	<?php foreach ($this->getStores() as $_store): ?>
+		'<td><input name="option[title][{{id}}][<?php echo $_store->getStoreId() ?>]" value="{{store<?php echo $_store->getStoreId() ?>}}" class="input-text<?php if($_store->getStoreId()==0): ?> required-option<?php endif; ?>" type="text" /></td>'+
+	<?php endforeach; ?>
+		'<td><input class="input-text required-option validate-zero-or-greater" type="text" name="option[price][{{id}}]" value="{{price}}" /></td>'+
+		'<td><?php echo $this->getPriceTypeOfForm() ?></td>'+
+		'<td><input class="input-text validate-zero-or-greater" type="text" name="option[order][{{id}}]" value="{{sort_order}}" /></td>'+
+		'<td><input class="input-radio" type="{{intype}}" name="option[default][]" value="{{id}}" {{checked}} /></td>'+
+		'<td class="a-left"><?php echo $this->getAddImageButtonHtml() ?>&nbsp;<?php echo $this->getDeleteButtonHtml() ?></td>'+
+	'</tr>'+
+	'<tr id="file-option-row-{{id}}">'+
+		'<td colspan="<?php echo count($this->getStores()) + 5 ?>">'+
+		'{{image}} <div id="file-upload-{{id}}"></div>'+
+		'</td>'+
+	'</tr>';
+
+function toggleApplyVisibility() {
+    if ($('select_apply_to').value == 'custom') {
+        $('apply_to').removeClassName('no-display');
+        $('apply_to').removeClassName('ignore-validate');
+    } else {
+        $('apply_to').addClassName('no-display');
+        $('apply_to').addClassName('ignore-validate');
+        var options = $('apply_to').options;
+        for( var i=0; i < options.length; i++) {
+            options[i].selected = false;
+        }
+    }
+}
+
+var attributeOption = {
+    table: $('attribute-options-table'),
+    templateSyntax: /(^|.|\r|\n)({{(\w+)}})/,
+    templateText: templateText,
+    itemCount: 0,
+    totalItems: 0,
+    add: function(data) {
+        this.template = new Template(this.templateText, this.templateSyntax);
+        if (!data.id) {
+    		data = {};
+    		data.id = 'option_'+ this.itemCount;
+        }
+        if (!data.intype) {
+			var iputType = $('input_type');
+            if (iputType.value == <?php echo MageWorx_MultiFees_Helper_Data::TYPE_CHECKBOX ?>) {
+            	data.intype = 'checkbox';
+            } else {
+            	data.intype = optionDefaultInputType;
+            }
+        }
+        Element.insert(this.table, {'bottom': this.template.evaluate(data)});
+
+        if (data.price_type) {
+            $A($('option_price_type_'+ data.id).options).each(function(option) {
+                if (option.value == data.price_type) {
+                    option.selected = true;
+                }
+            });
+	    }
+
+        this.bindRemoveButtons();
+        this.itemCount++;
+        this.totalItems++;
+        this.updateItemsCountField();
+    },
+    remove: function(event) {
+        var element = $(Event.findElement(event, 'tr')); // !!! Button already
+                                                           // have table parent in safari
+        // Safari workaround
+        element.ancestors().each(function(parentItem) {
+           if (parentItem.hasClassName('option-row')) {
+               element = parentItem;
+               throw $break;
+           } else if (parentItem.hasClassName('box')) {
+               throw $break;
+           }
+        });
+
+        if (element) {
+            this.removeFileOptionRow(element.id);
+            element.remove();
+            this.totalItems--;
+            this.updateItemsCountField();
+        }
+    },
+    updateItemsCountField: function() {
+        if (this.totalItems > 0) {
+            $('option-count-check').value = '1';
+        } else {
+            $('option-count-check').value = '';
+        }
+    },
+    bindRemoveButtons: function() {
+        var buttons = $$('.delete-option');
+        for (var i = 0; i < buttons.length; i++) {
+            if (!$(buttons[i]).binded) {
+                $(buttons[i]).binded = true;
+                Event.observe(buttons[i], 'click', this.remove.bind(this));
+            }
+        }
+    },
+    removeFileOptionRow: function(strId) {
+    	var tmp = strId.split('-');
+    	var fileRow = $('file-option-row-'+ tmp[2]);
+        if (fileRow) {
+        	fileRow.remove();
+        }
+    },
+    checkInType: function(obj) {
+        if (obj.value == <?php echo MageWorx_MultiFees_Helper_Data::TYPE_CHECKBOX ?>) {
+        	attributeOption._prepareDefOption("checkbox");
+        } else {
+        	attributeOption._prepareDefOption(optionDefaultInputType);
+        }
+	},
+	_prepareDefOption: function(type) {
+		var options = $$('input[name^="option[default]"]');
+		var tpl = '<input class="input-radio" type="{{intype}}" name="option[default][]" value="{{id}}" {{checked}} />';
+		var data = {};
+		$A(options).each(function(elem) {
+			var parent   = elem.up();
+			data.id      = elem.getAttribute("value");
+			data.intype  = type;
+			data.checked = '';
+			if (elem.checked === true) {
+				//data.checked = 'checked="checked"';
+			}
+			this.template = new Template(tpl, attributeOption.templateSyntax);
+			parent.update(this.template.evaluate(data))
+       	});
+	},
+	createFileField: function(strId) {
+		var id = strId.split('-');
+		var tpl = '<table class="multifees-file-row" cellspacing="0" cellpadding="0"><tr>'+
+				'<td><input class="input-file" type="file" name="file_'+ id[3] +'" value="" /></td>'+
+				'<td class="td-button"><span title="<?php echo $this->__('Hide') ?>">'+
+					'<button type="button" onclick="attributeOption.cleanFileRow(\''+ id[3] +'\')" class="delete delete-select-row icon-btn"><span><?php echo $this->__('Hide') ?></span></button></span></td>'+
+			'</tr></table>';
+		var field = $('file-upload-'+ id[3]);
+		if (field) {
+			field.update(tpl);
+		}
+	},
+	cleanFileRow: function(optionId) {
+		var fileRow = $('file-upload-'+ optionId);
+		if (fileRow) {
+        	fileRow.update('');
+        }
+	}
+}
+
+if ($('custom').value == 1) {
+    $('select_apply_to').options[1].selected = true;
+}
+toggleApplyVisibility('apply_to');
+
+attributeOption.bindRemoveButtons();
+
+if ($('add_new_option_button')) {
+    Event.observe('add_new_option_button', 'click', attributeOption.add.bind(attributeOption));
+}
+Validation.addAllThese([
+    ['required-option', '<?php echo $this->__('Failed') ?>', function(v) {
+        return !Validation.get('IsEmpty').test(v);
+}]]);
+Validation.addAllThese([
+    ['required-options-count', '<?php echo $this->__('Please add at least one option') ?>', function(v) {
+        return !Validation.get('IsEmpty').test(v);
+}]]);
+<?php foreach ($this->getOptionValues() as $_value): ?>
+    attributeOption.add(<?php echo $_value->toJson() ?>);
+<?php endforeach; ?>
+//]]>
+</script>

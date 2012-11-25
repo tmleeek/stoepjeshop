@@ -1,0 +1,14 @@
+<?php
+/**
+ * @category   design_default
+ * @package    PayNL_Ideal
+ * @copyright  Copyright (c) 2009 TinTel
+ */
+?>
+<?php if($_info = $this->getInfo()): ?>
+<?php echo $this->getMethod()->getTitle() ?>
+<br />
+<?php echo $this->__('Bank'). ': ' . $this->getBankTitle() ?>
+<?php else: ?>
+
+<?php endif; ?>

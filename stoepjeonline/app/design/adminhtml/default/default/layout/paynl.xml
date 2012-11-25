@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_sales_order_view>      
+		<!-- Magento 1.3: -->
+        <reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="extra_fee" template="sales/order/totals/item.phtml" after="tax">
+                <action method="setSourceField"><value>extra_fee</value></action>
+                <action method="setLabel"><value>Payment Method Fee</value></action>
+            </block>
+        </reference>
+		<!-- Magento 1.4: -->
+		<reference name="order_totals">
+            <block name="extra_fee" type="afterpay/order_totals_fee" before="tax"/>
+        </reference>
+    </adminhtml_sales_order_view>
+
+    <adminhtml_sales_order_invoice_view>
+		<!-- Magento 1.4: -->
+		<reference name="invoice_totals">
+            <block name="extra_fee" type="afterpay/invoice_totals_fee" before="tax"/>
+        </reference>
+    </adminhtml_sales_order_invoice_view>
+
+    <adminhtml_sales_order_invoice_new>
+		<!-- Magento 1.4: -->
+		<reference name="invoice_totals">
+            <block name="extra_fee" type="afterpay/invoice_totals_fee" before="tax"/>
+        </reference>
+    </adminhtml_sales_order_invoice_new>
+
+    <adminhtml_sales_order_creditmemo_new>
+		<!-- Magento 1.3: -->
+        <reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="extra_fee" template="sales/order/totals/item.phtml" after="tax">
+                <action method="setSourceField"><value>extra_fee</value></action>
+                <action method="setLabel"><value>Payment Method Fee</value></action>
+            </block>
+        </reference>
+		<!-- Magento 1.4: -->
+		<reference name="creditmemo_totals">
+            <block name="extra_fee" type="paynl/afterpay/order_totals_fee" before="tax"/><!-- nog speciale creditmemo field van maken -->
+        </reference>
+    </adminhtml_sales_order_creditmemo_new>
+
+    <adminhtml_sales_order_creditmemo_view>
+		<!-- Magento 1.3: -->
+        <reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="extra_fee" template="sales/order/totals/item.phtml" after="tax">
+                <action method="setSourceField"><value>extra_fee</value></action>
+                <action method="setLabel"><value>Payment Method Fee</value></action>
+            </block>
+        </reference>
+		<!-- Magento 1.4: -->
+		<reference name="creditmemo_totals">
+            <block name="extra_fee" type="paynl/afterpay/order_totals_fee" before="tax"/>
+        </reference>
+    </adminhtml_sales_order_creditmemo_view>
+
+</layout>

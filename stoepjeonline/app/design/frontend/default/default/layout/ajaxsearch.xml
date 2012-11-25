@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    	<reference name="head">
+            <action method="addItem" ifconfig="ajax_search/general/enabled"><type>skin_css</type><name>css/ajaxsearch.css</name></action>
+            <action method="addItem" ifconfig="ajax_search/general/enabled"><type>skin_js</type><name>js/ajaxsearch.js</name></action>
+        </reference>
+        <reference name="top.search">
+        	<action method="setTemplate" ifconfig="ajax_search/general/enabled"><template>ajaxsearch/topsearch.phtml</template></action>
+        </reference>
+		<reference name="left">
+			<block type="core/template" name="left.search" as="leftSearch" before="-">
+				<action method="setTemplate" ifconfig="ajax_search/general/enabled"><template>ajaxsearch/leftsearch.phtml</template></action>
+			</block>
+        </reference>
+		<reference name="right">
+			<block type="core/template" name="right.search" as="rightSearch" before="-">
+				<action method="setTemplate" ifconfig="ajax_search/general/enabled"><template>ajaxsearch/rightsearch.phtml</template></action>
+			</block>
+        </reference>		
+    </default>
+</layout>

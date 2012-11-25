@@ -1,0 +1,49 @@
+<?php
+/**
+ * Manufacturers extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * 
+ * @category   FME
+ * @package    Manufacturers
+ * @author     Kamran Rafiq Malik <kamran.malik@unitedsol.net>
+ * @copyright  Copyright 2010 © free-magentoextensions.com All right reserved
+ */
+?>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>js/faqs/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>js/faqs/jquery.js"></script>
+<script src="<?php echo $this->getJsUrl() ?>mage/adminhtml/loader.js" type="text/javascript"></script>  
+<script type="text/javascript">
+jQuery(function($) {	
+	$(".accordion3 h3").eq(2).addClass("active");
+	$(".accordion3 #content").eq(2).show();
+	$(".accordion3 h3").click(function(){
+		$(this).next("#content").slideToggle("slow")
+		.siblings("#content:visible").slideUp("slow");
+		$(this).toggleClass("active");
+		$(this).siblings("h3").removeClass("active");
+	});
+
+});
+jQuery.noConflict();
+</script>
+
+<?php  
+$faqs = $this->getFaqs();
+?>
+<div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<?php if (!isset($faqs[0]['faqs_id'])) : ?>
+	<p><?php echo $this->__('No Faqs Found in this topic!'); ?></p>
+<?php else : ?>
+    <div class="accordion3">
+          <?php foreach ($faqs as $_faqs): ?>
+                <h3><?php echo $_faqs["title"]; ?></h3>
+               <div id="content"><?php echo $_faqs["faq_answar"]; ?></div>
+          <?php endforeach; ?> 
+    </div>
+<?php endif; ?>

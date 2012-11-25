@@ -1,0 +1,76 @@
+<script>
+    var rowTemplate = new Array();
+    rowTemplate[0] = '{id}';
+    rowTemplate[1] = '<?php echo $this->getProductTypeCombo('products[{id}][type_id]'); ?>';
+    rowTemplate[2] = '<?php echo $this->getAttributeSetCombo('products[{id}][attribute_set_id]'); ?>';
+    <?php $i = 3; ?>
+    <?php foreach($this->getAttributes() as $attribute): ?>
+        rowTemplate[<?php echo $i; ?>] = '<?php echo $this->cleanUpForJS($this->getAttributeControl($attribute)); ?>';
+        <?php $i++ ;?>
+    <?php endforeach; ?>
+    <?php if (mage::helper('QuickProductCreation')->displayStockLevelInput()): ?>
+        rowTemplate[<?php echo $i; ?>] = '<?php echo $this->getStockInput('products[{id}][qty]'); ?>';
+        <?php $i++; ?>
+    <?php endif; ?>
+    <?php if (mage::helper('QuickProductCreation')->displayNotifyQtyInput()): ?>
+        rowTemplate[<?php echo $i; ?>] = '<?php echo $this->getNotifyQtyCombo('products[{id}][notify_qty]'); ?>';
+        <?php $i++; ?>
+    <?php endif; ?>
+    <?php if (mage::helper('QuickProductCreation')->displayBackordersInput()): ?>
+        rowTemplate[<?php echo $i; ?>] = '<?php echo $this->getBackOrdersCombo('products[{id}][backorders]'); ?>';
+        <?php $i++; ?>
+    <?php endif; ?>
+    rowTemplate[<?php echo $i; ?>] = '<center><img src="<?php echo $this->getSkinUrl('images/QuickProductCreation/delete.gif'); ?>" onclick="deleteRow({id});"></center>';
+</script>
+
+<div class="content-header">
+    <h3 class="icon-head"><?php echo $this->__('Quick Product Creation'); ?></h3>
+    <p class="form-buttons">
+        <button type="button" class="scalable add" onclick="addProductRow();" style=""><span><?php echo $this->__('Add row'); ?></span></button>
+        <button type="button" class="scalable save" onclick="editForm.submit()" style=""><span><?php echo $this->__('Create product(s)'); ?></span></button>
+    </p>
+</div>
+
+<div class="grid">
+        <form id="edit_form" method="POST" action="<?php echo $this->getSubmitUrl(); ?>" enctype="multipart/form-data">
+                <input id="form_key" name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+                <table cellspacing="0" class="data" id="quickproductcreation_table">
+                    <thead>
+                        <tr class="headings">
+                            <th><?php echo $this->__('#'); ?></th>
+                            <th><?php echo $this->__('Type'); ?></th>
+                            <th><?php echo $this->__('Attribute set'); ?></th>
+                            <?php foreach($this->getAttributes() as $attribute): ?>
+                                <th>
+                                    <?php echo $attribute->getName(); ?>
+                                    <?php if ($attribute->getis_required()): ?>
+                                        <span class="required">*</span>
+                                    <?php endif; ?>
+                                </th>
+                            <?php endforeach; ?>
+                            <?php if (mage::helper('QuickProductCreation')->displayStockLevelInput()): ?>
+                                <th><?php echo $this->__('Stock'); ?></th>
+                            <?php endif; ?>
+                            <?php if (mage::helper('QuickProductCreation')->displayNotifyQtyInput()): ?>
+                                <th><?php echo $this->__('Notify qty'); ?></th>
+                            <?php endif; ?>
+                            <?php if (mage::helper('QuickProductCreation')->displayBackordersInput()): ?>
+                                <th><?php echo $this->__('Backorders'); ?></th>
+                            <?php endif; ?>
+                            <th><?php echo $this->__('Delete'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+        </form>
+</div>
+
+<script>
+    //add first product row
+    addProductRow();
+
+    //declare form
+    editForm = new varienForm('edit_form', '');
+</script>

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+		<reference name="root">
+			<action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+		</reference>
+		
+		<reference name="head">		    
+			<action method="addCss"><stylesheet>css/faqs/accordion.css</stylesheet></action>		
+		</reference>
+		
+		<reference name="right">
+			<block type="faqs/block" name="block" before="-">
+				<action method="setTemplate">
+					<template>faqs/block.phtml</template>
+				</action>
+			</block>
+		</reference>
+		
+    </default>
+    
+    <faqs_index_index>
+		<reference name="head">		    
+			<action method="addJs"><script>faqs/jquery-1.4.2.min.js</script></action>
+		</reference>
+		<reference name="content">
+			<block type="faqs/topic" name="faqs" template="faqs/topics.phtml" />
+		</reference>
+		
+	</faqs_index_index>    
+		    
+    <faqs_index_view>
+		<reference name="head">		    		
+			<action method="addJs"><script>faqs/jquery-1.4.2.min.js</script></action>
+		</reference>
+		<reference name="content">
+				<block type="faqs/faqs" name="faqs" template="faqs/faqs.phtml" />
+		</reference>  
+		
+    </faqs_index_view>
+    
+    <faqs_index_search>
+		<reference name="head">		    	
+			<action method="addJs"><script>faqs/jquery-1.4.2.min.js</script></action>
+		</reference>
+		<reference name="content">
+				<block type="faqs/faqs" name="faqs" template="faqs/searchresults.phtml" />
+		</reference> 
+		
+    </faqs_index_search>
+	
+</layout>         
+        
+        
+	    
+        
+    

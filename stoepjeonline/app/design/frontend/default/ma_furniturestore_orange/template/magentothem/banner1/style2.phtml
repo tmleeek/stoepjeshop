@@ -1,0 +1,82 @@
+<?php if($this->getConfig('enabled')){ ?>	  <!-- start enable -->
+	<div class="ma-banner1-container">
+        <div class="ma-banner1">	
+			<ul id="slider1">
+				<?php
+					// Get data banner
+					$slide = $this->getDataBanner1();
+					$path = Mage::getBaseUrl('media');					
+					$width = $this->getConfig('width');
+					$height = $this->getConfig('height');
+					$speed = $this->getConfig('speed');
+					$interval = $this->getConfig('interval');
+					$qty_Item = $this->getConfig('qty_item');
+					$mode = $this->getConfig('animation');					
+					switch ( $mode ) {
+						case 'animation2': $effect = 'schwing'; break;
+						case 'animation3': $effect = 'easeInOutBack'; break;	
+					}
+					/* Get max item & qty item */
+					if ($qty_Item > count($slide)) {
+						$qty_Item = count($slide);
+					}
+				?>
+				<?php
+					$i = 1;
+					foreach($slide as $s)
+					{
+						if($i <= $qty_Item) {
+							//Get images slide show
+							$st1 = $s['image'];
+							$p1 = strpos($st1,'banner1');
+							$st2 = substr($st1,$p1+7);
+							$p2 = strpos($st2,'"');
+							$imag = substr($st2,0,$p2);
+					?>
+						<li>
+							<?php if( $s['link'] ) { ?>
+								<a href="<?php echo $s['link']?>" title=""><img src="<?php echo $path.'magentothem/banner1'.$imag;?>" width="<?php echo $width;?>" height="<?php echo $height;?>" alt="" /></a>												
+							<?php } else { ?>
+								<img src="<?php echo $path.'magentothem/banner1'.$imag;?>" width="<?php echo $width;?>" height="<?php echo $height;?>" alt="" />
+							<?php } ?>
+						</li>
+				<?php
+                        }//end if
+                    $i++;
+                    } // end foreach
+				?>
+		    </ul>
+            <script type="text/javascript">
+				$bn1(function(){
+					$bn1("div.anythingSlider")
+						.css("width","<?php echo $width; ?>px")
+						.css("height","<?php echo $height; ?>px");
+					$bn1('#slider1').anythingSlider({
+						startStopped    : false, // If autoPlay is on, this can force it to start stopped
+						width           : <?php echo $width; ?>,   // Override the default CSS width
+						height			: <?php echo $height; ?>,
+						animationTime       : <?php echo $speed; ?>,
+						delay               : <?php echo $interval; ?>,  
+						theme           : 'metallic',
+						easing			: '<?php echo $effect; ?>', //  linear, swing, easeInOutBack, schwing
+						onSlideComplete : function(slider){
+						}
+					});
+					<?php if( !$this->getConfig('next_back')){ ?>
+						//<![CDATA[
+							$bn1("head").append('<style type="text/css"> .anythingSlider .arrow { display: none; }</style>');
+						//]]>
+					<?php } ?>
+					<?php if( !$this->getConfig('nav_ctrl')){ ?>
+						//<![CDATA[
+							$bn1("head").append('<style type="text/css"> .anythingSlider .anythingControls { display: none; }</style>');
+						//]]>
+					<?php } ?>
+				});                
+            </script>
+		</div>
+		<div style="display: none;"><a href="http://www.magentothem.com/" title="Magento Themes">Magento Themes</a></div>
+		<div style="display: none;"><a href="http://www.plazathemes.com/" title="Magento Themes">Magento Themes</a></div>
+		<div style="display: none;"><a href="http://www.magentothemess.com/" title="Magento Themes">Magento Themes</a></div>
+    </div>
+<?php } ?> <!-- end enable -->

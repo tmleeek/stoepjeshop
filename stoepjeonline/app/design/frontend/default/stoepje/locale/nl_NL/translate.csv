@@ -1,0 +1,12 @@
+"Quick-Orders","Snel bestellen"
+"Here you can import articles, the format is: [productnumber][separator][quantity]","Hieronder kunt u uw artikellijst importeren, deze dient opgegeven te worden in het formaat [productnummer][scheidingsteken][aantal]. Voor het scheidingsteken kan er gebruik gemaakt worden van een komma. Ook kunt u bestellijsten kopieren en plakken vanuit Excel. 
+<br />LET OP: Producten waar specifieke gegevens nodig voor zijn, zoals bijvoorbeeld een sleutel nummer, zullen worden uitgesloten van de import."
+"articlenumber,quantity","artikelnummer,aantal"
+"Use the input field to add products to the quick order list","Gebruik invoerveld om een product toe te voegen aan de snelbestellijst."
+"Articlenumber","Artikelnummer"
+"Add to cart","In winkelwagen"
+"Either this product does not excist or has custom options and therefore cannot be added to the cart.","Dit product kan niet gevonden worden en kan niet aan de winkelwagen worden toegevoegd."
+"Quickorder","Snelbestellen"
+"Add to Cart","In winkelwagen"
+"Go to Shopping Cart","Ga naar de winkelwagen"
+"Subtotal","Subtotaal"

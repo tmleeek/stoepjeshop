@@ -1,0 +1,25 @@
+<?php
+/**
+ * @category   design_default
+ * @package    PayNL_Ideal
+ * @copyright  Copyright (c) 2009 TinTel
+ */
+?>
+<?php $_code=$this->getMethodCode() ?>
+<?php if($_banks = $this->getBanksList()):?>
+<fieldset class="form-list">
+    <ul id="payment_form_<?php echo $_code ?>" style="display:none">
+        <li>
+            <div class="input-box">
+                <label for="<?php echo $_code ?>_directebanking_bank_id"><?php echo $this->__('Country') ?> <span class="required">*</span></label><br/>
+                <select id="<?php echo $_code ?>_directebanking_bank_id" name="payment[directebanking_bank_id]" class="required-entry">
+                    <option value=""><?php echo $this->__('--Select Country--') ?></option>
+		                <?php foreach ($_banks as $_id => $_name): ?>
+        		            <option value="<?php echo $_id ?>"><?php echo $_name ?></option>
+    		            <?php endforeach ?>
+                </select>
+            </div>
+        </li>
+    </ul>
+</fieldset>
+<?php endif?>

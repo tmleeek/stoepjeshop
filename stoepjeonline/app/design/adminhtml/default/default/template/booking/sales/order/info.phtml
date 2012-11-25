@@ -1,0 +1,53 @@
+<?php
+/**
+ * aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ *
+ * @category   AW
+ * @package    AW_Booking
+ * @copyright  Copyright (c) 2009-2010 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ */
+?>
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-account"><?php echo Mage::helper('booking')->__('Booking') ?></h4>
+	</div>
+	<div class="grid np">
+		<div class="hor-scroll">
+			<table id="booking-orders-table" class="data" cellspacing="0" width="100%">
+				<col width="25%"/>
+				<col/>
+				<col width="25%"/>
+				<col width="25%"/>
+				<thead>
+					<tr class="headings">
+						<th><?php echo $this->__('SKU')?></th>
+						<th><?php echo $this->__('Product Name')?></th>
+						<th class="a-center"><?php echo $this->__('From')?></th>
+						<th class="a-center"><?php echo $this->__('To')?></th>
+					</tr>
+				</thead>
+				<tbody class="odd">
+					<?php foreach($this->getCollection() as $item): ?>
+
+					<tr class="border">
+						<td><?php echo $item->getSku()?></td>
+						<td><?php echo $item->getProductName()?></td>
+						<td class="a-right"><?php echo $item->getBindStart()?></td>
+						<td class="a-right"><?php echo $item->getBindEnd()?></td>
+					</tr>
+					<?php endforeach;?>
+				</tbody>
+			</table>
+			<br/>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
