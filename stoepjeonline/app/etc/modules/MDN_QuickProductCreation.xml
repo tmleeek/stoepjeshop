@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MDN_QuickProductCreation>
+            <active>true</active>
+            <codePool>community</codePool>
+        </MDN_QuickProductCreation>
+    </modules>
+</config>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Mt_SwitchCompare>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Mt_SwitchCompare>
+    </modules>
+</config> 

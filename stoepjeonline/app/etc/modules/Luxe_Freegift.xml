@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Luxe Soft
+ * Freegift module
+ *
+ * @category   Luxe 
+ * @package    Luxe_Freegift
+ * @copyright  Copyright (c) 2008-2010 Luxe Soft
+ */
+-->
+<config>
+    <modules>
+        <Luxe_Freegift>
+            <active>true</active>
+            <codePool>local</codePool>
+            <version>1.0</version>
+            <depends>
+                <Mage_SalesRule />
+            </depends>
+        </Luxe_Freegift>
+    </modules>
+</config>
+

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Drecomm_Rulesfix>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Drecomm_Rulesfix>
+    </modules>
+</config>

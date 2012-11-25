@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Aitoc_Aitdownloadablefiles>
+            <active>false</active>
+            <codePool>local</codePool>
+            <self_name>Useful Downloads</self_name>
+            <priority>3000</priority>
+        </Aitoc_Aitdownloadablefiles>
+    </modules>
+</config>
+<!--
+/**
+ * Product:     1.4.0.x-1.5.0.x
+ * Package:     Aitoc_Aitdownloadablefiles_2.1.1_44829
+ * Purchase ID: EUuGgWCe9R8lNix4kkddD7KpG37GhZF23A92LkTSFp
+ * Generated:   2011-02-18 14:24:10
+ * File path:   app/etc/modules/Aitoc_Aitdownloadablefiles.xml
+ * Copyright:   (c) 2011 AITOC, Inc.
+ */
+-->

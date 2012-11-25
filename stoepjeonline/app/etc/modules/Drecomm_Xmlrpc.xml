@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<modules>
+        <Drecomm_Xmlrpc>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Drecomm_Xmlrpc>
+    </modules>
+</config>

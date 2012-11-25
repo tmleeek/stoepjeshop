@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Magentothem_Bestsellerproductvertscroller>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Magentothem_Bestsellerproductvertscroller>
+    </modules>
+</config> 

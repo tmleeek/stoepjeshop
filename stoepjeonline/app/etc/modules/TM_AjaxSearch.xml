@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!-- AjaxSearch -->
+    <modules>
+        <TM_AjaxSearch>
+            <active>false</active>
+            <codePool>local</codePool>
+        </TM_AjaxSearch>
+    </modules>
+</config>

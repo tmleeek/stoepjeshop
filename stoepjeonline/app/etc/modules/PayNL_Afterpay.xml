@@ -1,0 +1,16 @@
+<config>
+    <modules>
+        <PayNL_Afterpay>
+						<!-- this is an active module -->
+            <active>true</active>
+						<!-- this module will be located in app/code/local code pool -->
+            <codePool>local</codePool>
+						<!-- specify dependencies for correct module loading order -->
+            <depends>
+                <Mage_Payment />
+            </depends>
+						<!-- declare module's version information for database updates -->
+            <version>0.0.2</version>
+        </PayNL_Afterpay>
+    </modules>
+</config>

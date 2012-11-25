@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Idev_OneStepCheckout>
+            <active>false</active>
+            <codePool>local</codePool>
+        </Idev_OneStepCheckout>
+    </modules>
+</config>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+* J!Code WebDevelopment
+*
+* @title 		Magento payment module for iDeal Basic
+* @category 	J!Code
+* @package 		Jcode_Community
+* @author 		Jeroen Bleijenberg / J!Code WebDevelopment <support@jcode.nl>
+* @license  	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+ -->
+ <config>
+ 	<modules>
+ 		<Jcode_IdealBasic>
+ 			<active>true</active>
+ 			<codePool>community</codePool>
+ 			<depends>
+ 				<Mage_Payment/>
+ 			</depends>
+ 			<version>1.0.2</version>
+ 		</Jcode_IdealBasic>
+ 	</modules>
+ </config>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Mymonki
+ * @package    Mymonki_Ship2pay
+ * @copyright  Copyright (c) 2010 Freshmind Sp. z o.o. (pawel@freshmind.pl)
+ */
+ -->
+<config>
+    <modules>
+        <Mymonki_Ship2pay>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Mymonki_Ship2pay>
+    </modules>
+</config> 
